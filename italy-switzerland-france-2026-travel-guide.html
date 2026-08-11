@@ -95,6 +95,167 @@
 
 /* Compact mobile search sheet: preserve context instead of occupying the viewport. */
 @media(max-width:720px){.guide-search-panel{right:16px;bottom:82px;width:calc(100vw - 32px);max-height:min(60dvh,520px);border-radius:18px}.guide-search-shell{max-height:min(60dvh,520px)}.guide-search-form{padding:8px 14px 12px}.guide-search-form input[type="search"],#guide-search-input{min-height:44px;font-size:16px}}
+
+/* travel-guide-interactions.css: v4 */
+.source-flash { animation: source-flash 2s ease-out; }
+.guide-search-trigger { position: fixed; right: 18px; bottom: 76px; z-index: 1800; min-width: 46px; min-height: 46px; border: 0; border-radius: 999px; padding: 10px 14px; color: #fff; background: #123f4b; box-shadow: 0 8px 24px #123b5238; }
+.guide-search-panel { position: fixed; right: 18px; bottom: 130px; z-index: 2500; width: min(440px, calc(100vw - 28px)); max-height: 68vh; overflow: auto; border: 1px solid #c7d9d8; border-radius: 16px; background: #fffffff7; box-shadow: 0 18px 50px #123b5240; }
+.guide-search-panel[hidden] { display: none; }
+.guide-search-hit { background: #ffe58a; border-radius: 3px; }
+.guide-search-hit.is-current { background: #ff9f43; box-shadow: 0 0 0 2px #d66b1b66; }
+.guide-search-result { margin: 8px; padding: 10px; border: 1px solid #d4e3e0; border-radius: 10px; }
+.guide-search-result small, .guide-search-hint, .guide-search-empty { display: block; margin: 6px 8px; color: #567276; }
+@keyframes source-flash { 0%, 70% { background: #ffe58a; } 100% { background: transparent; } }
+@media (max-width: 640px) { .guide-search-trigger { right: 14px; bottom: 72px; width: 46px; padding: 0; font-size: 0; } .guide-search-trigger::before { content: '⌕'; font-size: 23px; } .guide-search-panel { right: 10px; bottom: 72px; width: calc(100vw - 20px); } }
+.guide-toast { position: fixed; z-index: 3200; left: 50%; bottom: 24px; transform: translate(-50%, 20px); padding: 9px 14px; border-radius: 999px; color: #fff; background: #123f4b; box-shadow: 0 6px 24px #0004; opacity: 0; pointer-events: none; transition: .2s; }
+.guide-toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+.copyable-name { cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; }
+.copyable-name:focus-visible { outline: 2px solid #0b789c; outline-offset: 2px; }
+.is-complete { color: #8a9ba7; }
+.is-complete > span, .is-complete > label { text-decoration: line-through; }
+.travel-image-dialog { max-width: min(1200px, 96vw); max-height: 92vh; padding: 0; border: 0; border-radius: 12px; background: transparent; }
+.travel-image-dialog::backdrop { background: #071c2de8; }
+.travel-image-dialog img { display: block; max-width: 96vw; max-height: 88vh; border-radius: 12px; }
+.travel-image-dialog button { position: fixed; top: 18px; right: 20px; width: 42px; height: 42px; border: 1px solid #ffffff77; border-radius: 50%; color: #fff; background: #0d3149; font-size: 24px; }
+html { scroll-behavior: smooth; }
+[data-nav-label][id] { scroll-margin-top: var(--guide-nav-offset, 76px); }
+.quick-nav { position: sticky; top: max(4px, env(safe-area-inset-top)); z-index: 1100; display: flex; gap: 7px; margin: 12px 0 18px; padding: 8px; overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: x proximity; border: 1px solid var(--guide-line, #cfe0e8); border-radius: 14px; background: rgba(248, 252, 253, .92); box-shadow: 0 5px 18px rgba(18, 59, 82, .08); scrollbar-width: none; }
+.quick-nav[hidden], .quick-nav:empty { display: none; }
+.quick-nav::-webkit-scrollbar { display: none; }
+.quick-nav a { flex: 0 0 auto; scroll-snap-align: center; border-radius: 999px; padding: 6px 10px; color: var(--guide-nav-text, #174e6c); background: #fff; text-decoration: none; font-size: 13px; font-weight: 700; white-space: nowrap; }
+.quick-nav a:hover, .quick-nav a:focus-visible { background: color-mix(in srgb, var(--guide-nav-active, #0b789c) 12%, white); outline: 2px solid color-mix(in srgb, var(--guide-nav-active, #0b789c) 55%, white); outline-offset: 1px; }
+.quick-nav a.is-active { color: #fff; background: var(--guide-nav-active, #0b789c); }
+@supports (backdrop-filter: blur(10px)) { .quick-nav { backdrop-filter: blur(10px); } }
+@media (max-width: 640px) { .quick-nav { margin-inline: -2px; padding: 7px; } .quick-nav a { min-height: 34px; display: inline-flex; align-items: center; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .quick-nav { scroll-behavior: auto; } }
+:root {
+  --guide-primary: #B99274;
+  --guide-bg: #faf7f2;
+  --guide-surface: rgba(255, 255, 255, .76);
+  --guide-text: #2f2924;
+  --guide-muted: #746b63;
+  --guide-line: #e5ddd5;
+  --guide-display-font: Georgia, "Songti SC", "Noto Serif SC", serif;
+  --guide-body-font: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+}
+.guide-page { color: var(--guide-text); background: var(--guide-bg); font-family: var(--guide-body-font); }
+.guide-display, .guide-page h1, .guide-page h2 { font-family: var(--guide-display-font); }
+.guide-section { padding: clamp(2rem, 5vw, 3rem) clamp(1rem, 3vw, 1.5rem); }
+.guide-elevated-card { border: 1px solid var(--guide-line); border-radius: 16px; background: var(--guide-surface); box-shadow: 0 8px 24px rgba(63, 47, 35, .08); }
+@supports (backdrop-filter: blur(10px)) { .guide-elevated-card { backdrop-filter: blur(10px); } }
+@media (hover: hover) { .guide-elevated-card { transition: transform .2s ease, box-shadow .2s ease; } .guide-elevated-card:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(63, 47, 35, .13); } }
+.guide-photo-frame { aspect-ratio: 4 / 3; overflow: hidden; border-radius: 12px; background: #eee7df; }
+.guide-photo-frame > img { width: 100%; height: 100%; object-fit: cover; }
+.guide-reference-image { display: block; max-width: 100%; max-height: none; object-fit: contain; }
+
+.guide-checklist-tools button, .guide-checklist-remove { min-height: 34px; border: 1px solid #b9ccc9; border-radius: 8px; padding: 6px 10px; color: #174d49; background: #f1f8f7; }
+.guide-checklist-add input { min-width: 0; flex: 1; min-height: 36px; border: 1px solid #90aba8; border-radius: 8px; padding: 7px 9px; }
+.guide-checklist-item { display: flex; align-items: center; gap: 8px; margin: 8px 0; }
+.guide-checklist-item [data-check-label][contenteditable="true"] { flex: 1; border-bottom: 1px dashed #90aba8; outline: none; }
+.guide-checklist-remove { display: none; margin-left: auto; color: #9a4d3f; }
+[data-checklist].is-editing .guide-checklist-remove { display: inline-block; }
+@media (max-width: 640px) { .guide-checklist-item { align-items: flex-start; } }
+/* Checklist shell with embedded T-7 weather card. */
+.guide-checklist-shell, [data-guide-module="checklist"] [data-checklist] { padding: clamp(1rem, 2vw, 1.25rem); border: 1px solid var(--guide-line); border-radius: 16px; background: var(--guide-surface); }
+.guide-checklist-tools { display: grid; grid-template-columns: auto minmax(220px, 1fr); align-items: center; gap: 8px; margin-bottom: 12px; }
+.guide-checklist-add { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
+.guide-checklist-group { padding-block: 8px; border-bottom: 1px dashed var(--guide-line); }
+.guide-checklist-group:last-of-type { border-bottom: 0; }
+.guide-checklist-group h3 { margin: 0 0 8px; font-size: 1rem; }
+.guide-checklist-note { margin-top: 12px; padding: 10px 12px; border-radius: 8px; color: var(--guide-muted); background: #f5f7f6; background: color-mix(in srgb, var(--guide-primary) 7%, white); font-size: .88rem; }
+.guide-weather-card { margin-top: 16px; padding: clamp(.9rem, 2vw, 1.1rem); border: 1px solid color-mix(in srgb, var(--guide-primary) 32%, var(--guide-line)); border-radius: 14px; background: #f6faf8; background: color-mix(in srgb, var(--guide-primary) 5%, white); }
+.guide-weather-card__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.guide-weather-card__head h3 { margin: 0 0 6px; }
+.guide-weather-card__head p, .guide-weather-meta { margin: 0; color: var(--guide-muted); font-size: .9rem; }
+[data-weather-refresh] { flex: 0 0 auto; min-height: 40px; border: 0; border-radius: 9px; padding: 8px 12px; color: #fff; background: #123f4b; font-weight: 700; cursor: pointer; }
+[data-weather-refresh]:disabled { cursor: not-allowed; opacity: .55; }
+.guide-weather-table-wrap { margin-top: 12px; overflow-x: auto; border: 1px solid var(--guide-line); border-radius: 10px; background: #fff; }
+.guide-weather-table { width: 100%; min-width: 680px; border-collapse: collapse; }
+.guide-weather-table th, .guide-weather-table td { padding: 9px 10px; border-bottom: 1px solid var(--guide-line); text-align: left; vertical-align: top; }
+.guide-weather-table th { background: #eef5f3; background: color-mix(in srgb, var(--guide-primary) 10%, white); white-space: nowrap; }
+.guide-weather-table tr:last-child td { border-bottom: 0; }
+@media (max-width: 640px) { .guide-checklist-tools { grid-template-columns: 1fr; } .guide-checklist-add { grid-template-columns: minmax(0, 1fr) auto; } .guide-weather-card__head { flex-direction: column; } [data-weather-refresh] { align-self: flex-end; } }
+/* Unified exchange card; legacy class aliases remain compatible. */
+.exchange-tool-card, .exchange-card { margin-top: 16px; padding: 17px; border: 1px solid #c8e0d9; border-radius: 16px; background: linear-gradient(145deg, #eff8f3, #fff); }
+.exchange-tool-card__head, .exchange-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+.exchange-tool-card__head h3, .exchange-head h3 { margin: 0 0 5px; color: #11324d; font-size: 18px; }
+.exchange-tool-card__head p, .exchange-head p { margin: 0; color: #58748b; }
+[data-exchange-refresh], .exchange-refresh { flex: 0 0 auto; border: 1px solid #123f4b; border-radius: 9px; padding: 8px 11px; background: #123f4b; color: #fff; font-weight: 800; cursor: pointer; }
+[data-exchange-refresh]:disabled, .exchange-refresh:disabled { cursor: wait; opacity: .65; }
+.exchange-tool-card__rates, .exchange-values { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+.exchange-tool-card__rates > div, .exchange-values > div { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 8px; padding: 10px 11px; border: 1px solid #d9e5eb; border-radius: 10px; background: #fff; }
+.exchange-tool-card__rates strong, .exchange-values strong { text-align: right; font-size: 16px; }
+.exchange-tool-card__convert, .exchange-converter { display: grid; grid-template-columns: auto minmax(130px, 1fr) minmax(0, 1fr); gap: 10px; align-items: center; margin-top: 12px; }
+.exchange-tool-card__convert label, .exchange-converter label { font-weight: 700; }
+.exchange-tool-card__convert input, .exchange-converter input { min-width: 0; padding: 9px; border: 1px solid #90aba8; border-radius: 8px; font: inherit; }
+.exchange-tool-card__results, .exchange-result-list { display: grid; gap: 6px; }
+.exchange-tool-card__result-row, .exchange-result-row { display: flex; justify-content: space-between; gap: 12px; padding: 6px 9px; border-radius: 8px; background: #fff; }
+.exchange-tool-card__result, .exchange-result-row output { font-weight: 800; text-align: right; }
+[data-exchange-status], .exchange-status { margin: 12px 0 0; color: #58748b; font-size: 13px; }
+@media (max-width: 640px) { .exchange-tool-card__rates, .exchange-values { grid-template-columns: 1fr; } .exchange-tool-card__convert, .exchange-converter { grid-template-columns: 1fr; } .exchange-tool-card__results, .exchange-result-list { width: 100%; } }
+
+/* T-7 weather forecast and conditional rain-prayer overlay. */
+.guide-weather-card { overflow: hidden; }
+.guide-weather-status-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 9px; }
+.guide-weather-pill { display: inline-flex; align-items: center; border-radius: 999px; padding: 3px 9px; color: #12605e; background: #dff1ee; font-size: 12px; font-weight: 700; }
+.guide-weather-pill.is-waiting { color: #8a5a11; background: #fff7e7; }
+.guide-weather-status { margin: 12px 0 0; padding: 11px 12px; border-radius: 9px; color: #315f75; background: #f8fcfd; }
+.guide-weather-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 14px; margin-top: 14px; }
+.guide-weather-location { overflow: hidden; border: 1px solid var(--guide-line); border-radius: 13px; background: #fff; }
+.guide-weather-location h4 { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin: 0; padding: 13px 14px; color: #163e57; background: #eef7fa; font-size: 17px; }
+.guide-weather-location h4 small { color: var(--guide-muted); font-size: 12px; font-weight: 600; }
+.guide-weather-location .guide-weather-table { min-width: 720px; font-size: 13px; }
+.guide-weather-location .guide-weather-table td.weather,
+.guide-weather-location .guide-weather-table td.metric,
+.guide-weather-location .guide-weather-table td.key { white-space: normal; }
+.guide-weather-location .guide-weather-table td.key { min-width: 140px; }
+.guide-weather-chip { display: inline-flex; align-items: center; margin: 0 4px 4px 0; border-radius: 999px; padding: 3px 7px; color: #285a6c; background: #eaf5f7; font-size: 12px; font-weight: 700; }
+.guide-weather-chip.warn { color: #86560b; background: #fff2d4; }
+.guide-weather-chip.risk { color: #943b3b; background: #fff0ef; }
+.guide-weather-chip.good { color: #17604d; background: #e5f5ed; }
+.guide-weather-footer { display: flex; flex-wrap: wrap; gap: 7px 18px; margin-top: 13px; color: var(--guide-muted); font-size: 12px; }
+.guide-rain-easter-egg { margin: 14px 0 0; padding-top: 12px; border-top: 1px dashed var(--guide-line); color: #426579; font-size: 13px; }
+.guide-rain-easter-egg a { color: #0c5d74; font-weight: 800; text-underline-offset: 3px; }
+.guide-rain-prayer-modal { position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center; padding: 16px; background: rgba(4, 23, 35, .62); backdrop-filter: blur(5px); }
+.guide-rain-prayer-modal[hidden] { display: none; }
+.guide-rain-prayer-panel { position: relative; width: min(430px, 100%); height: min(760px, calc(100dvh - 32px)); overflow: hidden; border: 1px solid rgba(255, 255, 255, .55); border-radius: 22px; background: #2b3a42; box-shadow: 0 24px 60px rgba(0, 0, 0, .35); }
+.guide-rain-prayer-panel iframe { display: block; width: 100%; height: 100%; border: 0; }
+.guide-rain-prayer-close { position: absolute; z-index: 2; top: 12px; right: 12px; min-height: 36px; border: 0; border-radius: 9px; padding: 0 12px; color: #fff; background: rgba(12, 50, 67, .88); font-weight: 700; cursor: pointer; box-shadow: 0 3px 9px rgba(0, 0, 0, .2); }
+.guide-rain-prayer-close[hidden] { display: none; }
+@media (max-width: 640px) {
+  .guide-weather-grid { grid-template-columns: 1fr; }
+  .guide-weather-footer { display: grid; }
+}
+
+/* Mobile browsers may zoom focused inputs below 16px; keep the global search input at 16px. */
+@media (max-width: 720px), (hover: none) and (pointer: coarse) { .guide-search-form input[type="search"], #guide-search-input { font-size: 16px; line-height: 1.35; } }
+
+/* Compact mobile search sheet: preserve context instead of occupying the viewport. */
+@media (max-width: 720px) {
+  .guide-search-panel { right: 16px; bottom: 82px; width: calc(100vw - 32px); max-height: min(60dvh, 520px); border-radius: 18px; }
+  .guide-search-shell { max-height: min(60dvh, 520px); }
+  .guide-search-form { padding: 8px 14px 12px; }
+  .guide-search-form input[type="search"], #guide-search-input { min-height: 44px; font-size: 16px; }
+}
+
+/* Fixed-width itinerary date cycle inside the sticky quick navigation. */
+.quick-nav a.guide-itinerary-cycle { inline-size: var(--guide-itinerary-cycle-width); max-inline-size: var(--guide-itinerary-cycle-width); overflow: hidden; }
+.guide-itinerary-cycle__track { display: block; min-width: max-content; transform: translateX(0); will-change: transform; }
+.guide-itinerary-cycle__track.is-running { animation: guide-itinerary-nav-marquee 2s linear infinite; }
+.guide-itinerary-cycle__track.is-running.is-final-cycle { animation-iteration-count: 1; animation-fill-mode: forwards; }
+.day[id] { scroll-margin-top: var(--guide-nav-offset, 76px); }
+@keyframes guide-itinerary-nav-marquee { 0%, 14% { transform: translateX(0); } 84%, 100% { transform: translateX(var(--guide-itinerary-marquee-shift, 0px)); } }
+@media (prefers-reduced-motion: reduce) { .guide-itinerary-cycle__track.is-running { animation: none; } })
+/* Long-press date picker for the itinerary quick-navigation item. */
+.quick-nav a.guide-itinerary-cycle.is-pressing { transform: scale(.97); }
+.quick-nav a.guide-itinerary-cycle.is-long-press-open { color: #fff; background: var(--guide-nav-active, #0b789c); }
+.guide-itinerary-date-menu[hidden] { display: none; }
+.guide-itinerary-date-menu { position: fixed; z-index: 1800; display: grid; gap: 3px; max-height: min(360px, 60dvh); overflow-y: auto; overscroll-behavior: contain; padding: 7px; border: 1px solid color-mix(in srgb, var(--guide-nav-active, #0b789c) 28%, white); border-radius: 14px; background: rgba(255, 255, 255, .98); box-shadow: 0 16px 38px rgba(18, 59, 82, .22); backdrop-filter: blur(12px); }
+.guide-itinerary-date-option { width: 100%; min-height: 42px; border: 0; border-radius: 9px; padding: 8px 12px; color: var(--guide-nav-text, #174e6c); background: transparent; text-align: left; font: inherit; font-weight: 700; cursor: pointer; }
+.guide-itinerary-date-option:hover, .guide-itinerary-date-option:focus-visible { color: #0b607f; background: #e8f5f8; outline: 2px solid #8dc9d7; outline-offset: -2px; }
+.guide-itinerary-date-option.is-current { color: #fff; background: var(--guide-nav-active, #0b789c); }
+@media (prefers-reduced-motion: reduce) { .quick-nav a.guide-itinerary-cycle.is-pressing { transform: none; } }
+
 </style></head><body data-guide-enhanced="2026-08-11"><main class="wrap">
 <header class="hero"><h1>意瑞法 9.25—10.06</h1><p>把你在 Excel 里写下的路线、交通、停车、预约、徒步与备选方案，整理成可执行的手机端攻略。</p><div class="chips"><span class="chip">12天 / 11晚</span><span class="chip">意大利 · 瑞士 · 法国</span><span class="chip">原始计划优先保留</span><span class="chip">动态信息出发前复核</span></div></header><nav class="quick-nav" aria-label="页面快速导航"><a href="#route-conclusion-section">路线结论</a><a href="#route-map-section">路线地图</a><a href="#route-summary-section">路线总览</a><a href="#itinerary-section">逐日行程</a><a href="#transport-section">交通费用</a><a href="#recommendations-section">行程外推荐</a><a href="#gallery-section">表格图片</a><a href="#checklist-section">核验清单</a><a href="#exchange-section">汇率说明</a><a href="#sources-section">资料来源</a></nav>
 <section id="route-conclusion-section"><h2>一、路线结论</h2><div class="panel"><p class="route">米兰 → 卡雷扎湖 / 富内斯 → 巴迪亚 → 布拉伊埃斯湖 / 三峰山 → 刀锋山 / 休斯高原 → 威尼斯 → 苏黎世 → 卢塞恩 / 瑞吉山 / 龙疆 → 少女峰区域 → First / 施皮茨 → 采尔马特 → 巴塞尔 → 巴黎</p><p>这是一条“米兰落地后租车穿越多洛米蒂，再转铁路进入瑞士，最后从巴塞尔前往巴黎”的高密度路线。最需要提前锁定的是：租车与异地还车、三峰山预约、少女峰 / 瑞士山地交通票、跨境火车、巴黎博物馆预约，以及 9 月底山路与缆车天气。</p><p class="small">本页严格按 Excel 原表整理；“也可以”“备选”“如果时间合适”等表述均保留为备选，不视为已确认安排。</p></div></section>
@@ -603,7 +764,7 @@ braise(9月15日后无需预约）
   loader.start();
 })();
 </script><script data-skill-runtime="travel-guide-builder">
-/* travel-guide-interactions: v3 */
+/* travel-guide-interactions: v4 */
 (function initTravelGuideInteractions(global) {
   "use strict";
 
@@ -1167,20 +1328,325 @@ braise(9月15日后无需预约）
   }
   function initQuickNav(options = {}) {
     const root = options.root || document;
-    const nav = options.nav || root.querySelector(options.selector || ".quick-nav");
-    if (!nav || !global.IntersectionObserver) return;
-    const pairs = [...nav.querySelectorAll('a[href^="#"]')].map((link) => ({ link, target: root.querySelector(link.getAttribute("href")) })).filter((item) => item.target);
-    const activate = (target) => pairs.forEach((item) => {
-      const active = item.target === target;
-      item.link.classList.toggle("is-active", active);
-      if (active) item.link.setAttribute("aria-current", "location"); else item.link.removeAttribute("aria-current");
-    });
-    const observer = new IntersectionObserver((entries) => {
-      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (visible) activate(visible.target);
-    }, { rootMargin: "-18% 0px -68% 0px", threshold: [0, .2, .6] });
-    pairs.forEach((item) => observer.observe(item.target));
-    return () => observer.disconnect();
+    const nav = options.nav || root.querySelector(options.selector || "[data-quick-nav], .quick-nav");
+    if (!nav || nav.dataset.quickNavReady === "true") return;
+    const sectionSelector = options.sectionSelector || "[data-nav-label][id]";
+    const sections = [...root.querySelectorAll(sectionSelector)].filter((section) => !section.hidden && section.dataset.navHidden !== "true");
+    const autoBuild = nav.hasAttribute("data-quick-nav") && nav.dataset.navManual !== "true";
+    if (autoBuild) {
+      const fragment = document.createDocumentFragment();
+      sections.forEach((section) => {
+        const label = text(section.dataset.navLabel);
+        if (!label) return;
+        const link = document.createElement("a");
+        link.href = "#" + encodeURIComponent(section.id);
+        link.textContent = label;
+        fragment.append(link);
+      });
+      nav.replaceChildren(fragment);
+    }
+    const targetFor = (link) => {
+      const id = decodeURIComponent((link.getAttribute("href") || "").slice(1));
+      return id ? document.getElementById(id) : null;
+    };
+    const pairs = [...nav.querySelectorAll('a[href^="#"]')].map((link) => ({ link, target: targetFor(link) })).filter((item) => item.target);
+    if (!pairs.length) { nav.hidden = true; return; }
+    nav.hidden = false;
+    nav.dataset.quickNavReady = "true";
+    const reduceMotion = global.matchMedia?.("(prefers-reduced-motion: reduce)").matches === true;
+    const itineraryPair = pairs.find((item) => item.target.matches?.('[data-guide-module="itinerary"]') || item.target.querySelector?.('.day[id]'));
+    let itineraryCycle = null;
+    if (itineraryPair) {
+      const days = [...itineraryPair.target.querySelectorAll('.day[id]')];
+      if (days.length) {
+        const link = itineraryPair.link;
+        const originalLabel = text(link.textContent) || "逐日行程";
+        const initialWidth = Math.ceil(link.getBoundingClientRect().width) || 76;
+        const track = document.createElement("span");
+        track.className = "guide-itinerary-cycle__track";
+        track.textContent = originalLabel;
+        link.replaceChildren(track);
+        link.classList.add("guide-itinerary-cycle");
+        link.style.setProperty("--guide-itinerary-cycle-width", initialWidth + "px");
+        link.setAttribute("aria-label", "按日期浏览逐日行程；长按选择日期");
+        link.setAttribute("aria-haspopup", "menu");
+        link.setAttribute("aria-expanded", "false");
+        let nextIndex = 0;
+        let labelVersion = 0;
+        let selectedIndex = -1;
+        let pressTimer = null;
+        let pressStart = null;
+        let suppressNextClick = false;
+        const dateFor = (day) => {
+          const dateNode = day.querySelector(".date");
+          if (!dateNode) return "";
+          const clone = dateNode.cloneNode(true);
+          clone.querySelectorAll("small").forEach((node) => node.remove());
+          return text(clone.textContent).replace(/日$/, "");
+        };
+        const restoreLabel = (version) => {
+          if (version !== labelVersion) return;
+          track.classList.remove("is-running", "is-final-cycle");
+          track.textContent = originalLabel;
+          track.style.removeProperty("--guide-itinerary-marquee-shift");
+          link.setAttribute("aria-label", "按日期浏览逐日行程；长按选择日期");
+        link.setAttribute("aria-haspopup", "menu");
+        link.setAttribute("aria-expanded", "false");
+        };
+        const showLabel = (label, restoreAfter) => {
+          const version = ++labelVersion;
+          track.classList.remove("is-running", "is-final-cycle");
+          track.textContent = label;
+          link.setAttribute("aria-label", "当前提示：" + label);
+          void track.offsetWidth;
+          const style = global.getComputedStyle?.(link);
+          const available = Math.max(1, link.clientWidth - (Number.parseFloat(style?.paddingLeft) || 0) - (Number.parseFloat(style?.paddingRight) || 0));
+          const distance = Math.max(0, Math.ceil(track.scrollWidth - available));
+          track.style.setProperty("--guide-itinerary-marquee-shift", -distance + "px");
+          if (!reduceMotion && distance > 0) {
+            if (restoreAfter) track.classList.add("is-final-cycle");
+            track.classList.add("is-running");
+            if (restoreAfter) track.addEventListener("animationend", () => restoreLabel(version), { once: true });
+          } else if (restoreAfter) global.setTimeout(() => restoreLabel(version), reduceMotion ? 900 : 1400);
+        };
+        const menu = document.createElement("div");
+        menu.id = "guide-itinerary-date-menu";
+        menu.className = "guide-itinerary-date-menu";
+        menu.setAttribute("role", "menu");
+        menu.setAttribute("aria-label", "选择行程日期");
+        menu.hidden = true;
+        (root.body || document.body).append(menu);
+        days.forEach((day, index) => {
+          const button = document.createElement("button");
+          const date = dateFor(day);
+          button.type = "button";
+          button.className = "guide-itinerary-date-option";
+          button.dataset.dayIndex = String(index);
+          button.setAttribute("role", "menuitem");
+          button.textContent = date ? (date.includes("月") ? date + "日" : date) : "第" + (index + 1) + "天";
+          menu.append(button);
+        });
+        const menuButtons = [...menu.querySelectorAll(".guide-itinerary-date-option")];
+        const updateMenu = () => {
+          menuButtons.forEach((button, index) => {
+            const selected = index === selectedIndex;
+            button.classList.toggle("is-current", selected);
+            if (selected) button.setAttribute("aria-current", "date");
+            else button.removeAttribute("aria-current");
+          });
+        };
+        const positionMenu = () => {
+          const rect = link.getBoundingClientRect();
+          const viewportWidth = document.documentElement.clientWidth;
+          const viewportHeight = document.documentElement.clientHeight;
+          const width = Math.min(224, viewportWidth - 24);
+          menu.style.width = width + "px";
+          menu.style.left = Math.min(Math.max(12, rect.left), viewportWidth - width - 12) + "px";
+          menu.style.top = Math.max(12, Math.min(rect.bottom + 8, viewportHeight - Math.min(menu.scrollHeight || 320, 360) - 12)) + "px";
+        };
+        const closeMenu = (focusLink = false) => {
+          if (menu.hidden) return;
+          menu.hidden = true;
+          link.classList.remove("is-long-press-open");
+          link.setAttribute("aria-expanded", "false");
+          if (focusLink) link.focus({ preventScroll: true });
+        };
+        const openMenu = (focusMenu = false) => {
+          restoreLabel(++labelVersion);
+          updateMenu();
+          menu.hidden = false;
+          link.classList.add("is-long-press-open");
+          link.setAttribute("aria-expanded", "true");
+          positionMenu();
+          if (focusMenu) (menuButtons[selectedIndex >= 0 ? selectedIndex : nextIndex] || menuButtons[0])?.focus();
+        };
+        const clearPress = () => {
+          if (pressTimer !== null) global.clearTimeout(pressTimer);
+          pressTimer = null;
+          pressStart = null;
+          link.classList.remove("is-pressing");
+        };
+        const startPress = (event) => {
+          if (event.pointerType === "mouse" && event.button !== 0) return;
+          clearPress();
+          suppressNextClick = false;
+          pressStart = { x: event.clientX, y: event.clientY };
+          link.classList.add("is-pressing");
+          pressTimer = global.setTimeout(() => {
+            pressTimer = null;
+            suppressNextClick = true;
+            link.classList.remove("is-pressing");
+            openMenu(false);
+          }, 550);
+        };
+        const movePress = (event) => {
+          if (pressStart && Math.hypot(event.clientX - pressStart.x, event.clientY - pressStart.y) > 10) clearPress();
+        };
+        const consumeSuppressedClick = () => {
+          if (!suppressNextClick) return false;
+          suppressNextClick = false;
+          return true;
+        };
+        const onLinkClickCapture = (event) => {
+          if (!suppressNextClick) return;
+          suppressNextClick = false;
+          event.preventDefault();
+          event.stopPropagation();
+          event.stopImmediatePropagation();
+        };
+        const onDocumentPointerDown = (event) => {
+          if (!menu.hidden && !menu.contains(event.target) && !link.contains(event.target)) closeMenu();
+        };
+        const onDocumentKeyDown = (event) => {
+          if (event.key === "Escape" && !menu.hidden) {
+            event.preventDefault();
+            closeMenu(true);
+          }
+        };
+        const onViewportChange = () => { if (!menu.hidden) positionMenu(); };
+        link.addEventListener("click", onLinkClickCapture, true);
+        link.addEventListener("pointerdown", startPress);
+        link.addEventListener("pointermove", movePress);
+        link.addEventListener("pointerup", clearPress);
+        link.addEventListener("pointercancel", clearPress);
+        link.addEventListener("pointerleave", (event) => { if (event.pointerType === "mouse") clearPress(); });
+        link.addEventListener("contextmenu", (event) => {
+          event.preventDefault();
+          suppressNextClick = true;
+          openMenu(false);
+        });
+        link.addEventListener("keydown", (event) => {
+          if (event.key === "ArrowDown") {
+            event.preventDefault();
+            openMenu(true);
+          }
+        });
+        menu.addEventListener("click", (event) => {
+          const button = event.target.closest("[data-day-index]");
+          if (!button) return;
+          nextIndex = Number(button.dataset.dayIndex);
+          jump();
+        });
+        menu.addEventListener("keydown", (event) => {
+          const index = menuButtons.indexOf(document.activeElement);
+          let next = index;
+          if (event.key === "ArrowDown") next = Math.min(menuButtons.length - 1, index + 1);
+          else if (event.key === "ArrowUp") next = Math.max(0, index - 1);
+          else if (event.key === "Home") next = 0;
+          else if (event.key === "End") next = menuButtons.length - 1;
+          else return;
+          event.preventDefault();
+          menuButtons[next]?.focus();
+        });
+        document.addEventListener("pointerdown", onDocumentPointerDown, true);
+        document.addEventListener("keydown", onDocumentKeyDown);
+        global.addEventListener("scroll", onViewportChange, { passive: true });
+        global.addEventListener("resize", onViewportChange);
+        const destroyLongPress = () => {
+          clearPress();
+          link.removeEventListener("click", onLinkClickCapture, true);
+          document.removeEventListener("pointerdown", onDocumentPointerDown, true);
+          document.removeEventListener("keydown", onDocumentKeyDown);
+          global.removeEventListener("scroll", onViewportChange);
+          global.removeEventListener("resize", onViewportChange);
+          menu.remove();
+        };
+        const jump = () => {
+          const index = nextIndex;
+          const day = days[index];
+          const date = dateFor(day) || "第" + (index + 1) + "天";
+          const isLast = index === days.length - 1;
+          selectedIndex = index;
+          updateMenu();
+          closeMenu();
+          showLabel(date + "逐日行程", isLast);
+          activate(itineraryPair.target);
+          day.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+          nextIndex = isLast ? 0 : index + 1;
+        };
+        const reset = () => {
+          nextIndex = 0;
+          selectedIndex = -1;
+          closeMenu();
+          updateMenu();
+          restoreLabel(++labelVersion);
+        };
+        itineraryCycle = { link, jump, reset, closeMenu, consumeSuppressedClick, destroy: destroyLongPress };
+      }
+    }
+    let activeTarget = null;
+    let scheduled = null;
+    const reveal = (link) => {
+      const left = Math.max(0, link.offsetLeft - (nav.clientWidth - link.offsetWidth) / 2);
+      if (typeof nav.scrollTo === "function") nav.scrollTo({ left, behavior: reduceMotion ? "auto" : "smooth" });
+      else nav.scrollLeft = left;
+    };
+    const activate = (target, revealLink = true) => {
+      if (!target || activeTarget === target) return;
+      activeTarget = target;
+      pairs.forEach((item) => {
+        const active = item.target === target;
+        item.link.classList.toggle("is-active", active);
+        if (active) {
+          item.link.setAttribute("aria-current", "location");
+          if (revealLink) reveal(item.link);
+        } else item.link.removeAttribute("aria-current");
+      });
+    };
+    const updateOffset = () => {
+      const top = Number.parseFloat(global.getComputedStyle?.(nav).top) || 0;
+      const offset = Math.ceil(nav.getBoundingClientRect().height + top + 12);
+      document.documentElement.style.setProperty("--guide-nav-offset", offset + "px");
+    };
+    const selectCurrent = () => {
+      scheduled = null;
+      const top = Number.parseFloat(global.getComputedStyle?.(nav).top) || 0;
+      const activationLine = top + nav.getBoundingClientRect().height + 16;
+      let current = pairs[0];
+      pairs.forEach((item) => { if (item.target.getBoundingClientRect().top <= activationLine) current = item; });
+      activate(current.target);
+    };
+    const schedule = () => {
+      if (scheduled !== null) return;
+      scheduled = global.requestAnimationFrame ? global.requestAnimationFrame(selectCurrent) : global.setTimeout(selectCurrent, 16);
+    };
+    const onHashChange = () => {
+      const id = decodeURIComponent(global.location.hash.slice(1));
+      const pair = pairs.find((item) => item.target.id === id);
+      if (pair) activate(pair.target);
+      else schedule();
+    };
+    const onClick = (event) => {
+      const link = event.target.closest('a[href^="#"]');
+      if (!link || !nav.contains(link)) return;
+      if (itineraryCycle?.link === link) {
+        event.preventDefault();
+        if (itineraryCycle.consumeSuppressedClick?.()) return;
+        itineraryCycle.jump();
+        return;
+      }
+      itineraryCycle?.reset();
+      const pair = pairs.find((item) => item.link === link);
+      if (pair) activate(pair.target);
+    };
+    nav.addEventListener("click", onClick);
+    global.addEventListener("scroll", schedule, { passive: true });
+    global.addEventListener("resize", schedule);
+    global.addEventListener("hashchange", onHashChange);
+    const resizeObserver = global.ResizeObserver ? new global.ResizeObserver(() => { updateOffset(); schedule(); }) : null;
+    resizeObserver?.observe(nav);
+    updateOffset();
+    onHashChange();
+    schedule();
+    return () => {
+      nav.removeEventListener("click", onClick);
+      global.removeEventListener("scroll", schedule);
+      global.removeEventListener("resize", schedule);
+      global.removeEventListener("hashchange", onHashChange);
+      resizeObserver?.disconnect();
+      itineraryCycle?.destroy?.();
+      if (scheduled !== null) { if (global.cancelAnimationFrame) global.cancelAnimationFrame(scheduled); else global.clearTimeout(scheduled); }
+    };
   }
 
   function initItineraryExplorer(options = {}) {
@@ -1221,6 +1687,8 @@ braise(9月15日后无需预约）
   }
   global.TravelGuideInteractions = Object.freeze({ initSourceLinks, initSearch, initRefresh, initToast, initCopyControls, initChecklist, initImagePreview, initExchange, initWeatherForecast, initQuickNav, initItineraryExplorer, initGuidePage, readJsonIndex });
 })(window);
+
+
 </script><script data-skill-init="2026-08-11">
 (function(){
   var api=window.TravelGuideInteractions;
