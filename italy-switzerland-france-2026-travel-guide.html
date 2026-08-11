@@ -1063,6 +1063,7 @@ braise(9月15日后无需预约）
 (function(){
   var api=window.TravelGuideInteractions;
   if(!api)return;
+  api.initSearch();
   api.initCopyControls({selector:'[data-copy]',successText:'地名已复制'});
   api.initChecklist();
   api.initExchange();
