@@ -5,19 +5,100 @@
 
 .route-map-panel{padding:0;overflow:hidden}.route-map-panel .map-head{padding:18px 20px 10px}.route-map-panel .map-head h3{margin:0 0 4px;color:#0d5577}.route-map-panel .map-head p{margin:0;color:var(--muted);font-size:13px}.route-map-wrap{position:relative;height:620px}.route-map{height:100%;min-height:520px}.route-map-status{position:absolute;z-index:1000;left:50%;top:14px;transform:translateX(-50%);padding:7px 12px;border:1px solid #e5c36b;border-radius:999px;background:#fffbeaf5;color:#725a16;box-shadow:0 2px 8px #1437551f;font-size:12px;white-space:nowrap}.route-map-pin{display:grid;place-items:center;width:28px;height:28px;border:3px solid #fff;border-radius:50% 50% 50% 0;background:#176fba;color:#fff;box-shadow:0 2px 7px #00000047;font-weight:800;transform:rotate(-45deg)}.route-map-pin b{transform:rotate(45deg)}.route-time{padding:4px 7px;border:1px solid #aac7df;border-radius:999px;background:#fffffff5;color:#194d77;box-shadow:0 2px 8px #14375524;white-space:nowrap;font-size:11px;font-weight:700}.leaflet-tooltip.route-label{border:0;border-radius:7px;box-shadow:0 2px 10px #14375529;color:#17324d;font-size:11px;line-height:1.3}.leaflet-tooltip.route-label:before{display:none}@media(max-width:720px){.route-map-wrap{height:72vh;min-height:540px}.route-map-status{font-size:11px;max-width:calc(100% - 24px);overflow:hidden;text-overflow:ellipsis}}
 /* 2026-08 本地优化：移动导航、交互与动态地图 */
-:root{--shadow:0 4px 16px #123b5209}html{scroll-behavior:smooth}body{-webkit-font-smoothing:antialiased}button{font:inherit}section{scroll-margin-top:76px}.panel,.day,.card{box-shadow:var(--shadow)}.quick-nav{position:sticky;top:8px;z-index:1100;display:flex;gap:7px;margin:12px 0 18px;padding:8px;overflow-x:auto;border:1px solid #cfe0e8;border-radius:14px;background:#f8fcfdeb;box-shadow:0 5px 18px #123b5214;backdrop-filter:blur(10px);scrollbar-width:none}.quick-nav::-webkit-scrollbar{display:none}.quick-nav a{flex:0 0 auto;padding:5px 10px;border-radius:99px;color:#174e6c;background:#fff;text-decoration:none;font-size:13px;font-weight:700}.quick-nav a:hover,.quick-nav a:focus-visible{background:#dff1f6;outline:2px solid #55a5be;outline-offset:1px}.check{cursor:pointer}.check input:checked+span{text-decoration:line-through;color:#8a9ba7}.copy-info{margin-left:8px;padding:2px 8px;border:1px solid #a9cbd8;border-radius:99px;background:#f4fbfd;color:#12627e;cursor:pointer;font-size:12px;font-weight:700}.copy-info:hover,.copy-info:focus-visible{background:#dff2f7;outline:2px solid #62a8bd}.lightbox{position:fixed;inset:0;z-index:3000;display:grid;place-items:center;padding:24px;background:#071c2de8}.lightbox[hidden]{display:none}.lightbox img{max-width:min(1200px,96vw);max-height:90vh;border-radius:12px;box-shadow:0 15px 60px #0008}.lightbox button{position:absolute;right:20px;top:18px;width:42px;height:42px;border:1px solid #ffffff77;border-radius:50%;background:#0d3149;color:#fff;cursor:pointer;font-size:24px}.toast{position:fixed;z-index:3200;left:50%;bottom:24px;transform:translate(-50%,20px);padding:9px 14px;border-radius:99px;background:#123f58;color:#fff;box-shadow:0 6px 24px #0004;opacity:0;pointer-events:none;transition:.2s}.toast.is-visible{opacity:1;transform:translate(-50%,0)}.service-note{margin-top:34px;padding:12px 14px;border:1px solid #cfdde5;border-radius:12px;color:var(--muted);background:#eef5f8;font-size:12px}.table-wrap{-webkit-overflow-scrolling:touch}.map-stats{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.map-stat{padding:3px 9px;border-radius:99px;background:#edf6fa;color:#245f77;font-size:12px;font-weight:700}.route-map-wrap{overflow:hidden;background-color:#f3f7fa;background-image:linear-gradient(#dbe5ee 1px,transparent 1px),linear-gradient(90deg,#dbe5ee 1px,transparent 1px);background-size:24px 24px}.route-map{position:relative;z-index:1}.route-map-loading{position:absolute;inset:0;z-index:900;pointer-events:none;opacity:0;background:linear-gradient(110deg,transparent 30%,#ffffff66 45%,transparent 60%);background-size:220% 100%;transition:opacity .25s}.route-map-loading.is-visible{opacity:1;animation:route-map-skeleton 1.4s linear infinite}.route-map-loading.is-final-fallback{opacity:1;background:transparent;animation:none}.route-map-status{top:auto;bottom:16px;max-width:calc(100% - 32px);border-color:#c5d8e2;background:#fffffff2;color:#284f63}.route-map-legend{position:absolute;z-index:850;right:12px;top:12px;display:grid;gap:5px;padding:8px 10px;border:1px solid #d2e0e6;border-radius:11px;background:#fffffff0;color:#234f65;box-shadow:0 4px 16px #123b5220;font-size:11px}.route-map-legend span{display:flex;align-items:center;gap:6px}.legend-line{width:20px;height:4px;border-radius:4px}.route-time-label{padding:4px 7px;border:1px solid #aac7df;border-radius:999px;background:#fffffff5;color:#194d77;box-shadow:0 2px 8px #14375524;white-space:nowrap;font-size:11px;font-weight:700}.route-time-label[hidden],.route-poi-detail[hidden]{display:none!important}.leaflet-tile-pane .leaflet-layer{transition:opacity .35s ease}@keyframes route-map-skeleton{from{background-position:200% 0}to{background-position:-20% 0}}@media(max-width:720px){.quick-nav{top:4px;margin-inline:-2px}.copy-info{display:block;margin:7px 0 0}table{min-width:640px}.route-map-status{white-space:normal;text-align:center}.route-map-legend{top:auto;right:8px;bottom:55px;grid-template-columns:repeat(3,auto);max-width:calc(100% - 16px)}}</style></head><body><main class="wrap">
-<header class="hero"><h1>意瑞法 9.25—10.06</h1><p>把你在 Excel 里写下的路线、交通、停车、预约、徒步与备选方案，整理成可执行的手机端攻略。</p><div class="chips"><span class="chip">12天 / 11晚</span><span class="chip">意大利 · 瑞士 · 法国</span><span class="chip">原始计划优先保留</span><span class="chip">动态信息出发前复核</span></div></header><nav class="quick-nav" aria-label="页面快速导航"><a href="#route-map-section">路线地图</a><a href="#itinerary-section">逐日行程</a><a href="#transport-section">交通费用</a><a href="#recommendations-section">行程外推荐</a><a href="#checklist-section">核验清单</a><a href="#sources-section">研究来源</a></nav>
-<section><h2>一、路线结论</h2><div class="panel"><p class="route">米兰 → 卡雷扎湖 / 富内斯 → 巴迪亚 → 布拉伊埃斯湖 / 三峰山 → 刀锋山 / 休斯高原 → 威尼斯 → 苏黎世 → 卢塞恩 / 瑞吉山 / 龙疆 → 少女峰区域 → First / 施皮茨 → 采尔马特 → 巴塞尔 → 巴黎</p><p>这是一条“米兰落地后租车穿越多洛米蒂，再转铁路进入瑞士，最后从巴塞尔前往巴黎”的高密度路线。最需要提前锁定的是：租车与异地还车、三峰山预约、少女峰 / 瑞士山地交通票、跨境火车、巴黎博物馆预约，以及 9 月底山路与缆车天气。</p><p class="small">本页严格按 Excel 原表整理；“也可以”“备选”“如果时间合适”等表述均保留为备选，不视为已确认安排。</p></div></section>
+:root{--shadow:0 4px 16px #123b5209}html{scroll-behavior:smooth}body{-webkit-font-smoothing:antialiased}button{font:inherit}section{scroll-margin-top:76px}.panel,.day,.card{box-shadow:var(--shadow)}.quick-nav{position:sticky;top:8px;z-index:1100;display:flex;gap:7px;margin:12px 0 18px;padding:8px;overflow-x:auto;border:1px solid #cfe0e8;border-radius:14px;background:#f8fcfdeb;box-shadow:0 5px 18px #123b5214;backdrop-filter:blur(10px);scrollbar-width:none}.quick-nav::-webkit-scrollbar{display:none}.quick-nav a{flex:0 0 auto;padding:5px 10px;border-radius:99px;color:#174e6c;background:#fff;text-decoration:none;font-size:13px;font-weight:700}.quick-nav a:hover,.quick-nav a:focus-visible{background:#dff1f6;outline:2px solid #55a5be;outline-offset:1px}.check{cursor:pointer}.check input:checked+span{text-decoration:line-through;color:#8a9ba7}.copy-info{margin-left:8px;padding:2px 8px;border:1px solid #a9cbd8;border-radius:99px;background:#f4fbfd;color:#12627e;cursor:pointer;font-size:12px;font-weight:700}.copy-info:hover,.copy-info:focus-visible{background:#dff2f7;outline:2px solid #62a8bd}.lightbox{position:fixed;inset:0;z-index:3000;display:grid;place-items:center;padding:24px;background:#071c2de8}.lightbox[hidden]{display:none}.lightbox img{max-width:min(1200px,96vw);max-height:90vh;border-radius:12px;box-shadow:0 15px 60px #0008}.lightbox button{position:absolute;right:20px;top:18px;width:42px;height:42px;border:1px solid #ffffff77;border-radius:50%;background:#0d3149;color:#fff;cursor:pointer;font-size:24px}.toast{position:fixed;z-index:3200;left:50%;bottom:24px;transform:translate(-50%,20px);padding:9px 14px;border-radius:99px;background:#123f58;color:#fff;box-shadow:0 6px 24px #0004;opacity:0;pointer-events:none;transition:.2s}.toast.is-visible{opacity:1;transform:translate(-50%,0)}.service-note{margin-top:34px;padding:12px 14px;border:1px solid #cfdde5;border-radius:12px;color:var(--muted);background:#eef5f8;font-size:12px}.table-wrap{-webkit-overflow-scrolling:touch}.map-stats{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.map-stat{padding:3px 9px;border-radius:99px;background:#edf6fa;color:#245f77;font-size:12px;font-weight:700}.route-map-wrap{overflow:hidden;background-color:#f3f7fa;background-image:linear-gradient(#dbe5ee 1px,transparent 1px),linear-gradient(90deg,#dbe5ee 1px,transparent 1px);background-size:24px 24px}.route-map{position:relative;z-index:1}.route-map-loading{position:absolute;inset:0;z-index:900;pointer-events:none;opacity:0;background:linear-gradient(110deg,transparent 30%,#ffffff66 45%,transparent 60%);background-size:220% 100%;transition:opacity .25s}.route-map-loading.is-visible{opacity:1;animation:route-map-skeleton 1.4s linear infinite}.route-map-loading.is-final-fallback{opacity:1;background:transparent;animation:none}.route-map-status{top:auto;bottom:16px;max-width:calc(100% - 32px);border-color:#c5d8e2;background:#fffffff2;color:#284f63}.route-map-legend{position:absolute;z-index:850;right:12px;top:12px;display:grid;gap:5px;padding:8px 10px;border:1px solid #d2e0e6;border-radius:11px;background:#fffffff0;color:#234f65;box-shadow:0 4px 16px #123b5220;font-size:11px}.route-map-legend span{display:flex;align-items:center;gap:6px}.legend-line{width:20px;height:4px;border-radius:4px}.route-time-label{padding:4px 7px;border:1px solid #aac7df;border-radius:999px;background:#fffffff5;color:#194d77;box-shadow:0 2px 8px #14375524;white-space:nowrap;font-size:11px;font-weight:700}.route-time-label[hidden],.route-poi-detail[hidden]{display:none!important}.leaflet-tile-pane .leaflet-layer{transition:opacity .35s ease}@keyframes route-map-skeleton{from{background-position:200% 0}to{background-position:-20% 0}}@media(max-width:720px){.quick-nav{top:4px;margin-inline:-2px}.copy-info{display:block;margin:7px 0 0}table{min-width:640px}.route-map-status{white-space:normal;text-align:center}.route-map-legend{top:auto;right:8px;bottom:55px;grid-template-columns:repeat(3,auto);max-width:calc(100% - 16px)}}.guide-search-trigger{position:fixed;right:18px;bottom:76px;z-index:1800;display:inline-flex;align-items:center;gap:7px;padding:10px 14px;border:1px solid #b7d0db;border-radius:999px;background:#0f4260;color:#fff;box-shadow:0 8px 24px #123b5238;cursor:pointer;font-weight:700;transition:transform .2s,box-shadow .2s,background .2s}.guide-search-trigger:hover,.guide-search-trigger:focus-visible{background:#0b789c;transform:translateY(-2px);box-shadow:0 10px 28px #123b5250;outline:3px solid #8ed0df;outline-offset:2px}.guide-search-trigger.is-map-nearby{bottom:116px}.guide-search-trigger span:first-child{font-size:20px;line-height:1}.guide-search-panel[hidden]{display:none}.guide-search-panel{position:fixed;right:18px;bottom:128px;z-index:2500;width:min(440px,calc(100vw - 28px));max-height:min(68vh,620px);border:1px solid #c3d7e0;border-radius:18px;background:#fffffff7;box-shadow:0 18px 50px #123b5240;backdrop-filter:blur(12px);overflow:hidden}.guide-search-shell{display:flex;flex-direction:column;max-height:min(68vh,620px)}.guide-search-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 8px}.guide-search-head h2{margin:0;font-size:19px}.guide-search-close{width:34px;height:34px;border:1px solid #c3d7e0;border-radius:50%;background:#f5fafc;color:#174e6c;cursor:pointer;font-size:22px;line-height:1}.guide-search-form{display:flex;gap:8px;padding:8px 16px 12px}.guide-search-form input{min-width:0;flex:1;padding:10px 12px;border:1px solid #a9cbd8;border-radius:10px;background:#fff;color:#17324d}.guide-search-form input:focus{outline:3px solid #bde4ed;border-color:#0b789c}.guide-search-form button{padding:8px 13px;border:0;border-radius:10px;background:#0b789c;color:#fff;cursor:pointer;font-weight:700}.guide-search-history{display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 8px}.guide-search-history:empty{display:none}.guide-search-history button{padding:4px 8px;border:1px solid #c7dce4;border-radius:999px;background:#f3f9fb;color:#28647a;cursor:pointer;font-size:12px}.guide-search-results{padding:0 10px 12px;overflow:auto}.guide-search-hint{padding:10px 8px;color:#58748b;font-size:13px}.guide-search-result{display:block;margin:6px 0;padding:10px 10px;border:1px solid #d4e3e9;border-radius:12px;background:#fff;color:#17324d;text-decoration:none}.guide-search-result:hover,.guide-search-result:focus-visible{border-color:#70b5c6;background:#f3fbfd;outline:2px solid #9ed5e0;outline-offset:1px}.guide-search-result strong{display:block;color:#0d5577}.guide-search-result small{display:block;margin-top:3px;color:#58748b;line-height:1.5}.guide-search-result .guide-search-source{display:inline-block;margin-top:5px;color:#8a641b;font-size:12px}.guide-search-external{float:right;margin-left:8px;color:#056f9c;font-size:12px}.guide-search-panel mark{padding:0 2px;border-radius:3px;background:#fff0ae;color:inherit}@media(max-width:720px){.guide-search-trigger{right:14px;bottom:76px;width:46px;height:46px;padding:0;justify-content:center}.guide-search-trigger.is-map-nearby{bottom:112px}.guide-search-label{display:none}.guide-search-panel{right:10px;bottom:76px;width:calc(100vw - 20px);max-height:68vh}.guide-search-shell{max-height:68vh}.guide-search-form{padding-inline:12px}.guide-search-history{padding-inline:12px}.guide-search-results{padding-inline:8px}}@media(prefers-reduced-motion:reduce){.guide-search-trigger{transition:none}.guide-search-result{scroll-behavior:auto}}.guide-search-tools{display:flex;align-items:center;gap:6px;padding:0 16px 8px;color:#58748b;font-size:12px}.guide-search-tools button{padding:4px 8px;border:1px solid #c7dce4;border-radius:8px;background:#f3f9fb;color:#28647a;cursor:pointer}.guide-search-tools button:hover,.guide-search-tools button:focus-visible{background:#dff2f7;outline:2px solid #8ed0df}.guide-search-count{min-width:48px;text-align:center}.guide-search-hit{padding:0 2px;border-radius:3px;background:#ffe58a;color:inherit;box-shadow:0 0 0 1px #e4b93f55}.guide-search-hit.is-current{background:#ff9f43;box-shadow:0 0 0 2px #d66b1b66}.copy-actions{display:inline-flex;flex-wrap:wrap;gap:5px;margin-left:8px;vertical-align:middle}.copy-info.copy-item{margin-left:0;padding:2px 7px;font-size:11px}@media(max-width:720px){.guide-search-tools{padding-inline:12px}.copy-actions{display:flex;margin:7px 0 0}}
+.day-guide-note{margin:10px 0 2px;padding:10px 12px;border-left:3px solid var(--accent);border-radius:8px;background:#f2f8fa;color:#315d72;font-size:14px;line-height:1.7}.day-guide-note b{color:#0d5577}.recommendation-list li{margin:9px 0}.recommendation-reason{color:#315d72}.recommendation-check{display:block;margin-top:4px;color:#865d1b;font-size:13px}.copy-place{border:0;padding:0;background:transparent;color:#056f9c;font:inherit;text-decoration:underline dotted;text-underline-offset:3px;cursor:pointer}.copy-place:hover,.copy-place:focus-visible{color:#0b789c;outline:2px solid #62a8bd;outline-offset:2px;border-radius:3px}.guide-checklist-note{margin-top:12px;padding:9px 11px;border-radius:8px;background:#f2f8fa;color:var(--muted);font-size:13px}
+.source-flash { animation: source-flash 2s ease-out; }
+.guide-search-trigger { position: fixed; right: 18px; bottom: 76px; z-index: 1800; min-width: 46px; min-height: 46px; border: 0; border-radius: 999px; padding: 10px 14px; color: #fff; background: #123f4b; box-shadow: 0 8px 24px #123b5238; }
+.guide-search-panel { position: fixed; right: 18px; bottom: 130px; z-index: 2500; width: min(440px, calc(100vw - 28px)); max-height: 68vh; overflow: auto; border: 1px solid #c7d9d8; border-radius: 16px; background: #fffffff7; box-shadow: 0 18px 50px #123b5240; }
+.guide-search-panel[hidden] { display: none; }
+.guide-search-hit { background: #ffe58a; border-radius: 3px; }
+.guide-search-hit.is-current { background: #ff9f43; box-shadow: 0 0 0 2px #d66b1b66; }
+.guide-search-result { margin: 8px; padding: 10px; border: 1px solid #d4e3e0; border-radius: 10px; }
+.guide-search-result small, .guide-search-hint, .guide-search-empty { display: block; margin: 6px 8px; color: #567276; }
+.exchange-tool-card { padding: 14px; border: 1px solid #d8e4e3; border-radius: 14px; background: #f4faf9; }
+.exchange-tool-card__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.exchange-tool-card button, .guide-search-panel button { min-height: 36px; border: 0; border-radius: 8px; padding: 7px 11px; color: #fff; background: #123f4b; }
+.exchange-tool-card button:disabled { opacity: .55; }
+.exchange-tool-card__rates, .exchange-tool-card__convert { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
+.exchange-tool-card__convert input { min-width: 0; padding: 9px; border: 1px solid #90aba8; border-radius: 8px; }
+.exchange-tool-card__result { font-weight: 700; text-align: right; }
+@keyframes source-flash { 0%, 70% { background: #ffe58a; } 100% { background: transparent; } }
+@media (max-width: 640px) { .guide-search-trigger { right: 14px; bottom: 72px; width: 46px; padding: 0; font-size: 0; } .guide-search-trigger::before { content: '⌕'; font-size: 23px; } .guide-search-panel { right: 10px; bottom: 72px; width: calc(100vw - 20px); } .exchange-tool-card__rates, .exchange-tool-card__convert { grid-template-columns: 1fr; } }
+.guide-toast { position: fixed; z-index: 3200; left: 50%; bottom: 24px; transform: translate(-50%, 20px); padding: 9px 14px; border-radius: 999px; color: #fff; background: #123f4b; box-shadow: 0 6px 24px #0004; opacity: 0; pointer-events: none; transition: .2s; }
+.guide-toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+.copyable-name { cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; }
+.copyable-name:focus-visible { outline: 2px solid #0b789c; outline-offset: 2px; }
+.is-complete { color: #8a9ba7; }
+.is-complete > span, .is-complete > label { text-decoration: line-through; }
+.travel-image-dialog { max-width: min(1200px, 96vw); max-height: 92vh; padding: 0; border: 0; border-radius: 12px; background: transparent; }
+.travel-image-dialog::backdrop { background: #071c2de8; }
+.travel-image-dialog img { display: block; max-width: 96vw; max-height: 88vh; border-radius: 12px; }
+.travel-image-dialog button { position: fixed; top: 18px; right: 20px; width: 42px; height: 42px; border: 1px solid #ffffff77; border-radius: 50%; color: #fff; background: #0d3149; font-size: 24px; }
+.quick-nav a.is-active { color: #fff; background: #0b789c; }
+:root {
+  --guide-primary: #B99274;
+  --guide-bg: #faf7f2;
+  --guide-surface: rgba(255, 255, 255, .76);
+  --guide-text: #2f2924;
+  --guide-muted: #746b63;
+  --guide-line: #e5ddd5;
+  --guide-display-font: Georgia, "Songti SC", "Noto Serif SC", serif;
+  --guide-body-font: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+}
+.guide-page { color: var(--guide-text); background: var(--guide-bg); font-family: var(--guide-body-font); }
+.guide-display, .guide-page h1, .guide-page h2 { font-family: var(--guide-display-font); }
+.guide-section { padding: clamp(2rem, 5vw, 3rem) clamp(1rem, 3vw, 1.5rem); }
+.guide-elevated-card { border: 1px solid var(--guide-line); border-radius: 16px; background: var(--guide-surface); box-shadow: 0 8px 24px rgba(63, 47, 35, .08); }
+@supports (backdrop-filter: blur(10px)) { .guide-elevated-card { backdrop-filter: blur(10px); } }
+@media (hover: hover) { .guide-elevated-card { transition: transform .2s ease, box-shadow .2s ease; } .guide-elevated-card:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(63, 47, 35, .13); } }
+.guide-photo-frame { aspect-ratio: 4 / 3; overflow: hidden; border-radius: 12px; background: #eee7df; }
+.guide-photo-frame > img { width: 100%; height: 100%; object-fit: cover; }
+.guide-reference-image { display: block; max-width: 100%; max-height: none; object-fit: contain; }
+
+.guide-checklist-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 12px; }
+.guide-checklist-tools button, .guide-checklist-remove { min-height: 34px; border: 1px solid #b9ccc9; border-radius: 8px; padding: 6px 10px; color: #174d49; background: #f1f8f7; }
+.guide-checklist-add { display: flex; flex: 1 1 260px; gap: 8px; }
+.guide-checklist-add input { min-width: 0; flex: 1; min-height: 36px; border: 1px solid #90aba8; border-radius: 8px; padding: 7px 9px; }
+.guide-checklist-item { display: flex; align-items: center; gap: 8px; margin: 8px 0; }
+.guide-checklist-item [data-check-label][contenteditable="true"] { flex: 1; border-bottom: 1px dashed #90aba8; outline: none; }
+.guide-checklist-remove { display: none; margin-left: auto; color: #9a4d3f; }
+[data-checklist].is-editing .guide-checklist-remove { display: inline-block; }
+@media (max-width: 640px) { .guide-checklist-add { flex-basis: 100%; } .guide-checklist-item { align-items: flex-start; } }
+
+/* Standard exchange card aligned with the Taiwan guide interaction. */
+.exchange-card { margin-top: 16px; padding: 17px; border: 1px solid #c8e0d9; border-radius: 16px; background: linear-gradient(145deg, #eff8f3, #fff); }
+.exchange-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+.exchange-head h3 { margin: 0 0 5px; color: #11324d; font-size: 18px; }
+.exchange-head p { margin: 0; color: #58748b; }
+.exchange-refresh { flex: 0 0 auto; border: 1px solid #123f4b; border-radius: 9px; padding: 8px 11px; background: #123f4b; color: #fff; font-weight: 800; cursor: pointer; }
+.exchange-refresh:disabled { cursor: wait; opacity: .65; }
+.exchange-values { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+.exchange-values > div { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 8px; padding: 10px 11px; border: 1px solid #d9e5eb; border-radius: 10px; background: #fff; }
+.exchange-values strong { text-align: right; font-size: 16px; }
+.exchange-converter { display: grid; grid-template-columns: auto minmax(130px, 1fr) minmax(0, 1fr); gap: 10px; align-items: center; margin-top: 12px; }
+.exchange-converter label { font-weight: 700; }
+.exchange-converter input { min-width: 0; padding: 9px; border: 1px solid #90aba8; border-radius: 8px; font: inherit; }
+.exchange-result-list { display: grid; gap: 6px; }
+.exchange-result-row { display: flex; justify-content: space-between; gap: 12px; padding: 6px 9px; border-radius: 8px; background: #fff; }
+.exchange-result-row output { font-weight: 800; text-align: right; }
+.exchange-status { margin: 12px 0 0; color: #58748b; font-size: 13px; }
+@media (max-width: 640px) { .exchange-values { grid-template-columns: 1fr; } .exchange-converter { grid-template-columns: 1fr; } .exchange-result-list { width: 100%; } }
+/* 台湾攻略同类的临近出发天气刷新卡。 */
+.weather-check{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
+.weather-card{margin:10px 0 2px;padding:15px;border:1px solid #c8e0d9;border-radius:14px;background:linear-gradient(145deg,#eff8f3,#fff)}
+.weather-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}.weather-head h3{margin:0 0 5px;color:var(--ink);font-size:18px}.weather-head p{margin:0;color:var(--muted);font-size:14px}.weather-refresh{flex:0 0 auto;min-height:36px;border:1px solid #123f4b;border-radius:9px;padding:8px 11px;background:#123f4b;color:#fff;font-weight:800;cursor:pointer}.weather-refresh:disabled,.weather-refresh.is-loading{cursor:wait;opacity:.65}.weather-status{margin:12px 0 8px;color:var(--muted);font-size:13px}.weather-table-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px}.weather-table{width:100%;min-width:680px;border-collapse:collapse;background:#fff;font-size:13px}.weather-table th,.weather-table td{padding:9px 10px;border-bottom:1px solid #e0ece7;text-align:left;vertical-align:top}.weather-table th{background:#eaf4f7;color:var(--ink);white-space:nowrap}.weather-table tr:last-child td{border-bottom:0}.weather-footnote{margin:9px 0 0;color:var(--muted);font-size:12px}@media(max-width:640px){.weather-head{gap:9px}.weather-refresh{padding:7px 9px;font-size:13px}.weather-table{min-width:620px}}</style></head><body data-guide-enhanced="2026-08-11"><main class="wrap">
+<header class="hero"><h1>意瑞法 9.25—10.06</h1><p>把你在 Excel 里写下的路线、交通、停车、预约、徒步与备选方案，整理成可执行的手机端攻略。</p><div class="chips"><span class="chip">12天 / 11晚</span><span class="chip">意大利 · 瑞士 · 法国</span><span class="chip">原始计划优先保留</span><span class="chip">动态信息出发前复核</span></div></header><nav class="quick-nav" aria-label="页面快速导航"><a href="#route-conclusion-section">路线结论</a><a href="#route-map-section">路线地图</a><a href="#route-summary-section">路线总览</a><a href="#itinerary-section">逐日行程</a><a href="#transport-section">交通费用</a><a href="#recommendations-section">行程外推荐</a><a href="#gallery-section">表格图片</a><a href="#checklist-section">核验清单</a><a href="#exchange-section">汇率说明</a><a href="#sources-section">资料来源</a></nav>
+<section id="route-conclusion-section"><h2>一、路线结论</h2><div class="panel"><p class="route">米兰 → 卡雷扎湖 / 富内斯 → 巴迪亚 → 布拉伊埃斯湖 / 三峰山 → 刀锋山 / 休斯高原 → 威尼斯 → 苏黎世 → 卢塞恩 / 瑞吉山 / 龙疆 → 少女峰区域 → First / 施皮茨 → 采尔马特 → 巴塞尔 → 巴黎</p><p>这是一条“米兰落地后租车穿越多洛米蒂，再转铁路进入瑞士，最后从巴塞尔前往巴黎”的高密度路线。最需要提前锁定的是：租车与异地还车、三峰山预约、少女峰 / 瑞士山地交通票、跨境火车、巴黎博物馆预约，以及 9 月底山路与缆车天气。</p><p class="small">本页严格按 Excel 原表整理；“也可以”“备选”“如果时间合适”等表述均保留为备选，不视为已确认安排。</p></div></section>
 <section id="route-map-section"><h2>二、动态路线地图</h2><div class="panel route-map-panel"><div class="map-head"><h3>米兰 → 巴黎：真实地图路线概览</h3><p>底图支持平移、缩放与定位；连线仅表示行程顺序，不代表实际道路、铁路或航班轨迹。放大至 9 级后显示交通时间。</p><div class="map-stats"><span class="map-stat">19 个路线节点</span><span class="map-stat">意大利 · 瑞士 · 法国</span><span class="map-stat">单向箭头表示行程方向</span></div></div><div class="route-map-wrap"><div id="route-map" class="route-map" aria-label="意大利瑞士法国动态路线地图"></div><div id="route-map-loading" class="route-map-loading is-visible" aria-hidden="true"></div><div class="route-map-legend" aria-label="路线颜色图例"><span><i class="legend-line" style="background:#ef8b2c"></i>意大利</span><span><i class="legend-line" style="background:#2d7fca"></i>瑞士</span><span><i class="legend-line" style="background:#7c4bb3"></i>法国</span></div><div id="route-map-status" class="route-map-status">正在根据本机时区选择底图</div></div></div></section><section id="route-summary-section"><h2>三、路线总览</h2><div class="panel"><div class="table-wrap"><table><tr><th>阶段</th><th>住宿 / 核心区域</th><th>重点</th><th>主要风险</th></tr><tr><td>9/25—9/28</td><td>米兰 → 巴迪亚</td><td>米兰城市、卡雷扎湖、富内斯、布拉伊埃斯湖、三峰山、刀锋山 / 休斯高原</td><td>长距离自驾、停车满位、山路天气、缆车时刻</td></tr><tr><td>9/28—10/1</td><td>威尼斯 → 苏黎世 → 卢塞恩</td><td>威尼斯外岛、苏黎世早晨、瑞吉山、龙疆</td><td>租车转火车、防盗、游船班次</td></tr><tr><td>10/1—10/4</td><td>卢塞恩 → 格林德瓦 / 因特拉肯 → 采尔马特</td><td>少女峰区域、劳特布伦嫩、First、施皮茨、采尔马特五湖</td><td>山地天气、预约、当天移动时间过长</td></tr><tr><td>10/4—10/6</td><td>巴塞尔 → 巴黎</td><td>巴塞尔夜景、奥赛 / 橘园、卢浮宫、蒙马特、凯旋门、返程</td><td>博物馆预约、巴黎防盗、机场交通</td></tr></table></div></div></section>
-<section id="itinerary-section"><h2>四、逐日行程</h2><div class="days"><section class="day" id="day-0"><div class="day-head"><div class="date">9月25日<small>2026-09-25</small></div><div><h3>米兰大教堂-二世长廊-斯福尔扎城堡—森皮奥内公园—和平门</h3><div class="checkline"><label class="check"><input type="checkbox" data-check="day-0-0"><span>已核对 9月25日 行程、预约与天气</span></label></div></div></div><div class="items"><article class="item"><h4>米兰大教堂-二世长廊-斯福尔扎城堡—森皮奥内公园—和平门</h4><div class="detail">1、落地--民宿。住在运河附近，直接勾选到中心区就行【cadorna】，不用去车站</div><div class="meta"><b>导航 / 核验：</b>民宿Via Andrea Ponti 15，20143</div><div class="note"><b>备注：</b>1、【火车罢工可选大巴】<br>火车 自助购票/携程<br>大巴 现场10欧 扫码5欧 大雄旅行4.8欧<br>2、地铁🚇单次15分钟2.2欧（不超90min）<br>买单次票 刷卡 24小时通票   【推荐刷卡】<br>3、大教堂各种组合票<a href="http://xhslink.com/o/7dlqoWl1AVt" target="_blank" rel="noopener">http://xhslink.com/o/7dlqoWl1AVt</a></div></article><article class="item"><h4>行程细节 2</h4><div class="detail">2、米兰大教堂【购票链接 建议电梯通票combo lift】（❌吊带短裤）</div><div class="meta"><b>导航 / 核验：</b>【<a href="https://ticket.duomomilano.it" target="_blank" rel="noopener">https://ticket.duomomilano.it</a>】</div></article><article class="item"><h4>行程细节 3</h4><div class="detail">3、二世长廊（公牛祈福）-斯福尔扎城堡（城堡免费 博物馆5元）-森皮奥内公园—和平门</div></article><article class="item"><h4>行程细节 4</h4><div class="detail">4、运河chill</div></article></div></section><section class="day" id="day-1"><div class="day-head"><div class="date">9月26日<small>2026-09-26</small></div><div><h3>米兰-卡雷扎湖-富内斯山谷-badia民宿
+<section id="itinerary-section"><h2>四、逐日行程</h2><div class="days"><section class="day" id="day-0"><div class="day-head"><div class="date">9月25日<small>2026-09-25</small></div><div><h3><button type="button" class="copy-place copy-location" data-copy="Duomo di Milano / Milan Cathedral" title="点击复制地点">米兰大教堂</button>-<button type="button" class="copy-place copy-location" data-copy="Galleria Vittorio Emanuele II" title="点击复制地点">二世长廊</button>-<button type="button" class="copy-place copy-location" data-copy="Castello Sforzesco" title="点击复制地点">斯福尔扎城堡</button>—<button type="button" class="copy-place copy-location" data-copy="Parco Sempione" title="点击复制地点">森皮奥内公园</button>—<button type="button" class="copy-place copy-location" data-copy="Arco della Pace" title="点击复制地点">和平门</button></h3><div class="checkline"><label class="check"><input type="checkbox" data-check="day-0-0"><span>已核对 9月25日 行程、预约与天气</span></label></div></div></div><div class="items"><article class="item"><h4>米兰大教堂-二世长廊-斯福尔扎城堡—森皮奥内公园—和平门</h4><div class="detail">1、落地--民宿。住在运河附近，直接勾选到中心区就行【<button type="button" class="copy-place copy-location" data-copy="Milano Cadorna station" title="点击复制地点">cadorna</button>】，不用去车站</div><div class="meta"><b>导航 / 核验：</b>民宿Via Andrea Ponti 15，20143</div><div class="note"><b>备注：</b>1、【火车罢工可选大巴】<br>火车 自助购票/携程<br>大巴 现场10欧 扫码5欧 大雄旅行4.8欧<br>2、地铁🚇单次15分钟2.2欧（不超90min）<br>买单次票 刷卡 24小时通票   【推荐刷卡】<br>3、大教堂各种组合票<a href="http://xhslink.com/o/7dlqoWl1AVt" target="_blank" rel="noopener">http://xhslink.com/o/7dlqoWl1AVt</a></div></article><article class="item"><h4>行程细节 2</h4><div class="detail">2、米兰大教堂【购票链接 建议电梯通票combo lift】（❌吊带短裤）</div><div class="meta"><b>导航 / 核验：</b>【<a href="https://ticket.duomomilano.it" target="_blank" rel="noopener">https://ticket.duomomilano.it</a>】</div></article><article class="item"><h4>行程细节 3</h4><div class="detail">3、二世长廊（公牛祈福）-斯福尔扎城堡（城堡免费 博物馆5元）-森皮奥内公园—和平门</div></article><article class="item"><h4>行程细节 4</h4><div class="detail">4、运河chill</div></article><div class="day-guide-note"><b>景点描述：</b>这条线把米兰最核心的城市地标串在一起：米兰大教堂与二世长廊适合第一次到访集中感受城市中心，斯福尔扎城堡、森皮奥内公园和和平门则是连续的步行延伸。<br><b>推荐建议：</b>优先预约大教堂电梯通票；抵达日若行李或体力不足，保留大教堂—二世长廊—运河，城堡、公园和和平门可顺体力删减。</div></div></section><section class="day" id="day-1"><div class="day-head"><div class="date">9月26日<small>2026-09-26</small></div><div><h3>米兰-<button type="button" class="copy-place copy-location" data-copy="Lake Carezza / Karersee" title="点击复制地点">卡雷扎湖</button>-<button type="button" class="copy-place copy-location" data-copy="Val di Funes" title="点击复制地点">富内斯山谷</button>-<button type="button" class="copy-place copy-location" data-copy="Badia, South Tyrol" title="点击复制地点">badia</button>民宿
 也可以根据出发时间舍弃湖（~小九寨沟）</h3><div class="checkline"><label class="check"><input type="checkbox" data-check="day-1-0"><span>已核对 9月26日 行程、预约与天气</span></label></div></div></div><div class="items"><article class="item"><h4>米兰-卡雷扎湖-富内斯山谷-badia民宿
-也可以根据出发时间舍弃湖（~小九寨沟）</h4><div class="detail">9:15民宿出发，9:30左右到店租车。</div><div class="meta"><b>导航 / 核验：</b>piazzale stazione genova,2</div><div class="note"><b>备注：</b>路上简餐或到了再吃都行</div></article><article class="item"><h4>行程细节 2</h4><div class="detail">米兰-卡雷扎湖（323km 3.5-4H)，停车场先取票后交钱再插票，每小时3欧，午餐+游湖约1.5H</div><div class="meta"><b>导航 / 核验：</b>parking lake carezza</div></article><article class="item"><h4>行程细节 3</h4><div class="detail">卡雷扎湖-富内斯山谷(62km 1-1.5H)，停车场10-15欧</div><div class="meta"><b>导航 / 核验：</b>parkplatz bergerplatz<br>/santa maddalena</div><div class="note"><b>备注：</b>日落大概在19点，最好能在18.30前到</div></article><article class="item"><h4>行程细节 4</h4><div class="detail">孤独教堂打卡+日落金山</div></article><article class="item"><h4>行程细节 5</h4><div class="detail">返程民宿（60km 1-1.5H)</div><div class="meta"><b>导航 / 核验：</b>str.parvela,19,39036 abtei</div><div class="note"><b>备注：</b>山谷附近有餐厅也可回小镇</div></article></div></section><section class="day" id="day-2"><div class="day-head"><div class="date">9月27日<small>2026-09-27</small></div><div><h3>badia民宿-Braies-三峰山-Misurina-badia
+也可以根据出发时间舍弃湖（~小九寨沟）</h4><div class="detail">9:15民宿出发，9:30左右到店租车。</div><div class="meta"><b>导航 / 核验：</b>piazzale stazione genova,2</div><div class="note"><b>备注：</b>路上简餐或到了再吃都行</div></article><article class="item"><h4>行程细节 2</h4><div class="detail">米兰-卡雷扎湖（323km 3.5-4H)，停车场先取票后交钱再插票，每小时3欧，午餐+游湖约1.5H</div><div class="meta"><b>导航 / 核验：</b>parking lake carezza</div></article><article class="item"><h4>行程细节 3</h4><div class="detail">卡雷扎湖-富内斯山谷(62km 1-1.5H)，停车场10-15欧</div><div class="meta"><b>导航 / 核验：</b>parkplatz bergerplatz<br>/<button type="button" class="copy-place copy-location" data-copy="Santa Maddalena, Val di Funes" title="点击复制地点">santa maddalena</button></div><div class="note"><b>备注：</b>日落大概在19点，最好能在18.30前到</div></article><article class="item"><h4>行程细节 4</h4><div class="detail"><button type="button" class="copy-place copy-location" data-copy="Santa Maddalena Church" title="点击复制地点">孤独教堂</button>打卡+日落金山</div></article><article class="item"><h4>行程细节 5</h4><div class="detail">返程民宿（60km 1-1.5H)</div><div class="meta"><b>导航 / 核验：</b>str.parvela,19,39036 abtei</div><div class="note"><b>备注：</b>山谷附近有餐厅也可回小镇</div></article><div class="day-guide-note"><b>景点描述：</b>卡雷扎湖是短停留即可完成的高山湖泊观景点，富内斯山谷的圣乔凡尼教堂与山谷视野更适合在傍晚拍摄。当天核心不是“多看几个点”，而是把长距离自驾和日落时间控制好。<br><b>推荐建议：</b>米兰出发较晚时直接舍弃卡雷扎湖，把时间留给富内斯；目标是在 18:30 前到 Santa Maddalena 一带，停车、步行和天气均需现场判断。</div></div></section><section class="day" id="day-2"><div class="day-head"><div class="date">9月27日<small>2026-09-27</small></div><div><h3>badia民宿-<button type="button" class="copy-place copy-location" data-copy="Lago di Braies" title="点击复制地点">Braies</button>-<button type="button" class="copy-place copy-location" data-copy="Tre Cime di Lavaredo" title="点击复制地点">三峰山</button>-<button type="button" class="copy-place copy-location" data-copy="Lago di Misurina" title="点击复制地点">Misurina</button>-badia
 braise(9月15日后无需预约）
 三峰山停车场需要提前预约,车牌可后补
 【防滑鞋】</h3><div class="checkline"><label class="check"><input type="checkbox" data-check="day-2-0"><span>已核对 9月27日 行程、预约与天气</span></label></div></div></div><div class="items"><article class="item"><h4>badia民宿-Braies-三峰山-Misurina-badia
 braise(9月15日后无需预约）
 三峰山停车场需要提前预约,车牌可后补
-【防滑鞋】</h4><div class="detail">建议8点出发，braies(57公里1-1.5h)，停车场10点就容易满了，停车15欧 </div><div class="meta"><b>导航 / 核验：</b>P3 - Parcheggio Lago di Braies，p4更近，但我谷歌搜不到</div><div class="note"><b>备注：</b>游船时间9-17：30，最佳拍摄时间9-11/16点后 避开正午</div></article><article class="item"><h4>行程细节 2</h4><div class="detail">游船45min(55欧，据说现金便宜5元，最多5人）</div></article><article class="item"><h4>行程细节 3</h4><div class="detail">braies-三峰山（具体时间段抢8-12点最佳）(42km，1h)</div><div class="meta"><b>导航 / 核验：</b>Rifugio Auronzo八月中预约</div><div class="note"><b>备注：</b>1、三峰山【Rifugio Auronzo 】停车场40包天：<a href="https://auronzo.info/en/parking-tre-cime-di-lavaredo/#elementor-toc__heading-anchor-3" target="_blank" rel="noopener">https://auronzo.info/en/parking-tre-cime-di-lavaredo/#elementor-toc__heading-anchor-3</a><br>2、长短程都强烈建议【防滑鞋】！！<br>3、如果时间合适，我想两段都走下【第一段折返+魔戒】，如果时间来不及，就只走折返<br>4、如果两个湖都打卡的话，这一天需要早点出发</div></article><article class="item"><h4>行程细节 4</h4><div class="detail">徒步【4-5H】<br>1、经典逆时针环线全程10-12公里，约4h，可到山洞打卡点拍照原路折返，折返点有免费厕所和餐厅<br>2、魔戒之路：往返4KM，与环线反方向（1.5-2H)【路程短，传闻难度略大】</div></article><article class="item"><h4>行程细节 5</h4><div class="detail">三峰山-misurina(18min车程，景点没有关门时间)-badia</div></article><article class="item"><h4>行程细节 6</h4><div class="detail">返程-badia（50km 1.5H)</div><div class="meta"><b>导航 / 核验：</b>str.parvela,19,39036 abtei</div></article></div></section><section class="day" id="day-3"><div class="day-head"><div class="date">9月28日<small>2026-09-28</small></div><div><h3>badia民宿-刀锋山-休斯高原-badia
+【防滑鞋】</h4><div class="detail">建议8点出发，braies(57公里1-1.5h)，停车场10点就容易满了，停车15欧 </div><div class="meta"><b>导航 / 核验：</b>P3 - Parcheggio Lago di Braies，p4更近，但我谷歌搜不到</div><div class="note"><b>备注：</b>游船时间9-17：30，最佳拍摄时间9-11/16点后 避开正午</div></article><article class="item"><h4>行程细节 2</h4><div class="detail">游船45min(55欧，据说现金便宜5元，最多5人）</div></article><article class="item"><h4>行程细节 3</h4><div class="detail">braies-三峰山（具体时间段抢8-12点最佳）(42km，1h)</div><div class="meta"><b>导航 / 核验：</b><button type="button" class="copy-place copy-location" data-copy="Rifugio Auronzo" title="点击复制地点">Rifugio Auronzo</button>八月中预约</div><div class="note"><b>备注：</b>1、三峰山【Rifugio Auronzo 】停车场40包天：<a href="https://auronzo.info/en/parking-tre-cime-di-lavaredo/#elementor-toc__heading-anchor-3" target="_blank" rel="noopener">https://auronzo.info/en/parking-tre-cime-di-lavaredo/#elementor-toc__heading-anchor-3</a><br>2、长短程都强烈建议【防滑鞋】！！<br>3、如果时间合适，我想两段都走下【第一段折返+魔戒】，如果时间来不及，就只走折返<br>4、如果两个湖都打卡的话，这一天需要早点出发</div></article><article class="item"><h4>行程细节 4</h4><div class="detail">徒步【4-5H】<br>1、经典逆时针环线全程10-12公里，约4h，可到山洞打卡点拍照原路折返，折返点有免费厕所和餐厅<br>2、魔戒之路：往返4KM，与环线反方向（1.5-2H)【路程短，传闻难度略大】</div></article><article class="item"><h4>行程细节 5</h4><div class="detail">三峰山-misurina(18min车程，景点没有关门时间)-badia</div></article><article class="item"><h4>行程细节 6</h4><div class="detail">返程-badia（50km 1.5H)</div><div class="meta"><b>导航 / 核验：</b>str.parvela,19,39036 abtei</div></article><div class="day-guide-note"><b>景点描述：</b>布拉伊埃斯湖适合清晨观景和短途游船，三峰山则是当天主要徒步段；经典环线约 10—12 公里，魔戒之路是更短但路况变化更明显的替代线。<br><b>推荐建议：</b>建议 8:00 左右出发，先处理停车和湖区，再按体力选择环线或短线；三峰山停车预约、鞋底防滑、山顶风雪和徒步开放情况必须出发前复核。</div></div></section><section class="day" id="day-3"><div class="day-head"><div class="date">9月28日<small>2026-09-28</small></div><div><h3>badia民宿-<button type="button" class="copy-place copy-location" data-copy="Seceda" title="点击复制地点">刀锋山</button>-<button type="button" class="copy-place copy-location" data-copy="Alpe di Siusi" title="点击复制地点">休斯高原</button>-badia
 光线最佳原则上午去刀锋山
 休斯高原下山缆车17：00
 休斯高原9点前/17点后可以自驾上山
@@ -25,17 +106,17 @@ braise(9月15日后无需预约）
 光线最佳原则上午去刀锋山
 休斯高原下山缆车17：00
 休斯高原9点前/17点后可以自驾上山
-无徒步需求，经典打卡机位即可</h4><div class="detail">方案1【st.cristina小镇】缆车+徒步+开车<br>1、badia-col raiser(31km 50min) <br>2、col raiser缆车 往返€34/人 单程23<br>缆车+徒步【单程1.5-2H听着像塘朗山的难度】<br>3、col raiser-Ortisei(20min) 小镇游玩<br>4、休斯高原17点后可以自驾上山，P4免费距离远P2停车场要预约，€30/日，夜路+山路 山顶有餐厅   O-休斯P2（34min） <br><br>方案2【小红书常见版本】<br>1、Badia-Ortisei（50min)<br>2、Ortisei-Furnes-Seceda两段缆车 往返€74/人 山脊线游玩打卡<br>3、Ortisei-Alpe di Siusi（红缆车）往返€41/人 草甸游玩<br>or开车</div><div class="meta"><b>导航 / 核验：</b>1、【Seceda Cable Car】刀锋山官方停车场€5/时<br>2、Parkgarage Lift Ortisei - Alpe di Siusi ｜ 休斯高原缆车的停车场❗️往前走一点❗️露天停车场€10一天。从这里走到刀锋山缆车只需要过个桥走几分钟<br>3.休斯高原停车场 parcheggio P2 compaccio</div><div class="note"><b>备注：</b>1、交通票<br>【Gardena Card】加尔代纳三日通票€124/人，需要提前预约<br>【Supersummer Pass】一日€65/人 不包括Seceda ❗<br>棺材缆车<br>2、刀峰山临近山体的草坪要另外€5/人，可选</div></article><article class="item"><h4>行程细节 2</h4><div class="detail">返程：1.siusi-民宿（58km，1.5H)；2.Ortisei-民宿（37km，1H）</div><div class="meta"><b>导航 / 核验：</b>str.parvela,19,39036 abtei</div></article></div></section><section class="day" id="day-4"><div class="day-head"><div class="date">9月29日<small>2026-09-29</small></div><div><h3>多洛米蒂-威尼斯-威尼斯暴走-苏黎世</h3><div class="checkline"><label class="check"><input type="checkbox" data-check="day-4-0"><span>已核对 9月29日 行程、预约与天气</span></label></div></div></div><div class="items"><article class="item"><h4>多洛米蒂-威尼斯-威尼斯暴走-苏黎世</h4><div class="detail">1、出发到威尼斯【200km，3h】，外岛，建议住在外岛车站附近，上岛很方便</div><div class="meta"><b>导航 / 核验：</b>mestre stazione</div><div class="note"><b>备注：</b>游船有几类选择，水上巴士【公交】、包船【贡多拉】<br>房子应该不考虑坐船，没深度做这个攻略，如果有考虑坐船的，可以深度看下，有好些类型可选</div></article><article class="item"><h4>行程细节 2</h4><div class="detail">2、以圣马可广场【圣马可教堂】为核心，打卡几座桥，按顺序里亚托桥-学院桥（日落，课本机位）-叹息桥<br>其他：沉船书店、还有几个外岛，时间应该不够</div></article><article class="item"><h4>行程细节 3</h4><div class="detail">3、威尼斯-苏黎世【暂定三点多直达火车】，提前车站，注意站台编号，车上防盗攻略</div></article><article class="item"><h4>行程细节 4</h4><div class="detail">4、苏黎世火车总站，距离酒店5分钟路程</div></article></div></section><section class="day" id="day-5"><div class="day-head"><div class="date">9月30日<small>2026-09-30</small></div><div><h3>苏黎世-卢塞恩-瑞吉山-龙疆-卢塞恩</h3><div class="checkline"><label class="check"><input type="checkbox" data-check="day-5-0"><span>已核对 9月30日 行程、预约与天气</span></label></div></div></div><div class="items"><article class="item"><h4>苏黎世-卢塞恩-瑞吉山-龙疆-卢塞恩</h4><div class="detail">苏黎世城区打卡【6-7点出发】。苏黎世联邦理工大学【central ploybahn红色小火车，5分钟一趟，一站下车polyterrasse，车尾，上山坐右侧】-坐车/步行下山前往林登霍夫山（圣奥古斯丁巷）-班霍夫大街-苏黎世湖布尔克利广场【控制2小时，感受早晨的苏黎世】</div><div class="meta"><b>导航 / 核验：</b>小火车6:45开始营运，大学工作日6:00可以进入</div><div class="note"><b>备注：</b>stoos备选，从卢塞恩出发，往返约5-6小时</div></article><article class="item"><h4>行程细节 2</h4><div class="detail">酒店提取行李前往火车站，乘车去卢塞恩，40-50min一趟，车次很多，办理入住/卢塞恩火车站寄存行李【12瑞士法郎】</div><div class="meta"><b>导航 / 核验：</b>9点到达卢塞恩</div></article><article class="item"><h4>行程细节 3</h4><div class="detail">瑞吉山：卢塞恩1号码头🚢vitznau下船【1小时，早点排队下船，去坐火车】，红色齿轮火车登顶【左侧】rigi kulm【半小时】，游玩时间约2小时，下山火车🚄/徒步到rigi kaltbad【十分钟】。缆车🚠（车头方向）weggis【十分钟】，🚢luzern（50分钟）。</div><div class="meta"><b>导航 / 核验：</b>合计约5小时，2点到达车站</div></article><article class="item"><h4>行程细节 4</h4><div class="detail">龙疆。卢塞恩过去40-50分钟【坐右边！！PE黄金列车】，几个经典机位打卡【s型马路、教堂】，游玩时间2-3小时</div><div class="meta"><b>导航 / 核验：</b>Mülibachersträssli 40</div></article><article class="item"><h4>行程细节 5</h4><div class="detail">回卢塞恩市区，市区citywalk，购物攻略待解锁</div><div class="meta"><b>导航 / 核验：</b>Bollina-Schneider老爷爷纪念品店、土拨鼠油</div></article></div></section><section class="day" id="day-6"><div class="day-head"><div class="date">10月1日<small>2026-10-01</small></div><div><h3>卢塞恩-因特拉肯/格林德瓦-少女峰-劳特布伦嫩-梦幻山坡-因特拉肯/格林德瓦
+无徒步需求，经典打卡机位即可</h4><div class="detail">方案1【st.cristina小镇】缆车+徒步+开车<br>1、badia-<button type="button" class="copy-place copy-location" data-copy="Col Raiser cable car" title="点击复制地点">col raiser</button>(31km 50min) <br>2、col raiser缆车 往返€34/人 单程23<br>缆车+徒步【单程1.5-2H听着像塘朗山的难度】<br>3、col raiser-<button type="button" class="copy-place copy-location" data-copy="Ortisei" title="点击复制地点">Ortisei</button>(20min) 小镇游玩<br>4、休斯高原17点后可以自驾上山，P4免费距离远P2停车场要预约，€30/日，夜路+山路 山顶有餐厅   O-休斯P2（34min） <br><br>方案2【小红书常见版本】<br>1、Badia-Ortisei（50min)<br>2、Ortisei-Furnes-Seceda两段缆车 往返€74/人 山脊线游玩打卡<br>3、Ortisei-Alpe di Siusi（红缆车）往返€41/人 草甸游玩<br>or开车</div><div class="meta"><b>导航 / 核验：</b>1、【Seceda Cable Car】刀锋山官方停车场€5/时<br>2、Parkgarage Lift Ortisei - Alpe di Siusi ｜ 休斯高原缆车的停车场❗️往前走一点❗️露天停车场€10一天。从这里走到刀锋山缆车只需要过个桥走几分钟<br>3.休斯高原停车场 parcheggio P2 compaccio</div><div class="note"><b>备注：</b>1、交通票<br>【Gardena Card】加尔代纳三日通票€124/人，需要提前预约<br>【Supersummer Pass】一日€65/人 不包括Seceda ❗<br>棺材缆车<br>2、刀峰山临近山体的草坪要另外€5/人，可选</div></article><article class="item"><h4>行程细节 2</h4><div class="detail">返程：1.siusi-民宿（58km，1.5H)；2.Ortisei-民宿（37km，1H）</div><div class="meta"><b>导航 / 核验：</b>str.parvela,19,39036 abtei</div></article><div class="day-guide-note"><b>景点描述：</b>刀锋山 / Seceda 适合利用上午光线看山脊线，休斯高原 / Alpe di Siusi 更偏开阔草甸与高原景观；两处都值得去，但同日叠加缆车、徒步和山路驾驶会明显增加压力。<br><b>推荐建议：</b>优先确定一套主方案：Col Raiser—Seceda 或 Ortisei—Seceda，再视时间和天气增加高原；休斯高原自驾、P2 停车、缆车末班与夜路风险均属于待核验项。</div></div></section><section class="day" id="day-4"><div class="day-head"><div class="date">9月29日<small>2026-09-29</small></div><div><h3>多洛米蒂-<button type="button" class="copy-place copy-location" data-copy="Venezia / Venice" title="点击复制地点">威尼斯</button>-威尼斯暴走-<button type="button" class="copy-place copy-location" data-copy="Zürich" title="点击复制地点">苏黎世</button></h3><div class="checkline"><label class="check"><input type="checkbox" data-check="day-4-0"><span>已核对 9月29日 行程、预约与天气</span></label></div></div></div><div class="items"><article class="item"><h4>多洛米蒂-威尼斯-威尼斯暴走-苏黎世</h4><div class="detail">1、出发到威尼斯【200km，3h】，外岛，建议住在外岛车站附近，上岛很方便</div><div class="meta"><b>导航 / 核验：</b><button type="button" class="copy-place copy-location" data-copy="Venezia Mestre Railway Station" title="点击复制地点">mestre stazione</button></div><div class="note"><b>备注：</b>游船有几类选择，水上巴士【公交】、包船【贡多拉】<br>房子应该不考虑坐船，没深度做这个攻略，如果有考虑坐船的，可以深度看下，有好些类型可选</div></article><article class="item"><h4>行程细节 2</h4><div class="detail">2、以<button type="button" class="copy-place copy-location" data-copy="Piazza San Marco" title="点击复制地点">圣马可广场</button>【<button type="button" class="copy-place copy-location" data-copy="Basilica di San Marco" title="点击复制地点">圣马可教堂</button>】为核心，打卡几座桥，按顺序<button type="button" class="copy-place copy-location" data-copy="Rialto Bridge" title="点击复制地点">里亚托桥</button>-<button type="button" class="copy-place copy-location" data-copy="Ponte dell'Accademia" title="点击复制地点">学院桥</button>（日落，课本机位）-<button type="button" class="copy-place copy-location" data-copy="Bridge of Sighs" title="点击复制地点">叹息桥</button><br>其他：沉船书店、还有几个外岛，时间应该不够</div></article><article class="item"><h4>行程细节 3</h4><div class="detail">3、威尼斯-苏黎世【暂定三点多直达火车】，提前车站，注意站台编号，车上防盗攻略</div></article><article class="item"><h4>行程细节 4</h4><div class="detail">4、苏黎世火车总站，距离酒店5分钟路程</div></article><div class="day-guide-note"><b>景点描述：</b>威尼斯主岛以圣马可广场为核心，里亚托桥、学院桥和叹息桥组成紧凑的步行观景线；当天后段还要转乘直达苏黎世的火车，属于高密度移动日。<br><b>推荐建议：</b>优先完成圣马可—里亚托—学院桥，不把沉船书店和外岛强行塞入主线；提前确认车站、站台和行李防盗，火车晚点时先保住跨城移动。</div></div></section><section class="day" id="day-5"><div class="day-head"><div class="date">9月30日<small>2026-09-30</small></div><div><h3>苏黎世-<button type="button" class="copy-place copy-location" data-copy="Luzern / Lucerne" title="点击复制地点">卢塞恩</button>-<button type="button" class="copy-place copy-location" data-copy="Mount Rigi" title="点击复制地点">瑞吉山</button>-<button type="button" class="copy-place copy-location" data-copy="Lungern" title="点击复制地点">龙疆</button>-卢塞恩</h3><div class="checkline"><label class="check"><input type="checkbox" data-check="day-5-0"><span>已核对 9月30日 行程、预约与天气</span></label></div></div></div><div class="items"><article class="item"><h4>苏黎世-卢塞恩-瑞吉山-龙疆-卢塞恩</h4><div class="detail">苏黎世城区打卡【6-7点出发】。<button type="button" class="copy-place copy-location" data-copy="ETH Zürich" title="点击复制地点">苏黎世联邦理工大学</button>【central ploybahn红色小火车，5分钟一趟，一站下车polyterrasse，车尾，上山坐右侧】-坐车/步行下山前往<button type="button" class="copy-place copy-location" data-copy="Lindenhof" title="点击复制地点">林登霍夫山</button>（圣奥古斯丁巷）-<button type="button" class="copy-place copy-location" data-copy="Bahnhofstrasse" title="点击复制地点">班霍夫大街</button>-<button type="button" class="copy-place copy-location" data-copy="Lake Zürich" title="点击复制地点">苏黎世湖</button>布尔克利广场【控制2小时，感受早晨的苏黎世】</div><div class="meta"><b>导航 / 核验：</b>小火车6:45开始营运，大学工作日6:00可以进入</div><div class="note"><b>备注：</b>stoos备选，从卢塞恩出发，往返约5-6小时</div></article><article class="item"><h4>行程细节 2</h4><div class="detail">酒店提取行李前往火车站，乘车去卢塞恩，40-50min一趟，车次很多，办理入住/卢塞恩火车站寄存行李【12瑞士法郎】</div><div class="meta"><b>导航 / 核验：</b>9点到达卢塞恩</div></article><article class="item"><h4>行程细节 3</h4><div class="detail">瑞吉山：卢塞恩1号码头🚢<button type="button" class="copy-place copy-location" data-copy="Vitznau" title="点击复制地点">vitznau</button>下船【1小时，早点排队下船，去坐火车】，红色齿轮火车登顶【左侧】<button type="button" class="copy-place copy-location" data-copy="Rigi Kulm" title="点击复制地点">rigi kulm</button>【半小时】，游玩时间约2小时，下山火车🚄/徒步到rigi kaltbad【十分钟】。缆车🚠（车头方向）<button type="button" class="copy-place copy-location" data-copy="Weggis" title="点击复制地点">weggis</button>【十分钟】，🚢luzern（50分钟）。</div><div class="meta"><b>导航 / 核验：</b>合计约5小时，2点到达车站</div></article><article class="item"><h4>行程细节 4</h4><div class="detail">龙疆。卢塞恩过去40-50分钟【坐右边！！PE黄金列车】，几个经典机位打卡【s型马路、教堂】，游玩时间2-3小时</div><div class="meta"><b>导航 / 核验：</b>Mülibachersträssli 40</div></article><article class="item"><h4>行程细节 5</h4><div class="detail">回卢塞恩市区，市区citywalk，购物攻略待解锁</div><div class="meta"><b>导航 / 核验：</b>Bollina-Schneider老爷爷纪念品店、土拨鼠油</div></article><div class="day-guide-note"><b>景点描述：</b>苏黎世清晨城市线适合快速感受联邦理工、林登霍夫山、班霍夫大街和苏黎世湖；卢塞恩—瑞吉山通过船、齿轨火车和缆车形成完整体验，龙疆适合作为下午的湖区小镇补充。<br><b>推荐建议：</b>苏黎世控制在约 2 小时，先办理卢塞恩行李寄存再上瑞吉山；如果船班或天气不理想，优先保留卢塞恩老城，龙疆作为可删减段。</div></div></section><section class="day" id="day-6"><div class="day-head"><div class="date">10月1日<small>2026-10-01</small></div><div><h3>卢塞恩-因特拉肯/<button type="button" class="copy-place copy-location" data-copy="Grindelwald 格林德瓦">格林德瓦</button>-<button type="button" class="copy-place copy-location" data-copy="Jungfraujoch 少女峰">少女峰</button>-<button type="button" class="copy-place copy-location" data-copy="Lauterbrunnen 劳特布伦嫩">劳特布伦嫩</button>-梦幻山坡-因特拉肯/格林德瓦
 【天气】</h3><div class="checkline"><label class="check"><input type="checkbox" data-check="day-6-0"><span>已核对 10月1日 行程、预约与天气</span></label></div></div></div><div class="items"><article class="item"><h4>卢塞恩-因特拉肯/格林德瓦-少女峰-劳特布伦嫩-梦幻山坡-因特拉肯/格林德瓦
-【天气】</h4><div class="detail">卢塞恩-因特拉肯【2小时】/卢塞恩-格林德瓦【2.5h】【坐右侧】，办理入住</div><div class="meta"><b>导航 / 核验：</b>6:06/7:06/8:06班次，8:40/9:40/10:40到达</div></article><article class="item"><h4>行程细节 2</h4><div class="detail">方案1，好天气，艾格快线登顶少女峰<br>1、山脚-山顶【预估1小时】。主要车站【Grindelwald terminal】,🚠15分钟Terminal-Eigergletscher，齿轨火车🚄26分钟Eigergletsche-Jungfraujoch，中途Eismeer短暂停靠，可下车透过观景窗打卡<br>2、山顶项目【预估2小时】。冰宫、斯芬克斯观景台【电梯上】、观景台（先楼梯上去和国旗合照）、巧克力体验馆【山顶观景台旁有个小小徒步路线，可以去走走】<br>3、山顶-小夏戴克-文根-米伦-劳特布伦嫩【预估3.5小时】<br>--山顶-小夏戴克【半小时】，徒步30分钟往返到fallbodensee<br>--小夏戴克-文根【火车半小时，徒步约2小时来不及，选择火车】，文根小镇游玩【约半小时-1小时】<br>--文根-劳特布伦嫩-米伦【40-50分钟】。文根-劳特布伦嫩🚠15分钟，劳特布龙嫩-Grütschalp-米伦Mürren BLM站（缆车+火车）约 20-25 分钟。【左手边】<br>--米伦-吉梅尔瓦尔德【徒步1小时】。从 Mürren BLM 站出来向左走，沿路标前往 Gimmelwald。这是一条全程下坡的轻松徒步路线，约3公里<br>--吉梅尔瓦尔德-施特歇尔贝格（🚠约 5 分钟）-劳特布龙嫩（巴士约 12-18 分钟，下缆车后换乘 141路邮政巴士（约30分钟一班）【合计半小时】<br>4、劳特布伦嫩瀑布打卡半小时<br>5、返回格林德瓦【50分钟】</div><div class="meta"><b>导航 / 核验：</b>1、官网买票，包含往返路线，需要增加10瑞法预订费用<br>2、原价260瑞法，stp75折189瑞法<br>3、酒店在格林德瓦的话，在这个车站上车也行，就是多半小时</div></article><article class="item"><h4>行程细节 3</h4><div class="detail">如果天气不好，不登顶，选择小夏戴克-文根-米伦-劳特布伦嫩路线，增加布里恩茨游船</div></article></div></section><section class="day" id="day-7"><div class="day-head"><div class="date">10月2日<small>2026-10-02</small></div><div><h3>格林德瓦-first-施皮茨-采马尔特</h3><div class="checkline"><label class="check"><input type="checkbox" data-check="day-7-0"><span>已核对 10月2日 行程、预约与天气</span></label></div></div></div><div class="items"><article class="item"><h4>格林德瓦-first-施皮茨-采马尔特</h4><div class="detail">first山【合计4小时】【半价】<br>8点缆车运行，可以直接去山顶【缆车25分钟】徒步到湖边，预估徒步时间往返2小时。9点项目开始运营，飞鹰和飞椅都可以玩，优先飞鹰，飞椅排队人多就放弃。卡丁车和滑板车均放弃</div><div class="meta"><b>导航 / 核验：</b>都建议先玩项目在徒步（项目排队人多）<br>考虑到下山安排和合理时间规划，根据上山时间规划先徒步再做项目还是先做项目再徒步</div></article><article class="item"><h4>行程细节 2</h4><div class="detail">下山后拿行李前往施皮茨【火车约1小时】，车站寄存行李，5瑞法，也可以隔壁餐厅吃饭寄存，约20瑞法</div></article><article class="item"><h4>行程细节 3</h4><div class="detail">游湖体验一次【左去图恩40分钟，右去因特拉肯西1小时出头】，根据最近游船时间选择，小镇浅逛，合计2小时</div></article><article class="item"><h4>行程细节 4</h4><div class="detail">前往采尔马特，【火车2小时】，入住 逛街，Zermatt Matterhorn Viewpoint (Mürini)观景平台【19点蓝调时刻，很美】</div></article></div>
+【天气】</h4><div class="detail">卢塞恩-因特拉肯【2小时】/卢塞恩-格林德瓦【2.5h】【坐右侧】，办理入住</div><div class="meta"><b>导航 / 核验：</b>6:06/7:06/8:06班次，8:40/9:40/10:40到达</div></article><article class="item"><h4>行程细节 2</h4><div class="detail">方案1，好天气，艾格快线登顶少女峰<br>1、山脚-山顶【预估1小时】。主要车站【<button type="button" class="copy-place copy-location" data-copy="Grindelwald Terminal">Grindelwald terminal</button>】,🚠15分钟<button type="button" class="copy-place copy-location" data-copy="Terminal Eigergletscher">Terminal-Eigergletscher</button>，齿轨火车🚄26分钟<button type="button" class="copy-place copy-location" data-copy="Eigergletscher–Jungfraujoch">Eigergletsche-Jungfraujoch</button>，中途<button type="button" class="copy-place copy-location" data-copy="Eismeer">Eismeer</button>短暂停靠，可下车透过观景窗打卡<br>2、山顶项目【预估2小时】。冰宫、斯芬克斯观景台【电梯上】、观景台（先楼梯上去和国旗合照）、巧克力体验馆【山顶观景台旁有个小小徒步路线，可以去走走】<br>3、山顶-<button type="button" class="copy-place copy-location" data-copy="Kleine Scheidegg 小夏戴克">小夏戴克</button>-<button type="button" class="copy-place copy-location" data-copy="Wengen 文根">文根</button>-<button type="button" class="copy-place copy-location" data-copy="Mürren 米伦">米伦</button>-劳特布伦嫩【预估3.5小时】<br>--山顶-小夏戴克【半小时】，徒步30分钟往返到<button type="button" class="copy-place copy-location" data-copy="Fallbodensee">fallbodensee</button><br>--小夏戴克-文根【火车半小时，徒步约2小时来不及，选择火车】，文根小镇游玩【约半小时-1小时】<br>--文根-劳特布伦嫩-米伦【40-50分钟】。文根-劳特布伦嫩🚠15分钟，劳特布龙嫩-<button type="button" class="copy-place copy-location" data-copy="Grütschalp">Grütschalp</button>-米伦Mürren BLM站（缆车+火车）约 20-25 分钟。【左手边】<br>--米伦-吉梅尔瓦尔德【徒步1小时】。从 Mürren BLM 站出来向左走，沿路标前往 <button type="button" class="copy-place copy-location" data-copy="Gimmelwald">Gimmelwald</button>。这是一条全程下坡的轻松徒步路线，约3公里<br>--吉梅尔瓦尔德-<button type="button" class="copy-place copy-location" data-copy="Stechelberg 施特歇尔贝格">施特歇尔贝格</button>（🚠约 5 分钟）-劳特布龙嫩（巴士约 12-18 分钟，下缆车后换乘 141路邮政巴士（约30分钟一班）【合计半小时】<br>4、劳特布伦嫩瀑布打卡半小时<br>5、返回格林德瓦【50分钟】</div><div class="meta"><b>导航 / 核验：</b>1、官网买票，包含往返路线，需要增加10瑞法预订费用<br>2、原价260瑞法，stp75折189瑞法<br>3、酒店在格林德瓦的话，在这个车站上车也行，就是多半小时</div></article><article class="item"><h4>行程细节 3</h4><div class="detail">如果天气不好，不登顶，选择小夏戴克-文根-米伦-劳特布伦嫩路线，增加<button type="button" class="copy-place copy-location" data-copy="Lake Brienz cruise" title="点击复制地点">布里恩茨游船</button></div></article><div class="day-guide-note"><b>景点描述：</b>少女峰是高海拔冰雪与观景台体验，文根、米伦、吉梅尔瓦尔德和劳特布伦嫩则是山谷与村镇线；好天气时景观完整，但山顶—村镇—瀑布的衔接很容易超时。<br><b>推荐建议：</b>好天气执行艾格快线登顶方案；云量、风雪或交通不稳时，改走小夏戴克—文根—米伦—劳特布伦嫩，并把布里恩茨游船作为替代，不要同时追完所有支线。</div></div></section><section class="day" id="day-7"><div class="day-head"><div class="date">10月2日<small>2026-10-02</small></div><div><h3>格林德瓦-first-<button type="button" class="copy-place copy-location" data-copy="Spiez" title="点击复制地点">施皮茨</button>-采马尔特</h3><div class="checkline"><label class="check"><input type="checkbox" data-check="day-7-0"><span>已核对 10月2日 行程、预约与天气</span></label></div></div></div><div class="items"><article class="item"><h4>格林德瓦-first-施皮茨-采马尔特</h4><div class="detail"><button type="button" class="copy-place copy-location" data-copy="First" title="点击复制地点">first山</button>【合计4小时】【半价】<br>8点缆车运行，可以直接去山顶【缆车25分钟】徒步到湖边，预估徒步时间往返2小时。9点项目开始运营，飞鹰和飞椅都可以玩，优先飞鹰，飞椅排队人多就放弃。卡丁车和滑板车均放弃</div><div class="meta"><b>导航 / 核验：</b>都建议先玩项目在徒步（项目排队人多）<br>考虑到下山安排和合理时间规划，根据上山时间规划先徒步再做项目还是先做项目再徒步</div></article><article class="item"><h4>行程细节 2</h4><div class="detail">下山后拿行李前往施皮茨【火车约1小时】，车站寄存行李，5瑞法，也可以隔壁餐厅吃饭寄存，约20瑞法</div></article><article class="item"><h4>行程细节 3</h4><div class="detail">游湖体验一次【左去图恩40分钟，右去因特拉肯西1小时出头】，根据最近游船时间选择，小镇浅逛，合计2小时</div></article><article class="item"><h4>行程细节 4</h4><div class="detail">前往<button type="button" class="copy-place copy-location" data-copy="Zermatt" title="点击复制地点">采尔马特</button>，【火车2小时】，入住 逛街，<button type="button" class="copy-place copy-location" data-copy="Zermatt Matterhorn Viewpoint Mürini" title="点击复制地点">Zermatt Matterhorn Viewpoint (Mürini)</button>观景平台【19点蓝调时刻，很美】</div></article><div class="day-guide-note"><b>景点描述：</b>First 的湖边徒步是当天主要自然体验，施皮茨适合短暂看湖景和城堡，晚上到采尔马特可安排低强度街区散步与 Matterhorn Viewpoint 蓝调时刻。<br><b>推荐建议：</b>优先保证 8:00 左右上 First 缆车和湖边徒步；施皮茨只做短停留，若天气、行李寄存或火车衔接不理想，可直接前往采尔马特，避免把最后一段变成赶车。</div></div>
 </section></div></section><section id="transport-section"><h2>五、交通、预约与费用摘要</h2><div class="cards"><div class="card"><h3>自驾段</h3><ul><li>米兰取车：表内为 9:30 左右到租车店，地址为 Piazzale Stazione Genova, 2。</li><li>米兰—卡雷扎湖约 323 km / 3.5—4 h；卡雷扎湖—富内斯约 62 km / 1—1.5 h。</li><li>多洛米蒂停车：卡雷扎湖约 €3/小时；富内斯相关停车约 €10—15；三峰山停车约 €40/天。</li><li>保留原表的租车、停车、山路和夜路风险，出发前确认跨境与异地还车条件。</li></ul></div><div class="card"><h3>山地交通</h3><ul><li>Braies 游船：表内约 45 分钟、€55，最多 5 人；时间约 9:00—17:30。</li><li>Col Raiser 往返约 €34；Seceda / Alpe di Siusi 票价按原表保留，Gardena Card 约 €124/3日。</li><li>少女峰：原表记录原价约 CHF 260、折扣参考 CHF 189，另有 CHF 10 预订费用；需以官网当日票价为准。</li><li>瑞吉山、瑞士游船与缆车需按当天班次衔接，天气差时优先执行低风险替代线。</li></ul></div><div class="card"><h3>城市与博物馆</h3><ul><li>米兰大教堂官方购票链接已保留，原表建议电梯通票 combo lift。</li><li>威尼斯水上巴士 / 贡多拉为不同体验，是否乘船不在原计划中确定。</li><li>奥赛、橘园、卢浮宫均有预约要求；原表标注巴黎为免票日 / 需预约，须出发前再次核对。</li><li>巴黎返程：14:00 航班，原表建议最晚 11:30 从市区出发，RER B 约 40—60 分钟。</li></ul></div></div></section>
-<section id="recommendations-section"><h2>六、行程外推荐与吃喝备忘</h2><div class="cards"><div class="card"><h3>当地美食推荐（按城市）</h3><ul><li><b>米兰 Navigli 运河区</b>：适合抵达日低强度 aperitivo；推荐理由是顺路、晚间氛围好，具体店铺需按住宿点再选。</li><li><b>威尼斯圣马可—里亚托桥一带</b>：适合安排 cicchetti / 海鲜小食；推荐理由是与主线步行路线重合，避免额外折返。</li><li><b>瑞士卢塞恩老城与车站周边</b>：适合长日往返后快速用餐；推荐理由是交通节点集中，便于控制节奏。</li><li><b>巴黎奥赛—塞纳河沿线</b>：适合博物馆日午餐或晚餐；推荐理由是与原计划的步行段相邻。</li></ul><p class="small">店名、营业时间与排队情况未在 Excel 中明确，不把菜名或泛称写成确定店铺；出发前可再补充具体店名。</p></div><div class="card"><h3>其他行程外地点推荐</h3><ul><li><b>威尼斯沉船书店</b>：原表提到但未纳入主线，适合作为圣马可区域的替代点。</li><li><b>威尼斯外岛</b>：如果放弃贡多拉或主岛节奏较快，可作为半日替代，但需核对船班。</li><li><b>Stoos</b>：原表列为从卢塞恩出发约 5—6 小时备选，适合瑞吉山因天气 / 交通不合适时替换。</li><li><b>布里恩茨游船</b>：少女峰天气不好时可加入“文根—米伦—劳特布伦嫩”替代线。</li></ul></div><div class="card"><h3>特产 / 伴手礼</h3><ul><li><b>米兰大教堂 / 威尼斯主岛纪念品店</b>：适合购买城市纪念品，建议最后确认行李空间。</li><li><b>瑞士卢塞恩老城</b>：原表提到 Bollina-Schneider 老爷爷纪念品店、土拨鼠油，保留为待核验购物线索。</li><li><b>瑞士巧克力</b>：少女峰山顶有巧克力体验馆，适合与景点合并，不必单独绕路。</li><li><b>巴黎博物馆与书店周边</b>：可购买展览 / 书店类纪念品，优先安排在返程前一日。</li></ul></div></div></section>
+<section id="recommendations-section"><h2>六、行程外推荐与吃喝备忘</h2><div class="cards"><div class="card"><h3>当地美食推荐（包含吃喝）</h3><ul class="recommendation-list"><li><button type="button" class="copy-place" data-copy="Luini Milano">Luini Milano</button>：米兰大教堂附近的便携小吃店，适合城市中心午餐或抵达后快速补充体力。<span class="recommendation-reason">推荐原因：与大教堂—二世长廊主线距离近，不需要额外绕路；排队和营业状态出发前核验。</span></li><li><button type="button" class="copy-place" data-copy="Pavè Milano">Pavè Milano</button>：适合早餐、咖啡和面包甜点。<span class="recommendation-reason">推荐原因：比正式正餐更适合早起取车或城市步行日，建议按当天住宿位置选择门店。</span></li><li><button type="button" class="copy-place" data-copy="Cantine del Vino già Schiavi Venezia">Cantine del Vino già Schiavi Venezia</button>：威尼斯 Dorsoduro 一带的 cicchetti / 小食酒馆。<span class="recommendation-reason">推荐原因：适合把小食安排进学院桥或运河步行段；位置和营业时间需在出发前复核。</span></li><li><button type="button" class="copy-place" data-copy="Max Chocolatier Luzern">Max Chocolatier Luzern</button>：卢塞恩老城巧克力店，适合购买小份巧克力或作为返程伴手礼。<span class="recommendation-reason">推荐原因：老城步行可达，适合瑞吉山 / 龙疆返回后的低强度补给；库存和营业时间待核验。</span></li><li><button type="button" class="copy-place" data-copy="Bouillon Chartier Montparnasse">Bouillon Chartier Montparnasse</button>：巴黎传统平价餐厅选择。<span class="recommendation-reason">推荐原因：返程前一日比临时寻找餐厅更容易控制预算；是否顺路取决于当天博物馆和住宿位置。</span></li></ul><p class="small">以上为具体店名或可导航地点，推荐理由基于主线顺路性、用餐节奏和替代价值；排队、营业、菜单、价格和临时闭店出发前再次核验。</p></div><div class="card"><h3>其他行程外地点推荐（含替代景点）</h3><ul class="recommendation-list"><li><button type="button" class="copy-place" data-copy="Libreria Acqua Alta Venezia">Libreria Acqua Alta Venezia</button>：威尼斯沉船书店。<span class="recommendation-reason">推荐原因：可接在圣马可区域步行线后，适合作为半小时至一小时的特色室内点；不建议为它单独跨岛。</span></li><li><button type="button" class="copy-place" data-copy="Murano Burano Venezia">Murano / Burano</button>：威尼斯外岛替代线。<span class="recommendation-reason">推荐原因：如果放弃贡多拉或主岛行程节奏较快，可替换半日；船班和回程缓冲必须先确认。</span></li><li><button type="button" class="copy-place" data-copy="Stoos Switzerland">Stoos</button>：卢塞恩周边山地替代点。<span class="recommendation-reason">推荐原因：瑞吉山因天气或船班不合适时可替代山地体验，但往返约 5—6 小时，不适合与龙疆同日叠加。</span></li><li><button type="button" class="copy-place" data-copy="Lake Brienz Switzerland">Lake Brienz / 布里恩茨游船</button>：少女峰区域天气一般时的低强度替代。<span class="recommendation-reason">推荐原因：比登顶高海拔项目更容易根据天气调整，适合替换少女峰方案中的一段；船班以官方时刻为准。</span></li><li><button type="button" class="copy-place" data-copy="Uetliberg Zurich">Uetliberg 苏黎世于特利山</button>：苏黎世城区外的城市观景替代。<span class="recommendation-reason">推荐原因：如果清晨城区线已完成且天气良好，可替代部分购物时间；不要与瑞吉山、龙疆重复安排。</span></li></ul><p class="small">行程外地点均需绑定到具体半天或替换某一段执行；如果没有稳定交通窗口，仅作为灵感保留，不建议硬塞进本次路线。</p></div><div class="card"><h3>特产 / 伴手礼推荐</h3><ul class="recommendation-list"><li><button type="button" class="copy-place" data-copy="Peck Milano">Peck Milano</button>：米兰熟食、咖啡和包装食品。<span class="recommendation-reason">推荐原因：地点明确、适合购买体积可控的食品类伴手礼；最后购买并确认保质期和行李空间。</span></li><li><button type="button" class="copy-place" data-copy="Eataly Milano Smeraldo">Eataly Milano Smeraldo</button>：意大利食品和礼盒选择。<span class="recommendation-reason">推荐原因：适合把橄榄油、咖啡、巧克力等分散采购集中处理；门店库存和营业时间待核验。</span></li><li><button type="button" class="copy-place" data-copy="Läderach Luzern">Läderach Luzern</button>：瑞士巧克力。<span class="recommendation-reason">推荐原因：购买方便、包装适合带回，建议安排在卢塞恩老城或返程前；注意高温和行李保护。</span></li><li><button type="button" class="copy-place" data-copy="Bollina-Schneider Luzern">Bollina-Schneider Luzern</button>：原表提到的老爷爷纪念品店 / 土拨鼠油线索。<span class="recommendation-reason">推荐原因：属于原始表格中的具体购物线索，保留但不替你确认库存、价格或是否仍营业。</span></li><li><button type="button" class="copy-place" data-copy="Fragonard Paris">Fragonard Paris</button>：香水和法国礼品。<span class="recommendation-reason">推荐原因：适合返程前集中购买轻便伴手礼；具体门店与退税规则按当天路线核验。</span></li></ul><p class="small">商品价格、库存、液体携带、退税和门店状态均属于动态信息；以上地点名称可点击复制到地图或搜索框。</p></div></div></section>
 <section id="gallery-section"><h2>七、Excel 内嵌图片</h2><div class="gallery"><img src="workbook-image-1.png" alt="Excel 内嵌图片 1" onclick="this.classList.toggle('zoom')"><img src="workbook-image-2.png" alt="Excel 内嵌图片 2" onclick="this.classList.toggle('zoom')"><img src="workbook-image-3.png" alt="Excel 内嵌图片 3" onclick="this.classList.toggle('zoom')"><img src="workbook-image-4.png" alt="Excel 内嵌图片 4" onclick="this.classList.toggle('zoom')"></div><p class="small">图片直接从原 Excel 提取，未上传到外部平台；网页与图片需放在同一目录，图片路径保持相对路径。</p></section>
-<section id="checklist-section"><h2>八、出发前核验清单</h2><div class="panel"><label class="check" style="display:block;margin:8px 0"><input type="checkbox" data-check="final-0"><span>护照、签证 / 入境材料与保险</span></label><label class="check" style="display:block;margin:8px 0"><input type="checkbox" data-check="final-1"><span>米兰租车、驾照 / 公证件、跨境与异地还车规则</span></label><label class="check" style="display:block;margin:8px 0"><input type="checkbox" data-check="final-2"><span>多洛米蒂山路、缆车、停车场与三峰山预约</span></label><label class="check" style="display:block;margin:8px 0"><input type="checkbox" data-check="final-3"><span>Braies 游船、少女峰、瑞吉山、First / 采尔马特交通票</span></label><label class="check" style="display:block;margin:8px 0"><input type="checkbox" data-check="final-4"><span>威尼斯—苏黎世、巴塞尔—巴黎火车班次与站台</span></label><label class="check" style="display:block;margin:8px 0"><input type="checkbox" data-check="final-5"><span>奥赛、橘园、卢浮宫预约及免票日规则</span></label><label class="check" style="display:block;margin:8px 0"><input type="checkbox" data-check="final-6"><span>巴黎防盗、机场 RER B 终点方向和返程缓冲时间</span></label><label class="check" style="display:block;margin:8px 0"><input type="checkbox" data-check="final-7"><span>所有动态价格、汇率、营业时间和天气</span></label></div></section>
-<section id="exchange-section"><h2>九、汇率说明</h2><div class="panel"><p>本页保留原表中的 EUR / CHF 原币金额，不把动态价格伪装成固定人民币预算。参考 ECB 2026-07-28 页面：1 EUR≈RMB 7.6969，1 EUR≈CHF 0.9319，折算得到 1 CHF≈RMB 8.26；仅作粗略估算。</p><p>换算公式：<b>EUR × 7.6969 ≈ RMB</b>；<b>CHF × 8.26 ≈ RMB</b>。实际刷卡汇率、现金兑换、银行手续费、商户结算和票价变化可能不同，出发前必须更新。</p><p class="source">汇率来源：<a href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html" target="_blank" rel="noopener">ECB Euro foreign exchange reference rates</a>，查询参考日 2026-07-28。</p></div></section>
-<section id="sources-section"><h2>十、研究来源摘要</h2><div class="panel"><p>主要来源为用户提供的 Excel：<b>意瑞法9.25-1006(1).xlsx</b>。本页逐项保留原表信息；外部动态信息只作为出发前核验提示。</p><p>小红书研究：现有记录仅能确认搜索结果返回 20 篇候选笔记，未留下可核验的“成功打开并读取”篇数。本次页面优化未重新检索，因此不把候选数量写成已读取数量，也不将搜索摘要当作已核验事实。</p><p class="source">小红书入口：<a href="https://www.xiaohongshu.com/search_result?keyword=%E6%84%8F%E7%91%9E%E6%B3%959.25-10.06%E8%87%AA%E9%A9%BE%E6%94%BB%E7%95%A5" target="_blank" rel="noopener">打开搜索结果</a>。评论与开放状态可能受登录和页面限制影响。</p></div></section>
+<section id="checklist-section"><h2>八、出发前核验清单</h2><div class="panel" data-checklist="italy-switzerland-france-2026" data-editable="true"><div data-checklist-items><label class="check guide-checklist-item"><input type="checkbox" data-check="final-0"><span data-check-label>护照、签证 / 入境材料与保险</span></label><label class="check guide-checklist-item"><input type="checkbox" data-check="final-1"><span data-check-label>米兰租车、驾照 / 公证件、跨境与异地还车规则</span></label><label class="check guide-checklist-item"><input type="checkbox" data-check="final-2"><span data-check-label>多洛米蒂山路、缆车、停车场与三峰山预约</span></label><label class="check guide-checklist-item"><input type="checkbox" data-check="final-3"><span data-check-label>Braies 游船、少女峰、瑞吉山、First / 采尔马特交通票</span></label><label class="check guide-checklist-item"><input type="checkbox" data-check="final-4"><span data-check-label>威尼斯—苏黎世、巴塞尔—巴黎火车班次与站台</span></label><label class="check guide-checklist-item"><input type="checkbox" data-check="final-5"><span data-check-label>奥赛、橘园、卢浮宫预约及免票日规则</span></label><label class="check guide-checklist-item"><input type="checkbox" data-check="final-6"><span data-check-label>巴黎防盗、机场 RER B 终点方向和返程缓冲时间</span></label><div class="weather-check"><label class="check guide-checklist-item"><input type="checkbox" data-check="final-7"><span data-check-label>临近出发刷新天气，并以道路、缆车、铁路及航空官方公告为准。</span></label><div class="weather-card" data-weather-tool><div class="weather-head"><div><h3>出发前 7 天：天气查询</h3><p>预报窗口开启后可手动刷新。表内用于判断山地、徒步与跨城安排；道路、缆车、铁路和航班公告优先级更高。</p></div><button id="weather-refresh" class="weather-refresh" type="button" aria-label="刷新天气预报">刷新天气</button></div><p id="weather-status" class="weather-status">预测窗口尚未开启：本行程 9 月 25 日出发，9 月 18 日起可刷新未来 7 天天气。</p><div class="weather-table-wrap"><table class="weather-table"><thead><tr><th>区域</th><th>预报日期</th><th>天气</th><th>温度</th><th>最大降雨概率</th><th>行程建议</th></tr></thead><tbody id="weather-body"><tr><td>米兰</td><td colspan="5">等待预报窗口开启</td></tr><tr><td>多洛米蒂 / 巴迪亚</td><td colspan="5">等待预报窗口开启</td></tr><tr><td>少女峰区域</td><td colspan="5">等待预报窗口开启</td></tr><tr><td>巴黎</td><td colspan="5">等待预报窗口开启</td></tr></tbody></table></div><p class="weather-footnote">数据接口：Open-Meteo（无需 API Key）；刷新仅请求天气数据，不上传个人信息。未来 7 天以外的行程请临近对应日期再次刷新。</p></div></div></div><p class="guide-checklist-note">勾选后会自动划线并保存在当前浏览器；点击“编辑清单”可修改文字、添加或删除自定义确认项，内容不会上传。</p></div></section>
+<section id="exchange-section"><h2>九、汇率说明</h2><div class="panel"><div class="exchange-card exchange-tool-card" data-exchange-tool data-exchange-base="CNY" data-exchange-targets="EUR,CHF" data-exchange-endpoint="https://open.er-api.com/v6/latest/CNY"><div class="exchange-head"><div><h3>当前汇率参考</h3><p>点击刷新后获取人民币兑欧元、瑞郎的参考中间价。</p></div><button type="button" class="exchange-refresh" data-exchange-refresh>刷新汇率</button></div><div class="exchange-values" aria-live="polite"><div><b>人民币 / 欧元</b><strong data-exchange-rate="EUR">待刷新</strong></div><div><b>人民币 / 瑞郎</b><strong data-exchange-rate="CHF">待刷新</strong></div></div><div class="exchange-converter"><label for="exchange-amount">人民币金额（RMB）</label><input id="exchange-amount" data-exchange-input type="number" min="0" step="0.01" inputmode="decimal" value="100"><div class="exchange-result-list"><div class="exchange-result-row"><span>约合欧元</span><output data-exchange-result="EUR">请先刷新汇率</output></div><div class="exchange-result-row"><span>约合瑞郎</span><output data-exchange-result="CHF">请先刷新汇率</output></div></div></div><p class="exchange-status" data-exchange-status>尚未获取；点击“刷新汇率”后显示结果。</p><p class="small" data-exchange-last-updated>更新时间：尚未获取</p><p class="small">手续费提示：刷卡、取现、现金兑换、动态货币转换和商户结算可能产生差异；仅作中间价参考，不替代实际结算汇率。</p><p class="small">来源：<a data-exchange-source href="https://open.er-api.com/" target="_blank" rel="noopener">ExchangeRate-API Open Access</a>。实际汇率、手续费及票价出发前再次核验。</p></div><p>本页保留原表中的 EUR / CHF 原币金额，不把动态价格伪装成固定人民币预算。参考 ECB 2026-07-28 页面：1 EUR≈RMB 7.6969，1 EUR≈CHF 0.9319，折算得到 1 CHF≈RMB 8.26；仅作粗略估算。</p><p>换算公式：<b>EUR × 7.6969 ≈ RMB</b>；<b>CHF × 8.26 ≈ RMB</b>。实际刷卡汇率、现金兑换、银行手续费、商户结算和票价变化可能不同，出发前必须更新。</p><p class="source">历史参考来源：<a href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html" target="_blank" rel="noopener">ECB Euro foreign exchange reference rates</a>，查询参考日 2026-07-28。交互工具仅在点击刷新后请求公开参考接口。</p></div></section>
+<section id="sources-section"><h2>十、资料来源</h2><div class="panel"><p>主要来源为用户提供的 Excel：<b>意瑞法9.25-1006(1).xlsx</b>。本页逐项保留原表信息；外部动态信息只作为出发前核验提示。</p><p>小红书研究：现有记录仅能确认搜索结果返回 20 篇候选笔记，未留下可核验的“成功打开并读取”篇数。本次页面优化未重新检索，因此不把候选数量写成已读取数量，也不将搜索摘要当作已核验事实。</p><p class="source">小红书入口：<a href="https://www.xiaohongshu.com/search_result?keyword=%E6%84%8F%E7%91%9E%E6%B3%959.25-10.06%E8%87%AA%E9%A9%BE%E6%94%BB%E7%95%A5" target="_blank" rel="noopener">打开搜索结果</a>。评论与开放状态可能受登录和页面限制影响。</p></div></section>
 <p class="service-note">地图底图依赖第三方免费服务，可能受网络环境、访问额度或服务策略影响；若加载失败，请切换网络或稍后重试。底图不可用时，路线、节点与文字说明仍会保留。</p><div id="image-lightbox" class="lightbox" hidden role="dialog" aria-modal="true" aria-label="图片预览"><button type="button" aria-label="关闭图片预览">×</button><img alt=""></div><div id="page-toast" class="toast" role="status" aria-live="polite"></div>
-</main><script>
+</main><button id="guide-search-trigger" class="guide-search-trigger" type="button" aria-controls="guide-search-panel" aria-expanded="false"><span aria-hidden="true">⌕</span><span class="guide-search-label">搜索攻略</span></button><div id="guide-search-panel" class="guide-search-panel" role="dialog" aria-modal="false" aria-labelledby="guide-search-title" hidden><div class="guide-search-shell"><div class="guide-search-head"><h2 id="guide-search-title">搜索本攻略</h2><button id="guide-search-close" class="guide-search-close" type="button" aria-label="关闭搜索">×</button></div><form id="guide-search-form" class="guide-search-form"><input id="guide-search-input" type="search" placeholder="搜索景点、交通、机场、费用……" autocomplete="off"><button type="submit">搜索</button></form><div class="guide-search-tools" aria-label="搜索结果导航"><button id="guide-search-prev" type="button">上一个</button><span id="guide-search-count" class="guide-search-count" aria-live="polite">0/0</span><button id="guide-search-next" type="button">下一个</button></div><div id="guide-search-history" class="guide-search-history" aria-label="最近搜索"></div><div id="guide-search-results" class="guide-search-results" role="listbox" aria-live="polite"><div class="guide-search-hint">搜索当前攻略已收录内容；不会自动联网搜索网页。</div></div></div></div><script>
 (function(){
   const toast=document.getElementById("page-toast");
   let toastTimer;
@@ -45,7 +126,7 @@ braise(9月15日后无需预约）
     clearTimeout(toastTimer);
     toastTimer=setTimeout(()=>toast.classList.remove("is-visible"),1600);
   }
-  async function copyText(text){
+  async function copyText(text, successMessage="导航 / 核验信息已复制"){
     try{
       if(navigator.clipboard&&window.isSecureContext){
         await navigator.clipboard.writeText(text);
@@ -59,23 +140,35 @@ braise(9月15日后无需预约）
         document.execCommand("copy");
         area.remove();
       }
-      showToast("导航 / 核验信息已复制");
+      showToast(successMessage);
     }catch(_error){
       showToast("复制失败，请长按文字手动复制");
     }
   }
+  const copyPlaceTokens=['Via Andrea Ponti 15','Cadorna','parking lake carezza','parkplatz bergerplatz','Santa Maddalena','Col Raiser','Ortisei','Seceda','Alpe di Siusi','Badia','Braies','Lake Carezza','Misurina','Grindelwald','格林德瓦','Jungfraujoch','少女峰','Eismeer','Fallbodensee','fallbodensee','Kleine Scheidegg','小夏戴克','Wengen','文根','Lauterbrunnen','劳特布伦嫩','劳特布龙嫩','Mürren','米伦','Grütschalp','Gimmelwald','Stechelberg','施特歇尔贝格','Rigi Kulm','Vitznau','Weggis','Luzern','卢塞恩','龙疆','First','施皮茨','采尔马特','Zermatt Matterhorn Viewpoint'];
+  const copiedPlaceTokens=new Set();
+  const findPlaceToken=(value)=>copyPlaceTokens.find((token)=>value.toLowerCase().includes(token.toLowerCase()));
   document.querySelectorAll(".meta").forEach((meta)=>{
-    const value=meta.innerText.replace(/^.*?\uFF1A/,"").trim();
+    const label=meta.querySelector("b");
+    const value=meta.innerText.replace(label?.innerText||"","").trim();
     if(!value)return;
-    const button=document.createElement("button");
-    button.type="button";
-    button.className="copy-info";
-    button.textContent="复制信息";
-    button.setAttribute("aria-label","复制导航或核验信息");
-    button.addEventListener("click",()=>copyText(value));
-    meta.appendChild(button);
-  });
-  document.querySelectorAll('input[type="checkbox"][data-check]').forEach((input)=>{
+    const parts=value.split(/\s*(?=\d+[、.]\s*)/).map((part)=>part.trim()).filter(Boolean);
+    const places=[...new Set(parts.map(findPlaceToken).filter(Boolean))].filter((place)=>!copiedPlaceTokens.has(place.toLowerCase()));
+    if(!places.length)return;
+    const actions=document.createElement("span");
+    actions.className="copy-actions";
+    places.forEach((place)=>{
+      copiedPlaceTokens.add(place.toLowerCase());
+      const button=document.createElement("button");
+      button.type="button";
+      button.className="copy-info copy-item";
+      button.textContent="复制";
+      button.setAttribute("aria-label","复制地点："+place);
+      button.addEventListener("click",()=>copyText(place,"地名已复制"));
+      actions.appendChild(button);
+    });
+    meta.appendChild(actions);
+  });  document.querySelectorAll('input[type="checkbox"][data-check]').forEach((input)=>{
     const key="italy-guide-"+input.dataset.check;
     try{input.checked=localStorage.getItem(key)==="1"}catch(_error){}
     input.addEventListener("change",()=>{
@@ -500,5 +593,509 @@ braise(9月15日后无需预约）
   });
   loader.start();
 })();
-</script></body></html>
+</script><script data-skill-runtime="travel-guide-interactions">(function initTravelGuideInteractions(global) {
+  "use strict";
 
+  const text = (value) => String(value || "").trim();
+  const normalize = (value) => text(value).toLowerCase().replace(/\s+/g, " ");
+  const escapeHtml = (value) => text(value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+
+  const chineseTerms = (query) => {
+    const normalized = normalize(query);
+    const chars = normalized.match(/[\u4e00-\u9fff]/g) || [];
+    return [...new Set(normalized.split(" ").filter(Boolean).concat(chars.map((_, index) => normalized.slice(index, index + 2)).filter((item) => item.length === 2)))].sort((a, b) => b.length - a.length);
+  };
+
+  function initSourceLinks(options = {}) {
+    const root = options.root || document;
+    const activeClass = options.activeClass || "source-flash";
+    const duration = options.duration || 2000;
+    let active = null;
+    let timer = null;
+    root.addEventListener("click", (event) => {
+      const link = event.target.closest('a[href^="#source-"]');
+      if (!link) return;
+      const target = root.querySelector(link.getAttribute("href"));
+      if (!target) return;
+      event.preventDefault();
+      if (active === target) {
+        clearTimeout(timer);
+        target.classList.remove(activeClass);
+        active = null;
+        return;
+      }
+      active?.classList.remove(activeClass);
+      clearTimeout(timer);
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+      target.classList.add(activeClass);
+      active = target;
+      timer = setTimeout(() => {
+        target.classList.remove(activeClass);
+        if (active === target) active = null;
+      }, duration);
+    });
+  }
+
+  function readJsonIndex(selector, root = document) {
+    const script = root.querySelector(selector);
+    if (!script) return [];
+    try { return JSON.parse(script.textContent || "[]"); } catch (_error) { return []; }
+  }
+
+  function initSearch(options = {}) {
+    const root = options.root || document;
+    const selectors = Object.assign({
+      trigger: "#guide-search-trigger", panel: "#guide-search-panel", close: "#guide-search-close",
+      clear: "#guide-search-clear", form: "#guide-search-form", input: "#guide-search-input",
+      results: "#guide-search-results", previous: "#guide-search-prev", next: "#guide-search-next",
+      count: "#guide-search-count", index: "#travel-source-index"
+    }, options.selectors || {});
+    const el = Object.fromEntries(Object.entries(selectors).map(([key, selector]) => [key, root.querySelector(selector)]));
+    if (!el.trigger || !el.panel || !el.form || !el.input || !el.results) return;
+    const sourceIndex = options.sourceIndex || readJsonIndex(selectors.index, root);
+    let hits = [];
+    let current = -1;
+    const clearMarks = () => {
+      root.querySelectorAll("mark.guide-search-hit").forEach((mark) => mark.replaceWith(document.createTextNode(mark.textContent || "")));
+      hits = []; current = -1;
+      if (el.count) el.count.textContent = "0/0";
+    };
+    const focus = (index) => {
+      if (!hits.length) return;
+      current = (index + hits.length) % hits.length;
+      hits.forEach((mark, i) => mark.classList.toggle("is-current", i === current));
+      if (el.count) el.count.textContent = `${current + 1}/${hits.length}`;
+      hits[current].scrollIntoView({ behavior: "smooth", block: "center" });
+    };
+    const markBody = (query) => {
+      clearMarks();
+      const terms = chineseTerms(query).filter((item) => item.length > 1);
+      if (!terms.length) return 0;
+      const walker = root.createTreeWalker(root.body || root, NodeFilter.SHOW_TEXT, { acceptNode(node) {
+        return node.parentElement?.closest("#guide-search-panel,#guide-search-trigger,script,style,input,textarea,select") || !text(node.nodeValue)
+          ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
+      }});
+      const nodes = []; let node;
+      while ((node = walker.nextNode())) nodes.push(node);
+      nodes.forEach((node) => {
+        const source = node.nodeValue || "";
+        const lower = source.toLowerCase();
+        let cursor = 0; let changed = false; const fragment = document.createDocumentFragment();
+        while (cursor < source.length) {
+          let found = -1; let term = "";
+          terms.forEach((candidate) => { const index = lower.indexOf(candidate, cursor); if (index >= 0 && (found < 0 || index < found)) { found = index; term = candidate; } });
+          if (found < 0) { fragment.append(document.createTextNode(source.slice(cursor))); break; }
+          if (found > cursor) fragment.append(document.createTextNode(source.slice(cursor, found)));
+          const mark = document.createElement("mark");
+          mark.className = "guide-search-hit";
+          mark.textContent = source.slice(found, found + term.length);
+          fragment.append(mark); hits.push(mark); changed = true; cursor = found + term.length;
+        }
+        if (changed) node.replaceWith(fragment);
+      });
+      if (hits.length) focus(0);
+      return hits.length;
+    };
+    const sourceMatches = (query) => {
+      const terms = chineseTerms(query);
+      return sourceIndex.map((item) => {
+        const haystack = normalize([item.title, ...(item.tags || []), item.city, item.place].join(" "));
+        return { ...item, score: terms.reduce((score, term) => score + (haystack.includes(term) ? 1 : 0), 0) };
+      }).filter((item) => item.score).sort((a, b) => b.score - a.score).slice(0, 8);
+    };
+    const render = () => {
+      const query = text(el.input.value);
+      if (!query) { clearMarks(); el.results.innerHTML = '<p class="guide-search-hint">搜索当前攻略；不会自动联网搜索网页。</p>'; return; }
+      const count = markBody(query);
+      if (count) { el.results.innerHTML = `<p class="guide-search-hint">正文命中 ${count} 处，已定位首个结果。</p>`; return; }
+      const matches = sourceMatches(query);
+      el.results.innerHTML = matches.length
+        ? `<p class="guide-search-hint">攻略正文未命中，但资料来源有相关笔记。</p>${matches.map((item) => `<article class="guide-search-result"><strong>[${escapeHtml(item.number)}] ${escapeHtml(item.title)}</strong><small>${escapeHtml((item.tags || []).join(" · "))}</small><a href="#source-${escapeHtml(item.number)}">查看资料来源</a></article>`).join("")}`
+        : `<p class="guide-search-empty">当前攻略与资料来源均未找到“${escapeHtml(query)}”。</p>`;
+    };
+    const open = () => { el.panel.hidden = false; el.trigger.setAttribute("aria-expanded", "true"); el.input.focus(); };
+    const close = () => { el.panel.hidden = true; el.trigger.setAttribute("aria-expanded", "false"); el.trigger.focus(); };
+    const clear = () => { el.input.value = ""; render(); el.input.focus(); };
+    el.trigger.addEventListener("click", () => el.panel.hidden ? open() : close());
+    el.close?.addEventListener("click", close); el.clear?.addEventListener("click", clear);
+    el.form.addEventListener("submit", (event) => { event.preventDefault(); render(); });
+    el.input.addEventListener("input", render);
+    el.results.addEventListener("click", (event) => { if (event.target.closest('a[href^="#source-"]')) setTimeout(close, 0); });
+    el.previous?.addEventListener("click", () => focus(current - 1)); el.next?.addEventListener("click", () => focus(current + 1));
+    root.addEventListener("keydown", (event) => {
+      const editing = /input|textarea|select/i.test(document.activeElement?.tagName || "");
+      if (event.key === "/" && !editing) { event.preventDefault(); open(); }
+      if (event.key === "Escape" && !el.panel.hidden) close();
+    });
+  }
+
+  function initRefresh(options) {
+    const { button, status, run, onSuccess, onFailure, enabled = true } = options;
+    if (!button) return;
+    button.disabled = !enabled;
+    if (!enabled) { if (status) status.textContent = options.disabledText || "预测窗口尚未开启"; return; }
+    button.addEventListener("click", async () => {
+      button.disabled = true; button.classList.add("is-loading");
+      if (status) status.textContent = options.loadingText || "正在刷新…";
+      try { const result = await run(); onSuccess?.(result); }
+      catch (_error) { onFailure?.(); if (status) status.textContent = options.failureText || "暂无法获取，请稍后重试"; }
+      finally { button.disabled = false; button.classList.remove("is-loading"); }
+    });
+  }
+
+  function initToast(options = {}) {
+    const root = options.root || document;
+    const element = options.element || root.querySelector(options.selector || "#guide-toast") || (() => {
+      const node = root.createElement("div");
+      node.id = "guide-toast";
+      node.className = "guide-toast";
+      node.setAttribute("role", "status");
+      node.setAttribute("aria-live", "polite");
+      root.body.append(node);
+      return node;
+    })();
+    let timer = null;
+    return (message) => {
+      element.textContent = message;
+      element.classList.add("is-visible");
+      clearTimeout(timer);
+      timer = setTimeout(() => element.classList.remove("is-visible"), options.duration || 1600);
+    };
+  }
+
+  function fallbackCopy(value, root = document) {
+    const input = root.createElement("textarea");
+    input.value = value;
+    input.setAttribute("readonly", "");
+    input.style.cssText = "position:fixed;opacity:0;pointer-events:none";
+    root.body.append(input);
+    input.select();
+    const copied = root.execCommand?.("copy");
+    input.remove();
+    return copied;
+  }
+
+  function initCopyControls(options = {}) {
+    const root = options.root || document;
+    const selector = options.selector || "[data-copy], .copy-target";
+    const toast = options.toast || initToast({ root });
+    const ignored = new Set(options.ignore || []);
+    root.querySelectorAll(selector).forEach((node) => {
+      if (node.dataset.copyReady === "true" || node.dataset.copyIgnore === "true") return;
+      const getValue = () => text(node.dataset.copy || node.textContent).replace(/[：:]$/, "");
+      const copy = async () => {
+        const value = getValue();
+        if (!value || ignored.has(value)) return;
+        try {
+          if (navigator.clipboard && global.isSecureContext) await navigator.clipboard.writeText(value);
+          else if (!fallbackCopy(value, root)) throw new Error("copy unavailable");
+          toast(options.successText || "已复制");
+        } catch (_error) {
+          if (fallbackCopy(value, root)) toast(options.successText || "已复制");
+          else toast(options.failureText || "复制失败，请长按复制");
+        }
+      };
+      if (!/^(button|a|input|textarea|select)$/i.test(node.tagName)) {
+        node.tabIndex = 0;
+        node.setAttribute("role", "button");
+      }
+      node.classList.add("copyable-name");
+      node.dataset.copyReady = "true";
+      node.addEventListener("click", copy);
+      node.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") { event.preventDefault(); copy(); }
+      });
+    });
+  }
+
+  function initChecklist(options = {}) {
+    const root = options.root || document;
+    const container = options.container || root.querySelector(options.containerSelector || "[data-checklist]") || root;
+    const selector = options.selector || 'input[type="checkbox"][data-check]';
+    const scope = options.storageKey || container.dataset?.checklist || root.body?.dataset.guideId || location.pathname;
+    const editable = options.editable ?? container.dataset?.editable === "true";
+    const storage = (suffix, fallback) => {
+      const key = `travel-guide-check:${scope}:${suffix}`;
+      try { return JSON.parse(localStorage.getItem(key) || "null") ?? fallback; } catch (_error) { return fallback; }
+    };
+    const save = (suffix, value) => { try { localStorage.setItem(`travel-guide-check:${scope}:${suffix}`, JSON.stringify(value)); } catch (_error) {} };
+    const getLine = (input) => input.closest(options.itemSelector || "label,li,.check-item") || input.parentElement;
+    const getText = (line) => line?.querySelector("[data-check-label], span") || null;
+    const bind = (input) => {
+      const id = input.dataset.check || input.id;
+      if (!id || input.dataset.checkReady === "true") return;
+      const line = getLine(input);
+      const label = getText(line);
+      const stateKey = `state:${id}`;
+      const savedState = storage(stateKey, null);
+      if (savedState !== null) input.checked = savedState === true;
+      const apply = () => line?.classList.toggle("is-complete", input.checked);
+      const savedText = storage(`text:${id}`, "");
+      if (label && savedText) label.textContent = savedText;
+      apply();
+      input.dataset.checkReady = "true";
+      input.addEventListener("change", () => { apply(); save(stateKey, input.checked); });
+      if (editable && label) {
+        label.dataset.checkLabel = "true";
+        label.addEventListener("blur", () => save(`text:${id}`, text(label.textContent)), true);
+      }
+    };
+    const list = container.querySelector("[data-checklist-items]") || container;
+    const customItems = () => storage("custom", []);
+    const saveCustom = (items) => save("custom", items);
+    const renderCustom = (item) => {
+      const line = root.createElement("label");
+      line.className = "guide-checklist-item is-custom";
+      const input = root.createElement("input");
+      input.type = "checkbox";
+      input.dataset.check = item.id;
+      const label = root.createElement("span");
+      label.dataset.checkLabel = "true";
+      label.textContent = item.text;
+      const remove = root.createElement("button");
+      remove.type = "button";
+      remove.className = "guide-checklist-remove";
+      remove.textContent = "删除";
+      remove.setAttribute("aria-label", `删除确认项：${item.text}`);
+      remove.addEventListener("click", () => {
+        line.remove();
+        saveCustom(customItems().filter((entry) => entry.id !== item.id));
+      });
+      line.append(input, label, remove);
+      list.append(line);
+      bind(input);
+    };
+    container.querySelectorAll(selector).forEach(bind);
+    if (!editable || container.dataset.checklistReady === "true") return;
+    container.dataset.checklistReady = "true";
+    customItems().filter((item) => item?.id && item?.text).forEach(renderCustom);
+    const tools = root.createElement("div");
+    tools.className = "guide-checklist-tools";
+    tools.innerHTML = '<button type="button" data-checklist-toggle>编辑清单</button><div class="guide-checklist-add" hidden><input type="text" maxlength="120" placeholder="添加确认项"><button type="button" data-checklist-add>添加</button></div>';
+    container.prepend(tools);
+    const toggle = tools.querySelector("[data-checklist-toggle]");
+    const addBox = tools.querySelector(".guide-checklist-add");
+    const addInput = addBox.querySelector("input");
+    const add = () => {
+      const value = text(addInput.value);
+      if (!value) return;
+      const item = { id: `custom-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, text: value };
+      saveCustom([...customItems(), item]);
+      renderCustom(item);
+      addInput.value = "";
+      addInput.focus();
+    };
+    const setEditing = (active) => {
+      container.classList.toggle("is-editing", active);
+      addBox.hidden = !active;
+      toggle.textContent = active ? "完成编辑" : "编辑清单";
+      container.querySelectorAll("[data-check-label]").forEach((label) => label.contentEditable = String(active));
+    };
+    toggle.addEventListener("click", () => setEditing(!container.classList.contains("is-editing")));
+    tools.querySelector("[data-checklist-add]").addEventListener("click", add);
+    addInput.addEventListener("keydown", (event) => { if (event.key === "Enter") { event.preventDefault(); add(); } });
+  }
+  function initImagePreview(options = {}) {
+    const root = options.root || document;
+    const selector = options.selector || ".gallery img, [data-preview-image]";
+    let dialog = options.dialog || root.querySelector(options.dialogSelector || "#imageDialog");
+    if (!dialog) {
+      dialog = root.createElement("dialog");
+      dialog.className = "travel-image-dialog";
+      dialog.innerHTML = '<button type="button" aria-label="关闭图片预览">×</button><img alt="">';
+      root.body.append(dialog);
+    }
+    const image = dialog.querySelector("img");
+    const closeButton = dialog.querySelector("button");
+    if (!image || !closeButton) return;
+    let lastFocus = null;
+    const close = () => { dialog.close?.(); dialog.removeAttribute("open"); lastFocus?.focus?.(); };
+    root.querySelectorAll(selector).forEach((trigger) => {
+      if (trigger.dataset.previewReady === "true") return;
+      const open = () => {
+        lastFocus = root.activeElement;
+        image.src = trigger.currentSrc || trigger.dataset.previewImage || trigger.src;
+        image.alt = trigger.alt || "图片预览";
+        if (typeof dialog.showModal === "function") dialog.showModal(); else dialog.setAttribute("open", "");
+      };
+      trigger.tabIndex = trigger.tabIndex >= 0 ? trigger.tabIndex : 0;
+      trigger.dataset.previewReady = "true";
+      trigger.addEventListener("click", open);
+      trigger.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); open(); } });
+    });
+    closeButton.addEventListener("click", close);
+    dialog.addEventListener("click", (event) => { if (event.target === dialog) close(); });
+    dialog.addEventListener("cancel", (event) => { event.preventDefault(); close(); });
+  }
+
+  function initExchange(options = {}) {
+    const root = options.root || document;
+    const card = options.card || root.querySelector(options.cardSelector || '[data-exchange-tool], .exchange-tool-card, .exchange-card');
+    if (!card) return;
+    const refreshButton = card.querySelector('[data-exchange-refresh], .exchange-refresh');
+    const status = card.querySelector('[data-exchange-status], .exchange-status');
+    const input = card.querySelector('[data-exchange-input], #exchange-amount');
+    const lastUpdated = card.querySelector('[data-exchange-last-updated]');
+    if (!refreshButton || !input) return;
+    const base = text(card.dataset.exchangeBase || 'CNY').toUpperCase();
+    const targets = [...new Set(text(card.dataset.exchangeTargets || 'EUR,CHF').split(',').map((item) => text(item).toUpperCase()).filter((item) => item && item !== base))];
+    const targetList = targets.join(',');
+    const defaultEndpoint = `https://open.er-api.com/v6/latest/${encodeURIComponent(base)}`;
+    const fallbackEndpoint = `https://api.frankfurter.app/latest?from=${encodeURIComponent(base)}&to=${encodeURIComponent(targetList)}`;
+    const endpoints = [...new Set([card.dataset.exchangeEndpoint, options.endpoint, defaultEndpoint, fallbackEndpoint].filter(Boolean))];
+    const fetchImpl = options.fetchImpl || global.fetch?.bind(global);
+    let rates = null;
+    const format = (value) => Number.isFinite(value) ? new Intl.NumberFormat('zh-CN', { maximumFractionDigits: 4 }).format(value) : '—';
+    const stamp = (date) => new Intl.DateTimeFormat('zh-CN', { dateStyle: 'short', timeStyle: 'short' }).format(date);
+    const writeStatus = (message) => { if (status) status.textContent = message; };
+    const updateRateLabels = () => {
+      targets.forEach((currency) => {
+        const node = card.querySelector(`[data-exchange-rate="${currency}"]`);
+        if (!node) return;
+        const quote = rates?.[currency];
+        node.textContent = Number.isFinite(quote) && quote > 0 ? `1 ${base} ≈ ${format(quote)} ${currency}` : '待刷新';
+      });
+    };
+    const updateResults = () => {
+      const value = Number(input.value);
+      targets.forEach((currency) => {
+        const node = card.querySelector(`[data-exchange-result="${currency}"]`);
+        if (!node) return;
+        if (!rates) { node.textContent = '请先刷新汇率'; return; }
+        if (!Number.isFinite(value) || value < 0) { node.textContent = '请输入有效金额'; return; }
+        const converted = value * Number(rates[currency]);
+        node.textContent = Number.isFinite(converted) ? `${format(converted)} ${currency}` : '暂无法换算';
+      });
+    };
+    const readRates = (payload) => {
+      if (payload?.rates && typeof payload.rates === 'object') {
+        const parsed = Object.fromEntries(Object.entries(payload.rates).map(([key, value]) => [String(key).toUpperCase(), Number(value)]));
+        parsed[base] = 1;
+        return parsed;
+      }
+      return null;
+    };
+    const request = async (endpoint) => {
+      const controller = typeof AbortController === 'function' ? new AbortController() : null;
+      const timer = controller ? global.setTimeout(() => controller.abort(), 12000) : null;
+      try {
+        const response = await fetchImpl(endpoint, { headers: { Accept: 'application/json' }, cache: 'no-store', mode: 'cors', signal: controller?.signal });
+        if (!response.ok) throw new Error(`exchange request failed: ${response.status}`);
+        const payload = await response.json();
+        const nextRates = readRates(payload);
+        if (!nextRates || targets.some((currency) => !Number.isFinite(nextRates[currency]) || nextRates[currency] <= 0)) throw new Error('exchange response incomplete');
+        return { rates: nextRates, date: payload.time_last_update_utc || payload.date || '', endpoint };
+      } finally {
+        if (timer) global.clearTimeout(timer);
+      }
+    };
+    const refresh = async () => {
+      if (!fetchImpl) { writeStatus('当前环境无法请求汇率，请稍后重试'); return; }
+      refreshButton.disabled = true;
+      card.classList.add('is-loading');
+      writeStatus('正在获取当前汇率…');
+      let result = null;
+      for (const endpoint of endpoints) {
+        try { result = await request(endpoint); break; } catch (_error) { /* try the next public source */ }
+      }
+      if (result) {
+        rates = result.rates;
+        updateRateLabels();
+        updateResults();
+        if (lastUpdated) lastUpdated.textContent = `更新时间：${stamp(new Date())}${result.date ? `；数据日期：${result.date}` : ''}`;
+        writeStatus('已更新；数据仅作中间价参考。');
+      } else {
+        updateRateLabels();
+        updateResults();
+        if (lastUpdated) lastUpdated.textContent = '更新时间：尚未获取';
+        writeStatus(global.location?.protocol === 'file:' ? '本地 file:// 可能限制跨域请求，请用本地 HTTP 打开后刷新' : '汇率接口暂时不可用，请稍后再次点击“刷新汇率”。');
+      }
+      refreshButton.disabled = false;
+      card.classList.remove('is-loading');
+    };
+    input.addEventListener('input', updateResults);
+    refreshButton.addEventListener('click', refresh);
+    updateRateLabels();
+    updateResults();
+    return { refresh, update: updateResults };
+  }  function initQuickNav(options = {}) {
+    const root = options.root || document;
+    const nav = options.nav || root.querySelector(options.selector || ".quick-nav");
+    if (!nav || !global.IntersectionObserver) return;
+    const pairs = [...nav.querySelectorAll('a[href^="#"]')].map((link) => ({ link, target: root.querySelector(link.getAttribute("href")) })).filter((item) => item.target);
+    const activate = (target) => pairs.forEach((item) => {
+      const active = item.target === target;
+      item.link.classList.toggle("is-active", active);
+      if (active) item.link.setAttribute("aria-current", "location"); else item.link.removeAttribute("aria-current");
+    });
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) activate(visible.target);
+    }, { rootMargin: "-18% 0px -68% 0px", threshold: [0, .2, .6] });
+    pairs.forEach((item) => observer.observe(item.target));
+    return () => observer.disconnect();
+  }
+
+  function initItineraryExplorer(options = {}) {
+    const root = options.root || document;
+    const days = [...root.querySelectorAll(options.daySelector || ".day[data-kind]")];
+    const filters = [...root.querySelectorAll(options.filterSelector || "[data-filter]")];
+    if (!days.length || !filters.length) return;
+    const select = (day) => {
+      days.forEach((item) => item.classList.toggle("is-selected", item === day));
+      const title = root.querySelector(options.titleSelector || "#detail-title");
+      const detail = root.querySelector(options.detailSelector || "#detailText");
+      if (title) title.textContent = day.dataset.title || "";
+      if (detail) detail.textContent = day.dataset.risk || "";
+    };
+    days.forEach((day) => day.addEventListener("click", () => select(day)));
+    filters.forEach((filter) => filter.addEventListener("click", () => {
+      const kind = filter.dataset.filter;
+      filters.forEach((item) => item.setAttribute("aria-pressed", String(item === filter)));
+      days.forEach((day) => { day.hidden = kind !== "all" && day.dataset.kind !== kind; });
+      const first = days.find((day) => !day.hidden);
+      if (first) select(first);
+    }));
+    select(days[0]);
+  }
+  global.TravelGuideInteractions = Object.freeze({ initSourceLinks, initSearch, initRefresh, initToast, initCopyControls, initChecklist, initImagePreview, initExchange, initQuickNav, initItineraryExplorer, readJsonIndex });
+})(window);</script><script data-skill-init="2026-08-11">
+(function(){
+  var api=window.TravelGuideInteractions;
+  if(!api)return;
+  api.initCopyControls({selector:'[data-copy]',successText:'地名已复制'});
+  api.initChecklist();
+  api.initExchange();
+  api.initQuickNav();
+
+  var button=document.getElementById('weather-refresh'),status=document.getElementById('weather-status'),body=document.getElementById('weather-body');
+  if(!button||!status||!body||!api.initRefresh)return;
+  var unlockAt=new Date('2026-09-18T00:00:00+02:00');
+  var cities=[
+    {name:'米兰',lat:45.4642,lng:9.1900},
+    {name:'多洛米蒂 / 巴迪亚',lat:46.5820,lng:11.8930},
+    {name:'少女峰区域',lat:46.5470,lng:7.9850},
+    {name:'巴黎',lat:48.8566,lng:2.3522}
+  ];
+  var labels={0:'晴朗',1:'大致晴',2:'局部多云',3:'阴天',45:'雾',48:'雾凇',51:'小毛雨',53:'毛雨',55:'强毛雨',61:'小雨',63:'雨',65:'大雨',71:'小雪',73:'雪',75:'大雪',80:'阵雨',81:'阵雨',82:'强阵雨',95:'雷暴',96:'雷暴伴冰雹',99:'强雷暴'};
+  function pad(n){return String(n).padStart(2,'0')}
+  function stamp(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+' '+pad(d.getHours())+':'+pad(d.getMinutes())}
+  function advice(pop,code){if(pop>=60||code>=80)return '优先保留室内或市区备选';if(pop>=35)return '山地行程留出雨备';return '可按主线执行'}
+  function placeholder(message){body.innerHTML=cities.map(function(c){return '<tr><td>'+c.name+'</td><td colspan="5">'+message+'</td></tr>'}).join('')}
+  function row(city,data){var d=data.daily||{},max=d.temperature_2m_max||[],min=d.temperature_2m_min||[],pop=d.precipitation_probability_max||[],codes=d.weather_code||[];if(!d.time||!d.time.length||!max.length||!min.length||!pop.length)throw new Error('weather response incomplete');var high=Math.max.apply(null,max),low=Math.min.apply(null,min),rain=Math.max.apply(null,pop),code=codes[0];return '<tr><td>'+city.name+'</td><td>'+d.time[0]+' 至 '+d.time[d.time.length-1]+'</td><td>'+(labels[code]||'请查看详情')+'</td><td>'+Math.round(low)+'–'+Math.round(high)+'°C</td><td>'+rain+'%</td><td>'+advice(rain,code)+'</td></tr>'}
+  api.initRefresh({
+    button:button,status:status,
+    loadingText:'正在检查预报窗口…',
+    failureText:'天气数据暂时无法获取，请稍后刷新；不要据此取消已确认的行程。',
+    run:function(){
+      if(Date.now()<unlockAt.getTime())return Promise.resolve({notReady:true});
+      return Promise.all(cities.map(function(city){var url='https://api.open-meteo.com/v1/forecast?latitude='+city.lat+'&longitude='+city.lng+'&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto&forecast_days=7';return fetch(url,{cache:'no-store'}).then(function(res){if(!res.ok)throw new Error('weather request failed');return res.json()}).then(function(data){return row(city,data)})}));
+    },
+    onSuccess:function(rows){
+      if(rows&&rows.notReady){placeholder('尚未进入预报窗口');status.textContent='预测窗口尚未开启：本行程 9 月 25 日出发，建议在 9 月 18 日起刷新未来 7 天天气；当前不展示无效的远期预报。';return;}
+      body.innerHTML=rows.join('');status.textContent='已更新：'+stamp(new Date())+'（未来 7 天概览）。后半段行程请临近对应日期再次刷新；道路、缆车、铁路和航班以官方公告为准。';
+    },
+    onFailure:function(){placeholder('数据加载失败，请稍后刷新')}
+  });
+})();
+</script></body></html>
