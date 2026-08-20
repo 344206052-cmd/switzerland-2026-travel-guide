@@ -406,6 +406,11 @@ tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
 
 
 .booking-status.is-to_book{color:var(--guide-muted);background:#f2f4f7}
+
+/* search/edit floating controls: opposite bottom corners */
+.guide-search-trigger{left:max(16px,env(safe-area-inset-left));right:auto;bottom:max(18px,env(safe-area-inset-bottom));z-index:2400}
+.guide-search-panel{left:max(14px,env(safe-area-inset-left));right:auto;bottom:calc(max(18px,env(safe-area-inset-bottom)) + 58px);z-index:2500}
+@media(max-width:420px){.guide-search-trigger{left:10px;bottom:14px}.guide-search-panel{left:10px;right:10px;bottom:72px;width:auto}}
 </style><style>
 main>.guide-section{padding-top:1.35rem;padding-bottom:1.35rem}
 main>.guide-section+.guide-section{border-top:1px dashed #b9cdd5}
@@ -1553,7 +1558,9 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
         dialogControls(false);
         open.textContent = "共同编辑中";
       } catch (error) {
-        setMessage("无法进入编辑：" + (error.message || "请检查数字码与网络。"), true);
+        const detail = error.message || "请检查数字码与网络。";
+        const cryptoMissing = /function\s+crypt\(text\s*,\s*text\)\s+does\s+not\s+exist/i.test(detail);
+        setMessage(cryptoMissing ? "协作数据库尚未启用 pgcrypto，管理员需在 Supabase SQL Editor 执行修复脚本后重试。" : "无法进入编辑：" + detail, true);
       } finally { join.disabled = false; }
     });
     document.addEventListener("change", (event) => {
@@ -1582,3 +1589,1018 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 
 
 </script><script data-guide-collaboration-init>TravelGuideCollaboration.init({"projectUrl":"https://wbzxhcfiplsvipyemabe.supabase.co","publishableKey":"sb_publishable_hOxnt_8vvjmBIZUkw796Fg_bixi5iki","guideId":"93ad9391e51d"});</script>
+<button id="guide-search-trigger" class="guide-search-trigger" type="button" aria-controls="guide-search-panel" aria-expanded="false">搜索攻略</button><aside id="guide-search-panel" class="guide-search-panel" hidden aria-labelledby="guide-search-title"><div class="guide-search-head"><strong id="guide-search-title">搜索攻略</strong><button id="guide-search-close" class="guide-search-close" type="button" aria-label="关闭搜索">×</button></div><form id="guide-search-form" class="guide-search-form" role="search"><input id="guide-search-input" type="search" autocomplete="off" placeholder="输入关键词" aria-label="搜索攻略关键词"><button id="guide-search-clear" class="guide-search-clear" type="button">清空</button><button class="guide-search-submit" type="submit">搜索</button><button id="guide-search-advanced" class="guide-search-advanced" type="button" disabled title="本攻略未建立资料来源索引">高级搜索</button></form><div class="guide-search-navigation"><button id="guide-search-prev" type="button" disabled>上一个</button><span id="guide-search-count">0 / 0</span><button id="guide-search-next" type="button" disabled>下一个</button></div><div id="guide-search-results" class="guide-search-results" aria-live="polite"><p class="guide-search-hint">搜索当前攻略已收录内容。</p></div></aside><script data-guide-search-interactions>/* travel-guide-interactions: v13 */
+(function initTravelGuideInteractions(global) {
+  "use strict";
+
+  const text = (value) => String(value || "").trim();
+  const normalize = (value) => text(value).toLowerCase().replace(/\s+/g, " ");
+  const escapeHtml = (value) => text(value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+
+  const chineseTerms = (query) => {
+    const normalized = normalize(query);
+    const segments = normalized.match(/[\u4e00-\u9fff]+/g) || [];
+    const pairs = segments.flatMap((segment) => [...segment].map((_, index) => segment.slice(index, index + 2)).filter((item) => item.length === 2));
+    return [...new Set(normalized.split(" ").filter(Boolean).concat(segments, pairs))].sort((a, b) => b.length - a.length);
+  };
+
+  function initSourceLinks(options = {}) {
+    const root = options.root || document;
+    const activeClass = options.activeClass || "source-flash";
+    const duration = options.duration || 2000;
+    let active = null;
+    let timer = null;
+    root.addEventListener("click", (event) => {
+      const link = event.target.closest('a[href^="#source-"]');
+      if (!link) return;
+      const target = root.querySelector(link.getAttribute("href"));
+      if (!target) return;
+      event.preventDefault();
+      if (active === target) {
+        global.clearTimeout(timer);
+        target.classList.remove(activeClass);
+        active = null;
+        return;
+      }
+      active?.classList.remove(activeClass);
+      global.clearTimeout(timer);
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+      target.classList.add(activeClass);
+      active = target;
+      timer = global.setTimeout(() => {
+        target.classList.remove(activeClass);
+        if (active === target) active = null;
+      }, duration);
+    });
+  }
+
+  function readJsonIndex(selector, root = document) {
+    const script = root.querySelector(selector);
+    if (!script) return [];
+    try { return JSON.parse(script.textContent || "[]"); } catch (_error) { return []; }
+  }
+
+  function initSearch(options = {}) {
+    const root = options.root || document;
+    const selectors = Object.assign({
+      trigger: "#guide-search-trigger", panel: "#guide-search-panel", close: "#guide-search-close",
+      clear: "#guide-search-clear", form: "#guide-search-form", input: "#guide-search-input",
+      results: "#guide-search-results", previous: "#guide-search-prev", next: "#guide-search-next",
+      count: "#guide-search-count", advanced: "#guide-search-advanced", index: "#travel-source-index"
+    }, options.selectors || {});
+    const el = Object.fromEntries(Object.entries(selectors).map(([key, selector]) => [key, root.querySelector(selector)]));
+    if (!el.trigger || !el.panel || !el.form || !el.input || !el.results) return;
+    const sourceIndex = options.sourceIndex || readJsonIndex(selectors.index, root);
+    let hits = [];
+    let current = -1;
+    let inputTimer = null;
+    const setNavigation = () => {
+      if (el.count) el.count.textContent = hits.length ? `${current + 1} / ${hits.length}` : "0 / 0";
+      if (el.previous) el.previous.disabled = !hits.length;
+      if (el.next) el.next.disabled = !hits.length;
+    };
+    const clearMarks = () => {
+      const parents = new Set();
+      root.querySelectorAll("mark.guide-search-hit").forEach((mark) => {
+        if (mark.parentNode) parents.add(mark.parentNode);
+        mark.replaceWith(document.createTextNode(mark.textContent || ""));
+      });
+      parents.forEach((parent) => parent.normalize?.());
+      hits = []; current = -1;
+      setNavigation();
+    };
+    const focus = (index) => {
+      if (!hits.length) return;
+      current = (index + hits.length) % hits.length;
+      hits.forEach((mark, i) => mark.classList.toggle("is-current", i === current));
+      setNavigation();
+      const panel = hits[current].closest("[data-day-panel]");
+      if (panel?.hidden) root.querySelector(`[data-day-tab="${panel.dataset.dayPanel}"]`)?.click();
+      hits[current].scrollIntoView({ behavior: "smooth", block: "center" });
+    };
+    const markBody = (query) => {
+      clearMarks();
+      const term = text(query).toLowerCase();
+      if (!term) return 0;
+      const walker = root.createTreeWalker(root.body || root, NodeFilter.SHOW_TEXT, { acceptNode(node) {
+        const parent = node.parentElement;
+        if (!parent || !text(node.nodeValue)) return NodeFilter.FILTER_REJECT;
+        if (parent.closest("#guide-search-panel,#guide-search-trigger,#sources,[data-guide-module='sources'],script,style,input,textarea,select,template,dialog:not([open])")) return NodeFilter.FILTER_REJECT;
+        const hiddenAncestor = parent.closest("[hidden],[aria-hidden='true']");
+        if (hiddenAncestor && !hiddenAncestor.hasAttribute("data-day-panel")) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }});
+      const nodes = []; let node;
+      while ((node = walker.nextNode())) nodes.push(node);
+      nodes.forEach((node) => {
+        const source = node.nodeValue || "";
+        const lower = source.toLowerCase();
+        let cursor = 0; let changed = false; const fragment = document.createDocumentFragment();
+        while (cursor < source.length) {
+          const found = lower.indexOf(term, cursor);
+          if (found < 0) { fragment.append(document.createTextNode(source.slice(cursor))); break; }
+          if (found > cursor) fragment.append(document.createTextNode(source.slice(cursor, found)));
+          const mark = document.createElement("mark");
+          mark.className = "guide-search-hit";
+          mark.textContent = source.slice(found, found + term.length);
+          fragment.append(mark); hits.push(mark); changed = true; cursor = found + term.length;
+        }
+        if (changed) node.replaceWith(fragment);
+      });
+      if (hits.length) focus(0);
+      return hits.length;
+    };
+    const sourceMatches = (query) => {
+      const terms = chineseTerms(query);
+      return sourceIndex.map((item) => {
+        const sourceId = item.sourceId ?? item.number;
+        const title = normalize(item.title);
+        const cities = normalize([...(item.cities || []), item.city, item.place].join(" "));
+        const tags = normalize((item.tags || []).join(" "));
+        const searchHints = normalize((item.searchHints || []).join(" "));
+        const score = terms.reduce((total, term) => total + (title.includes(term) ? 5 : 0) + (searchHints.includes(term) ? 4 : 0) + (cities.includes(term) ? 3 : 0) + (tags.includes(term) ? 2 : 0), 0);
+        return { ...item, sourceId, score };
+      }).filter((item) => Number.isInteger(Number(item.sourceId)) && item.score > 0).sort((a, b) => b.score - a.score).slice(0, 8);
+    };
+    const showDefault = () => {
+      el.results.innerHTML = '<p class="guide-search-hint"><span>普通搜索精确匹配攻略正文；</span><span>高级搜索模糊匹配资料来源。</span></p>';
+    };
+    const renderBody = () => {
+      const query = text(el.input.value);
+      if (!query) { clearMarks(); showDefault(); return; }
+      const count = markBody(query);
+      if (count) { el.results.innerHTML = `<p class="guide-search-hint">正文命中 ${count} 处，已定位首个结果。</p>`; return; }
+      el.results.innerHTML = `<p class="guide-search-empty">攻略正文未找到“${escapeHtml(query)}”。可点击“高级搜索”查询资料来源。</p>`;
+    };
+    const renderSources = () => {
+      const query = text(el.input.value);
+      clearMarks();
+      if (!query) { showDefault(); return; }
+      if (!sourceIndex.length) { el.results.innerHTML = '<p class="guide-search-empty">本攻略未建立可用的资料来源索引。</p>'; return; }
+      const matches = sourceMatches(query);
+      el.results.innerHTML = matches.length
+        ? `<p class="guide-search-hint">资料来源中找到 ${matches.length} 条相关笔记。</p>${matches.map((item) => `<article class="guide-search-result"><strong>[${escapeHtml(item.sourceId)}] ${escapeHtml(item.title)}</strong><small>${escapeHtml([...(item.cities || []), ...(item.tags || [])].join(" · "))}</small><small class="guide-search-result-hints">线索：${escapeHtml((item.searchHints || []).slice(0, 3).join(" · "))}</small><a href="#source-${escapeHtml(item.sourceId)}">查看资料来源</a></article>`).join("")}`
+        : `<p class="guide-search-empty">资料来源中未找到“${escapeHtml(query)}”。</p>`;
+    };
+    const isMobileViewport = global.matchMedia?.("(max-width: 760px)")?.matches || Number(global.navigator?.maxTouchPoints || 0) > 0;
+    const shouldAutoFocus = options.autoFocus ?? !isMobileViewport;
+    const open = () => { el.panel.hidden = false; el.trigger.setAttribute("aria-expanded", "true"); if (!text(el.input.value)) showDefault(); if (shouldAutoFocus) el.input.focus(); };
+    const close = () => { global.clearTimeout(inputTimer); clearMarks(); el.panel.hidden = true; el.trigger.setAttribute("aria-expanded", "false"); el.trigger.focus(); };
+    const clear = () => { global.clearTimeout(inputTimer); el.input.value = ""; clearMarks(); showDefault(); el.input.focus(); };
+    if (el.advanced && !sourceIndex.length) { el.advanced.disabled = true; el.advanced.title = "本攻略未建立资料来源索引"; }
+    setNavigation();
+    showDefault();
+    el.trigger.addEventListener("click", () => el.panel.hidden ? open() : close());
+    el.close?.addEventListener("click", close); el.clear?.addEventListener("click", clear);
+    el.form.addEventListener("submit", (event) => { event.preventDefault(); global.clearTimeout(inputTimer); renderBody(); });
+    el.advanced?.addEventListener("click", renderSources);
+    el.input.addEventListener("input", () => { global.clearTimeout(inputTimer); inputTimer = global.setTimeout(renderBody, 120); });
+    el.results.addEventListener("click", (event) => { if (event.target.closest('a[href^="#source-"]')) global.setTimeout(close, 0); });
+    el.previous?.addEventListener("click", () => focus(current - 1)); el.next?.addEventListener("click", () => focus(current + 1));
+    root.addEventListener("keydown", (event) => {
+      const active = document.activeElement;
+      const editing = /input|textarea|select/i.test(active?.tagName || "") || Boolean(active?.isContentEditable);
+      if (event.key === "/" && !editing) { event.preventDefault(); open(); }
+      if (event.key === "Escape" && !el.panel.hidden) close();
+    });
+    return Object.freeze({ open, close, clear, search: renderBody, advancedSearch: renderSources });
+  }
+
+
+  function initToast(options = {}) {
+    const root = options.root || document;
+    const element = options.element || root.querySelector(options.selector || "#guide-toast") || (() => {
+      const node = root.createElement("div");
+      node.id = "guide-toast";
+      node.className = "guide-toast";
+      node.setAttribute("role", "status");
+      node.setAttribute("aria-live", "polite");
+      root.body.append(node);
+      return node;
+    })();
+    let timer = null;
+    return (message) => {
+      element.textContent = message;
+      element.classList.add("is-visible");
+      global.clearTimeout(timer);
+      timer = global.setTimeout(() => element.classList.remove("is-visible"), options.duration || 1600);
+    };
+  }
+
+  function fallbackCopy(value, root = document) {
+    const input = root.createElement("textarea");
+    input.value = value;
+    input.setAttribute("readonly", "");
+    input.style.cssText = "position:fixed;opacity:0;pointer-events:none";
+    root.body.append(input);
+    input.select();
+    const copied = root.execCommand?.("copy");
+    input.remove();
+    return copied;
+  }
+
+  function initCopyControls(options = {}) {
+    const root = options.root || document;
+    const selector = options.selector || "[data-copy], .copy-target";
+    const nodes = [...root.querySelectorAll(selector)];
+    if (!nodes.length) return;
+    const toast = options.toast || initToast({ root });
+    const ignored = new Set(options.ignore || []);
+    nodes.forEach((node) => {
+      if (node.dataset.copyReady === "true" || node.dataset.copyIgnore === "true") return;
+      const getValue = () => text(node.dataset.copy || node.textContent).replace(/[：:]$/, "");
+      const copy = async () => {
+        const value = getValue();
+        if (!value || ignored.has(value)) return;
+        try {
+          if (navigator.clipboard && global.isSecureContext) await navigator.clipboard.writeText(value);
+          else if (!fallbackCopy(value, root)) throw new Error("copy unavailable");
+          toast(options.successText || "已复制");
+        } catch (_error) {
+          if (fallbackCopy(value, root)) toast(options.successText || "已复制");
+          else toast(options.failureText || "复制失败，请长按复制");
+        }
+      };
+      if (!/^(button|a|input|textarea|select)$/i.test(node.tagName)) {
+        node.tabIndex = 0;
+        node.setAttribute("role", "button");
+      }
+      node.classList.add("copyable-name");
+      node.dataset.copyReady = "true";
+      node.addEventListener("click", copy);
+      node.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") { event.preventDefault(); copy(); }
+      });
+    });
+  }
+
+  function initChecklist(options = {}) {
+    const root = options.root || document;
+    const container = options.container || root.querySelector(options.containerSelector || "[data-checklist]");
+    if (!container) return;
+    const selector = options.selector || 'input[type="checkbox"][data-check]';
+    const scope = options.storageKey || container.dataset?.checklist || root.body?.dataset.guideId || location.pathname;
+    const editable = options.editable ?? container.dataset?.editable === "true";
+    const storage = (suffix, fallback) => {
+      const key = `travel-guide-check:${scope}:${suffix}`;
+      try { return JSON.parse(localStorage.getItem(key) || "null") ?? fallback; } catch (_error) { return fallback; }
+    };
+    const save = (suffix, value) => { try { localStorage.setItem(`travel-guide-check:${scope}:${suffix}`, JSON.stringify(value)); } catch (_error) {} };
+    const getLine = (input) => input.closest(options.itemSelector || "label,li,.check-item") || input.parentElement;
+    const getText = (line) => line?.querySelector("[data-check-label], span") || null;
+    let activeFilter = "all";
+    const bind = (input) => {
+      const id = input.dataset.check || input.id;
+      if (!id || input.dataset.checkReady === "true") return;
+      const line = getLine(input);
+      const label = getText(line);
+      const stateKey = `state:${id}`;
+      const savedState = storage(stateKey, null);
+      if (savedState !== null) input.checked = savedState === true;
+      const apply = () => line?.classList.toggle("is-complete", input.checked);
+      const savedText = storage(`text:${id}`, "");
+      if (label && savedText) label.textContent = savedText;
+      apply();
+      input.dataset.checkReady = "true";
+      input.addEventListener("change", () => { apply(); save(stateKey, input.checked); refreshProgress(); });
+      if (editable && label) {
+        label.dataset.checkLabel = "true";
+        label.addEventListener("blur", () => save(`text:${id}`, text(label.textContent)), true);
+      }
+    };
+    const list = container.querySelector("[data-checklist-items]") || container;
+    const weatherCard = container.querySelector("[data-weather-card], .guide-weather-card");
+    const insertBeforeWeather = (line) => {
+      if (!weatherCard || !list.contains(weatherCard)) { list.append(line); return; }
+      let anchor = weatherCard;
+      while (anchor.parentElement && anchor.parentElement !== list) anchor = anchor.parentElement;
+      list.insertBefore(line, anchor);
+    };
+    const refreshProgress = () => {
+      const inputs = [...list.querySelectorAll(selector)];
+      const done = inputs.filter((input) => input.checked).length;
+      const percent = inputs.length ? Math.round(done / inputs.length * 100) : 0;
+      const count = container.querySelector("[data-checklist-progress-count]");
+      const percentNode = container.querySelector("[data-checklist-progress-percent]");
+      const bar = container.querySelector("[data-checklist-progress-bar]");
+      if (count) count.textContent = `${done} / ${inputs.length}`;
+      if (percentNode) percentNode.textContent = `${percent}%`;
+      if (bar) bar.style.width = `${percent}%`;
+      inputs.forEach((input) => {
+        const line = getLine(input);
+        if (line) line.hidden = activeFilter === "done" ? !input.checked : activeFilter === "open" ? input.checked : false;
+      });
+    };
+    const customItems = () => storage("custom", []);
+    const saveCustom = (items) => save("custom", items);
+    const renderCustom = (item) => {
+      const line = root.createElement("label");
+      line.className = "guide-checklist-item is-custom";
+      const input = root.createElement("input");
+      input.type = "checkbox";
+      input.dataset.check = item.id;
+      const label = root.createElement("span");
+      label.dataset.checkLabel = "true";
+      label.textContent = item.text;
+      const remove = root.createElement("button");
+      remove.type = "button";
+      remove.className = "guide-checklist-remove";
+      remove.textContent = "删除";
+      remove.setAttribute("aria-label", `删除确认项：${item.text}`);
+      remove.addEventListener("click", () => {
+        line.remove();
+        saveCustom(customItems().filter((entry) => entry.id !== item.id));
+        try {
+          localStorage.removeItem(`travel-guide-check:${scope}:state:${item.id}`);
+          localStorage.removeItem(`travel-guide-check:${scope}:text:${item.id}`);
+        } catch (_error) {}
+        refreshProgress();
+        root.dispatchEvent(new CustomEvent("guide:checklist-custom-remove", { detail: { id: item.id } }));
+      });
+      line.append(input, label, remove);
+      insertBeforeWeather(line);
+      bind(input);
+    };
+    container.querySelectorAll(selector).forEach(bind);
+    const filters = [...container.querySelectorAll("[data-checklist-filter]")];
+    filters.forEach((button) => button.addEventListener("click", () => {
+      activeFilter = button.dataset.checklistFilter || "all";
+      filters.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+      refreshProgress();
+    }));
+    if (container.dataset.checklistRefreshBound !== "true") {
+      container.addEventListener("guide:checklist-refresh", refreshProgress);
+      container.dataset.checklistRefreshBound = "true";
+    }
+    refreshProgress();
+    if (!editable || container.dataset.checklistReady === "true") return { refresh: refreshProgress };
+    container.dataset.checklistReady = "true";
+    customItems().filter((item) => item?.id && item?.text).forEach(renderCustom);
+    const tools = root.createElement("div");
+    tools.className = "guide-checklist-tools";
+    tools.innerHTML = '<button type="button" data-checklist-toggle>编辑清单</button><div class="guide-checklist-add"><input type="text" maxlength="120" placeholder="添加确认项"><button type="button" data-checklist-add>添加</button></div>';
+    container.prepend(tools);
+    const toggle = tools.querySelector("[data-checklist-toggle]");
+    const addBox = tools.querySelector(".guide-checklist-add");
+    const addInput = addBox.querySelector("input");
+    const add = () => {
+      const value = text(addInput.value);
+      if (!value) return;
+      const item = { id: `custom-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, text: value };
+      saveCustom([...customItems(), item]);
+      renderCustom(item);
+      root.dispatchEvent(new CustomEvent("guide:checklist-custom-add", { detail: { item } }));
+      addInput.value = "";
+      addInput.focus();
+      refreshProgress();
+    };
+    const setEditing = (active) => {
+      container.classList.toggle("is-editing", active);
+
+      toggle.textContent = active ? "完成编辑" : "编辑清单";
+      container.querySelectorAll("[data-check-label]").forEach((label) => {
+        const custom = Boolean(label.closest(".guide-checklist-item.is-custom"));
+        label.contentEditable = String(active && custom);
+      });
+    };
+    toggle.addEventListener("click", () => setEditing(!container.classList.contains("is-editing")));
+    tools.querySelector("[data-checklist-add]").addEventListener("click", add);
+    addInput.addEventListener("keydown", (event) => { if (event.key === "Enter") { event.preventDefault(); add(); } });
+    refreshProgress();
+    return { refresh: refreshProgress };
+  }
+  function initImagePreview(options = {}) {
+    const root = options.root || document;
+    const selector = options.selector || ".gallery img, [data-preview-image]";
+    const triggers = [...root.querySelectorAll(selector)];
+    if (!triggers.length) return;
+    let dialog = options.dialog || root.querySelector(options.dialogSelector || "#imageDialog");
+    if (!dialog) {
+      dialog = root.createElement("dialog");
+      dialog.className = "travel-image-dialog";
+      dialog.innerHTML = '<button type="button" aria-label="关闭图片预览">×</button><img alt="">';
+      root.body.append(dialog);
+    }
+    const image = dialog.querySelector("img");
+    const closeButton = dialog.querySelector("button");
+    if (!image || !closeButton) return;
+    let lastFocus = null;
+    const close = () => { dialog.close?.(); dialog.removeAttribute("open"); lastFocus?.focus?.(); };
+    triggers.forEach((trigger) => {
+      if (trigger.dataset.previewReady === "true") return;
+      const open = () => {
+        lastFocus = root.activeElement;
+        image.src = trigger.currentSrc || trigger.dataset.previewImage || trigger.src;
+        image.alt = trigger.alt || "图片预览";
+        if (typeof dialog.showModal === "function") dialog.showModal(); else dialog.setAttribute("open", "");
+      };
+      trigger.tabIndex = trigger.tabIndex >= 0 ? trigger.tabIndex : 0;
+      trigger.dataset.previewReady = "true";
+      trigger.addEventListener("click", open);
+      trigger.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); open(); } });
+    });
+    closeButton.addEventListener("click", close);
+    dialog.addEventListener("click", (event) => { if (event.target === dialog) close(); });
+    dialog.addEventListener("cancel", (event) => { event.preventDefault(); close(); });
+  }
+
+  function initExchange(options = {}) {
+    const root = options.root || document;
+    const card = options.card || root.querySelector(options.cardSelector || '[data-exchange-tool], .exchange-tool-card, .exchange-card');
+    if (!card) return;
+    const refreshButton = card.querySelector('[data-exchange-refresh], .exchange-refresh');
+    const status = card.querySelector('[data-exchange-status], .exchange-status');
+    const input = card.querySelector('[data-exchange-input], #exchange-amount');
+    const lastUpdated = card.querySelector('[data-exchange-last-updated]');
+    if (!refreshButton || !input) return;
+    const writeStatus = (message) => { if (status) status.textContent = message; };
+    const base = text(card.dataset.exchangeBase || options.base || 'CNY').toUpperCase();
+    const configuredTargets = Array.isArray(options.targets) ? options.targets.join(',') : (card.dataset.exchangeTargets || options.targets || '');
+    const targets = [...new Set(text(configuredTargets).split(',').map((item) => text(item).toUpperCase()).filter((item) => item && item !== base))];
+    if (!targets.length) { refreshButton.disabled = true; writeStatus('请先配置目的地货币'); return; }
+    const targetList = targets.join(',');
+    const defaultEndpoint = `https://open.er-api.com/v6/latest/${encodeURIComponent(base)}`;
+    // Frankfurter v1 is retained only for non-CNY bases; do not present it as a CNY fallback.
+    const fallbackEndpoint = base === "CNY" ? "" : `https://api.frankfurter.app/latest?from=${encodeURIComponent(base)}&to=${encodeURIComponent(targetList)}`;
+    const endpoints = [...new Set([card.dataset.exchangeEndpoint, options.endpoint, defaultEndpoint, fallbackEndpoint].filter(Boolean))];
+    const fetchImpl = options.fetchImpl || global.fetch?.bind(global);
+    let rates = null;
+    const format = (value) => Number.isFinite(value) ? new Intl.NumberFormat('zh-CN', { maximumFractionDigits: 4 }).format(value) : '—';
+    const stamp = (date) => new Intl.DateTimeFormat('zh-CN', { dateStyle: 'short', timeStyle: 'short' }).format(date);
+    const updateRateLabels = () => {
+      targets.forEach((currency) => {
+        const node = card.querySelector(`[data-exchange-rate="${currency}"]`);
+        if (!node) return;
+        const quote = rates?.[currency];
+        node.textContent = Number.isFinite(quote) && quote > 0 ? `1 ${base} ≈ ${format(quote)} ${currency}` : '待刷新';
+      });
+    };
+    const updateResults = () => {
+      const value = Number(input.value);
+      targets.forEach((currency) => {
+        const node = card.querySelector(`[data-exchange-result="${currency}"]`);
+        if (!node) return;
+        if (!rates) { node.textContent = '请先刷新汇率'; return; }
+        if (!Number.isFinite(value) || value < 0) { node.textContent = '请输入有效金额'; return; }
+        const converted = value * Number(rates[currency]);
+        node.textContent = Number.isFinite(converted) ? `${format(converted)} ${currency}` : '暂无法换算';
+      });
+    };
+    const readRates = (payload) => {
+      if (payload?.rates && typeof payload.rates === 'object') {
+        const parsed = Object.fromEntries(Object.entries(payload.rates).map(([key, value]) => [String(key).toUpperCase(), Number(value)]));
+        parsed[base] = 1;
+        return parsed;
+      }
+      return null;
+    };
+    const request = async (endpoint) => {
+      const controller = typeof AbortController === 'function' ? new AbortController() : null;
+      const timer = controller ? global.setTimeout(() => controller.abort(), 12000) : null;
+      try {
+        const response = await fetchImpl(endpoint, { headers: { Accept: 'application/json' }, cache: 'no-store', mode: 'cors', signal: controller?.signal });
+        if (!response.ok) throw new Error(`exchange request failed: ${response.status}`);
+        const payload = await response.json();
+        const nextRates = readRates(payload);
+        if (!nextRates || targets.some((currency) => !Number.isFinite(nextRates[currency]) || nextRates[currency] <= 0)) throw new Error('exchange response incomplete');
+        return { rates: nextRates, date: payload.time_last_update_utc || payload.date || '', endpoint };
+      } finally {
+        if (timer) global.clearTimeout(timer);
+      }
+    };
+    const refresh = async () => {
+      if (!fetchImpl) { writeStatus('当前环境无法请求汇率，请稍后重试'); return; }
+      refreshButton.disabled = true;
+      card.classList.add('is-loading');
+      writeStatus('正在获取当前汇率…');
+      let result = null;
+      for (const endpoint of endpoints) {
+        try { result = await request(endpoint); break; } catch (_error) { /* try the next public source */ }
+      }
+      if (result) {
+        rates = result.rates;
+        updateRateLabels();
+        updateResults();
+        if (lastUpdated) lastUpdated.textContent = `更新时间：${stamp(new Date())}${result.date ? `；数据日期：${result.date}` : ''}`;
+        writeStatus('已更新；数据仅作中间价参考。');
+      } else {
+        updateRateLabels();
+        updateResults();
+        if (lastUpdated) lastUpdated.textContent = '更新时间：尚未获取';
+        writeStatus(global.location?.protocol === 'file:' ? '本地 file:// 可能限制跨域请求，请用本地 HTTP 打开后刷新' : '汇率接口暂时不可用，请稍后再次点击“刷新汇率”。');
+      }
+      refreshButton.disabled = false;
+      card.classList.remove('is-loading');
+    };
+    input.addEventListener('input', updateResults);
+    refreshButton.addEventListener('click', refresh);
+    updateRateLabels();
+    updateResults();
+    return { refresh, update: updateResults };
+  }
+
+  function initWeatherForecast(options = {}) {
+    const root = options.root || document;
+    const card = options.card || root.querySelector(options.cardSelector || "[data-weather-card]");
+    if (!card || card.dataset.weatherReady === "true") return;
+    const refreshButton = card.querySelector("[data-weather-refresh]");
+    const status = card.querySelector("[data-weather-status]");
+    const grid = card.querySelector("[data-weather-grid]");
+    const dataKind = card.querySelector("[data-weather-data-kind]");
+    const updatedAt = card.querySelector("[data-weather-updated-at]");
+    const easterEgg = card.querySelector("[data-rain-easter-egg]");
+    if (!refreshButton || !status || !grid) return;
+    const locations = options.locations || readJsonIndex("[data-weather-locations]", card);
+    const startDate = text(options.startDate || card.dataset.weatherStartDate);
+    const endDate = text(options.endDate || card.dataset.weatherEndDate);
+    const days = Math.min(7, Math.max(1, Number(options.days || card.dataset.weatherDays || 7)));
+    const threshold = Number(options.rainThreshold || card.dataset.rainThreshold || 80);
+    const fetchImpl = options.fetchImpl || global.fetch?.bind(global);
+    const weatherText = { 0: "晴", 1: "大致晴朗", 2: "多云", 3: "阴", 45: "雾", 48: "雾凇", 51: "毛毛雨", 53: "毛毛雨", 55: "强毛毛雨", 61: "小雨", 63: "中雨", 65: "大雨", 80: "阵雨", 81: "阵雨", 82: "强阵雨", 95: "雷暴", 96: "雷暴伴冰雹", 99: "强雷暴伴冰雹" };
+    const format = (value, digits = 0) => Number.isFinite(Number(value)) ? Number(value).toFixed(digits) : "—";
+    const dateOnly = (date) => new Date(date + "T00:00:00");
+    const formatDate = (date) => date ? date.slice(5).replace("-", "/") : "—";
+    const localIsoDate = (date) => [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-");
+    const addDays = (date, amount) => { const next = dateOnly(date); next.setDate(next.getDate() + amount); return localIsoDate(next); };
+    const weatherCacheKey = `travel-guide-weather-summary:${location.pathname}:${startDate}:${endDate}`;
+    const applyDayWeather = (summary) => {
+      root.querySelectorAll("[data-itinerary-date]").forEach((day) => {
+        const badge = day.querySelector("[data-day-weather]");
+        if (!badge) return;
+        const row = summary?.[day.dataset.itineraryDate];
+        badge.textContent = row ? `${row.weather} · 降雨 ${row.chance}% · ${row.min}–${row.max}°C` : "天气待刷新";
+        badge.classList.toggle("is-risk", Boolean(row && row.chance >= threshold));
+      });
+    };
+    const syncDayWeather = (rowsByLocation) => {
+      const byDate = {};
+      Object.values(rowsByLocation).flatMap((rows) => rows || []).forEach((row) => {
+        const current = byDate[row.date];
+        if (!current) byDate[row.date] = { weather: row.weather, chance: Math.round(Number(row.chance) || 0), min: Math.round(Number(row.min)), max: Math.round(Number(row.max)) };
+        else {
+          current.chance = Math.max(current.chance, Math.round(Number(row.chance) || 0));
+          current.min = Math.min(current.min, Math.round(Number(row.min)));
+          current.max = Math.max(current.max, Math.round(Number(row.max)));
+          if ((Number(row.chance) || 0) >= current.chance) current.weather = row.weather;
+        }
+      });
+      applyDayWeather(byDate);
+      try { sessionStorage.setItem(weatherCacheKey, JSON.stringify(byDate)); } catch (_error) {}
+    };
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const tripStart = /^\d{4}-\d{2}-\d{2}$/.test(startDate) ? dateOnly(startDate) : null;
+    const tripEnd = /^\d{4}-\d{2}-\d{2}$/.test(endDate) ? dateOnly(endDate) : (tripStart ? dateOnly(addDays(startDate, days - 1)) : null);
+    const daysUntilStart = tripStart ? Math.round((tripStart - today) / 86400000) : 0;
+    const withinForecastWindow = !tripStart || (daysUntilStart <= 7 && (!tripEnd || today <= tripEnd));
+    const enabled = options.enabled ?? (card.dataset.weatherEnabled === "true" || (card.dataset.weatherEnabled !== "false" && withinForecastWindow));
+    const tagHtml = (row) => {
+      const items = [];
+      if (row.rain >= 10 || row.hours >= 5 || /雷暴/.test(row.weather)) items.push(["室内备选", "risk"]);
+      else if (row.rain >= 3 || row.hours >= 2 || row.chance >= 50) items.push(["带雨具", "warn"]);
+      else items.push(["户外可行", "good"]);
+      if (row.gust >= 40) items.push(["船班核验", "risk"]);
+      if (row.feel >= 35 && row.uv >= 8) items.push(["高温防晒", "warn"]);
+      else if (row.uv >= 8) items.push(["防晒", "warn"]);
+      return items.map(([label, kind]) => '<span class="guide-weather-chip ' + kind + '">' + label + "</span>").join("");
+    };
+    const render = (rowsByLocation) => {
+      grid.innerHTML = locations.map((location) => {
+        const rows = rowsByLocation[location.name];
+        if (!rows) return '<article class="guide-weather-location is-error"><h4>' + escapeHtml(location.name) + "<small>" + escapeHtml(location.label || "") + '</small></h4><p class="guide-weather-location-error">该地点暂时获取失败，请稍后重试。</p></article>';
+        const body = rows.map((row) => '<tr><td>' + formatDate(row.date) + '</td><td class="weather">' + escapeHtml(row.weather) + "<br>" + format(row.min) + "–" + format(row.max) + '°C</td><td class="metric">最高约 ' + format(row.feel) + '°C</td><td class="metric">' + format(row.rain, 1) + " mm · " + format(row.hours) + " 小时<br>降雨 " + format(row.chance) + '%</td><td class="metric">' + format(row.gust) + " km/h · UV " + format(row.uv) + "<br>日落 " + escapeHtml(row.sunset || "待核验") + '</td><td class="key">' + tagHtml(row) + "</td></tr>").join("");
+        return '<article class="guide-weather-location"><h4>' + escapeHtml(location.name) + "<small>" + escapeHtml(location.label || "") + '</small></h4><div class="guide-weather-table-wrap"><table class="guide-weather-table"><thead><tr><th>日期</th><th>天气 / 温度</th><th>体感</th><th>雨量 / 雨时</th><th>阵风 / UV / 日落</th><th>关键提示</th></tr></thead><tbody>' + body + "</tbody></table></div></article>";
+      }).join("");
+      if (easterEgg) easterEgg.hidden = !Object.values(rowsByLocation).some((rows) => rows?.some((row) => Number(row.chance) >= threshold));
+      syncDayWeather(rowsByLocation);
+    };
+    const requestLocation = async (location) => {
+      if (!fetchImpl) throw new Error("fetch unavailable");
+      const todayIso = localIsoDate(new Date());
+      const queryStart = tripStart && today > tripStart ? todayIso : (startDate || todayIso);
+      const plannedEnd = addDays(queryStart, days - 1);
+      const queryEnd = tripEnd && dateOnly(plannedEnd) > tripEnd ? localIsoDate(tripEnd) : plannedEnd;
+      const url = new URL("https://api.open-meteo.com/v1/forecast");
+      url.search = new URLSearchParams({
+        latitude: location.latitude, longitude: location.longitude,
+        daily: "weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,precipitation_sum,precipitation_hours,precipitation_probability_max,wind_gusts_10m_max,uv_index_max,sunset",
+        timezone: location.timezone || options.timezone || "auto", start_date: queryStart, end_date: queryEnd
+      });
+      const controller = typeof AbortController === "function" ? new AbortController() : null;
+      const timer = controller ? global.setTimeout(() => controller.abort(), 12000) : null;
+      let response;
+      try { response = await fetchImpl(url, { cache: "no-store", headers: { Accept: "application/json" }, signal: controller?.signal }); }
+      finally { if (timer) global.clearTimeout(timer); }
+      if (!response.ok) throw new Error(location.name + " weather request failed");
+      const daily = (await response.json()).daily;
+      if (!daily?.time?.length) throw new Error(location.name + " weather response empty");
+      return [location.name, daily.time.map((date, index) => ({
+        date, weather: weatherText[daily.weather_code[index]] || "待核验",
+        min: daily.temperature_2m_min[index], max: daily.temperature_2m_max[index], feel: daily.apparent_temperature_max[index],
+        rain: daily.precipitation_sum[index] || 0, hours: daily.precipitation_hours[index] || 0,
+        chance: daily.precipitation_probability_max[index] || 0, gust: daily.wind_gusts_10m_max[index] || 0,
+        uv: daily.uv_index_max[index] || 0, sunset: (daily.sunset[index] || "").slice(11, 16)
+      }))];
+    };
+    const refresh = async () => {
+      refreshButton.disabled = true;
+      card.classList.add("is-loading");
+      refreshButton.textContent = "正在刷新…";
+      status.textContent = "正在获取 " + locations.map((item) => item.name).join("、") + " 的体感、雨量、阵风、UV 与日落…";
+      try {
+        if (!locations.length) throw new Error("weather locations missing");
+        const settled = await Promise.allSettled(locations.map(requestLocation));
+        const successes = settled.filter((result) => result.status === "fulfilled").map((result) => result.value);
+        if (!successes.length) throw new Error("all weather requests failed");
+        const rows = Object.fromEntries(successes);
+        const failedCount = settled.length - successes.length;
+        render(rows);
+        if (dataKind) { dataKind.textContent = failedCount ? "部分刷新成功" : "已刷新：Open‑Meteo 预报"; dataKind.classList.remove("is-waiting"); }
+        status.textContent = failedCount
+          ? "已显示 " + successes.length + " 个地点，" + failedCount + " 个地点暂时获取失败；官方公告优先。"
+          : "天气已刷新。关键标签用于快速调整节奏；灾害预警、海况、道路及交通仍以官方公告为准。";
+        if (updatedAt) updatedAt.innerHTML = "<strong>更新时间：</strong>" + new Intl.DateTimeFormat("zh-CN", { dateStyle: "short", timeStyle: "short" }).format(new Date());
+      } catch (_error) {
+        status.textContent = global.location?.protocol === "file:" ? "本地 file:// 可能限制天气请求，请用本地 HTTP 打开后重试；正文不受影响。" : "暂无法获取天气，请稍后重试，并以官方公告为准。";
+      } finally {
+        refreshButton.disabled = false;
+        card.classList.remove("is-loading");
+        refreshButton.textContent = "刷新天气";
+      }
+    };
+    const modal = card.querySelector("[data-rain-prayer-modal]");
+    const frame = card.querySelector("[data-rain-prayer-frame]");
+    const closeButton = card.querySelector("[data-rain-prayer-close]");
+    const openButton = card.querySelector("[data-rain-prayer-open]");
+    const prayerSource = readJsonIndex("[data-rain-prayer-source]", card);
+    let prayerLastFocus = null;
+    const closePrayer = () => { if (!modal || !frame) return; modal.hidden = true; frame.srcdoc = ""; root.body.style.overflow = ""; prayerLastFocus?.focus?.(); prayerLastFocus = null; };
+    openButton?.addEventListener("click", (event) => {
+      event.preventDefault();
+      if (!modal || !frame || typeof prayerSource !== "string") return;
+      prayerLastFocus = root.activeElement;
+      closeButton.hidden = true;
+      frame.srcdoc = prayerSource;
+      modal.hidden = false;
+      root.body.style.overflow = "hidden";
+      const panel = modal.querySelector(".guide-rain-prayer-panel");
+      if (panel && !panel.hasAttribute("tabindex")) panel.setAttribute("tabindex", "-1");
+      panel?.focus?.({ preventScroll: true });
+    });
+    closeButton?.addEventListener("click", closePrayer);
+    root.addEventListener("keydown", (event) => { if (event.key === "Escape" && modal && !modal.hidden) closePrayer(); });
+    global.addEventListener("message", (event) => {
+      if (frame && event.source === frame.contentWindow && event.data?.type === "rain-prayer-complete") closeButton.hidden = false;
+    });
+    card.dataset.weatherReady = "true";
+    refreshButton.disabled = !enabled;
+    refreshButton.textContent = enabled ? "刷新天气" : "T-7 开启";
+    refreshButton.title = enabled ? "手动刷新天气" : "将在行程开始前 7 天开放天气刷新";
+    refreshButton.setAttribute("aria-label", refreshButton.title);
+
+    try { applyDayWeather(JSON.parse(sessionStorage.getItem(weatherCacheKey) || "null")); } catch (_error) {}
+
+    if (!enabled && dataKind) dataKind.textContent = "预测窗口尚未开启";
+    status.textContent = enabled ? "点击“刷新天气”后才请求 Open‑Meteo；页面首次加载不自动联网。" : options.disabledText || "预测窗口尚未开启；将在行程开始前 7 天开放刷新。";
+    refreshButton.addEventListener("click", refresh);
+    return { refresh, render };
+  }
+  function initQuickNav(options = {}) {
+    const root = options.root || document;
+    const nav = options.nav || root.querySelector(options.selector || "[data-quick-nav], .quick-nav");
+    if (!nav || nav.dataset.quickNavReady === "true") return;
+    const sectionSelector = options.sectionSelector || "[data-nav-label][id]";
+    const sections = [...root.querySelectorAll(sectionSelector)].filter((section) => !section.hidden && section.dataset.navHidden !== "true");
+    const autoBuild = nav.hasAttribute("data-quick-nav") && nav.dataset.navManual !== "true";
+    if (autoBuild) {
+      const fragment = document.createDocumentFragment();
+      sections.forEach((section) => {
+        const label = text(section.dataset.navLabel);
+        if (!label) return;
+        const link = document.createElement("a");
+        link.href = "#" + encodeURIComponent(section.id);
+        link.textContent = label;
+        fragment.append(link);
+      });
+      nav.replaceChildren(fragment);
+    }
+    const targetFor = (link) => {
+      const id = decodeURIComponent((link.getAttribute("href") || "").slice(1));
+      return id ? document.getElementById(id) : null;
+    };
+    const pairs = [...nav.querySelectorAll('a[href^="#"]')].map((link) => ({ link, target: targetFor(link) })).filter((item) => item.target);
+    if (!pairs.length) { nav.hidden = true; return; }
+    nav.hidden = false;
+    nav.dataset.quickNavReady = "true";
+    const reduceMotion = global.matchMedia?.("(prefers-reduced-motion: reduce)").matches === true;
+    let activeTarget = null;
+    let scheduled = null;
+    const clock = () => global.performance?.now?.() || Date.now();
+    let pointerGesture = null;
+    let suppressPointerClickUntil = 0;
+    let manualNavUntil = 0;
+    let autoRevealUntil = 0;
+    let lastPointerLink = null;
+    let lastPointerClickAt = 0;
+    const onNavPointerDown = (event) => {
+      if (event.pointerType === "mouse" && event.button !== 0) return;
+      pointerGesture = { id: event.pointerId, x: event.clientX, y: event.clientY, dragged: false };
+    };
+    const onNavPointerMove = (event) => {
+      if (!pointerGesture || pointerGesture.id !== event.pointerId) return;
+      const dx = Math.abs(event.clientX - pointerGesture.x);
+      const dy = Math.abs(event.clientY - pointerGesture.y);
+      if (dx > 8 && dx > dy) {
+        pointerGesture.dragged = true;
+        suppressPointerClickUntil = clock() + 450;
+        manualNavUntil = clock() + 300;
+      }
+    };
+    const finishNavPointer = () => {
+      if (pointerGesture?.dragged) {
+        suppressPointerClickUntil = clock() + 450;
+        manualNavUntil = clock() + 300;
+      }
+      pointerGesture = null;
+    };
+    const onNavClickCapture = (event) => {
+      const link = event.target.closest?.('a[href^="#"]');
+      if (!link || !nav.contains(link)) return;
+      const time = clock();
+      const repeatedPointerClick = event.detail > 0 && lastPointerLink === link && time - lastPointerClickAt < 320;
+      if (time < suppressPointerClickUntil || repeatedPointerClick) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        return;
+      }
+      if (event.detail > 0) { lastPointerLink = link; lastPointerClickAt = time; }
+    };
+    const onNavWheel = () => { manualNavUntil = clock() + 300; };
+    const onNavScroll = () => { if (clock() >= autoRevealUntil) manualNavUntil = clock() + 300; };
+    const reveal = (link) => {
+      if (pointerGesture?.dragged || clock() < manualNavUntil) return;
+      const left = Math.max(0, link.offsetLeft - (nav.clientWidth - link.offsetWidth) / 2);
+      autoRevealUntil = clock() + 700;
+      if (typeof nav.scrollTo === "function") nav.scrollTo({ left, behavior: reduceMotion ? "auto" : "smooth" });
+      else nav.scrollLeft = left;
+    };
+    const activate = (target, revealLink = true) => {
+      if (!target || activeTarget === target) return;
+      activeTarget = target;
+      pairs.forEach((item) => {
+        const active = item.target === target;
+        item.link.classList.toggle("is-active", active);
+        if (active) {
+          item.link.setAttribute("aria-current", "location");
+          if (revealLink) reveal(item.link);
+        } else item.link.removeAttribute("aria-current");
+      });
+    };
+    const updateOffset = () => {
+      const top = Number.parseFloat(global.getComputedStyle?.(nav).top) || 0;
+      const offset = Math.ceil(nav.getBoundingClientRect().height + top + 12);
+      document.documentElement.style.setProperty("--guide-nav-offset", offset + "px");
+    };
+    const selectCurrent = () => {
+      scheduled = null;
+      const top = Number.parseFloat(global.getComputedStyle?.(nav).top) || 0;
+      const activationLine = top + nav.getBoundingClientRect().height + 16;
+      let current = pairs[0];
+      pairs.forEach((item) => { if (item.target.getBoundingClientRect().top <= activationLine) current = item; });
+      activate(current.target);
+    };
+    const schedule = () => {
+      if (scheduled !== null) return;
+      scheduled = global.requestAnimationFrame ? global.requestAnimationFrame(selectCurrent) : global.setTimeout(selectCurrent, 16);
+    };
+    const onHashChange = () => {
+      const id = decodeURIComponent(global.location.hash.slice(1));
+      const pair = pairs.find((item) => item.target.id === id);
+      if (pair) activate(pair.target);
+      else schedule();
+    };
+    const onClick = (event) => {
+      const link = event.target.closest('a[href^="#"]');
+      if (!link || !nav.contains(link)) return;
+      const pair = pairs.find((item) => item.link === link);
+      if (pair) activate(pair.target);
+    };
+    nav.addEventListener("click", onNavClickCapture, true);
+    nav.addEventListener("click", onClick);
+    nav.addEventListener("pointerdown", onNavPointerDown);
+    nav.addEventListener("pointermove", onNavPointerMove);
+    nav.addEventListener("pointerup", finishNavPointer);
+    nav.addEventListener("pointercancel", finishNavPointer);
+    nav.addEventListener("wheel", onNavWheel, { passive: true });
+    nav.addEventListener("scroll", onNavScroll, { passive: true });
+    global.addEventListener("scroll", schedule, { passive: true });
+    global.addEventListener("resize", schedule);
+    global.addEventListener("hashchange", onHashChange);
+    const resizeObserver = global.ResizeObserver ? new global.ResizeObserver(() => { updateOffset(); schedule(); }) : null;
+    resizeObserver?.observe(nav);
+    updateOffset();
+    onHashChange();
+    schedule();
+    return () => {
+      nav.removeEventListener("click", onNavClickCapture, true);
+      nav.removeEventListener("click", onClick);
+      nav.removeEventListener("pointerdown", onNavPointerDown);
+      nav.removeEventListener("pointermove", onNavPointerMove);
+      nav.removeEventListener("pointerup", finishNavPointer);
+      nav.removeEventListener("pointercancel", finishNavPointer);
+      nav.removeEventListener("wheel", onNavWheel);
+      nav.removeEventListener("scroll", onNavScroll);
+      global.removeEventListener("scroll", schedule);
+      global.removeEventListener("resize", schedule);
+      global.removeEventListener("hashchange", onHashChange);
+      resizeObserver?.disconnect();
+      if (scheduled !== null) { if (global.cancelAnimationFrame) global.cancelAnimationFrame(scheduled); else global.clearTimeout(scheduled); }
+    };
+  }
+
+  function initDayTabs(options = {}) {
+    const root = options.root || document;
+    const tabs = [...root.querySelectorAll(options.tabSelector || "[data-day-tab]")];
+    const panels = [...root.querySelectorAll(options.panelSelector || "[data-day-panel]")];
+    if (!tabs.length || tabs.length !== panels.length) return;
+    const reduceMotion = global.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+    const listeners = [];
+    let activeIndex = Math.max(0, tabs.findIndex((tab) => tab.getAttribute("aria-selected") === "true"));
+    let transitionToken = 0;
+    const clearAnimation = (panel) => panel.classList.remove("is-entering-forward", "is-entering-backward");
+    const select = (requestedIndex, settings = {}) => {
+      const nextIndex = Math.min(tabs.length - 1, Math.max(0, Number(requestedIndex) || 0));
+      const previousIndex = activeIndex;
+      const direction = nextIndex >= previousIndex ? "forward" : "backward";
+      const targetTab = tabs[nextIndex];
+      const targetPanel = panels[nextIndex];
+      transitionToken += 1;
+      const token = transitionToken;
+      tabs.forEach((tab, index) => {
+        const selected = index === nextIndex;
+        tab.setAttribute("aria-selected", String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+      });
+      panels.forEach((panel, index) => {
+        clearAnimation(panel);
+        panel.hidden = index !== nextIndex;
+        panel.setAttribute("aria-hidden", String(index !== nextIndex));
+      });
+      activeIndex = nextIndex;
+      if (nextIndex !== previousIndex && !reduceMotion) {
+        targetPanel.classList.add(`is-entering-${direction}`);
+        const finish = () => { if (token === transitionToken) clearAnimation(targetPanel); };
+        targetPanel.addEventListener("animationend", finish, { once: true });
+        global.setTimeout(finish, 320);
+      }
+      if (settings.scroll !== false) targetTab.scrollIntoView?.({ behavior: reduceMotion ? "auto" : "smooth", block: "nearest", inline: "center" });
+      if (settings.focus) targetTab.focus({ preventScroll: true });
+      if (settings.emit !== false) root.dispatchEvent(new CustomEvent("guide:day-change", { detail: { dayNumber: Number(targetTab.dataset.dayTab) || nextIndex + 1, date: targetPanel.dataset.itineraryDate || "" } }));
+    };
+    tabs.forEach((tab, index) => {
+      const onClick = () => select(index);
+      const onKeyDown = (event) => {
+        let nextIndex = null;
+        if (event.key === "ArrowRight") nextIndex = (index + 1) % tabs.length;
+        if (event.key === "ArrowLeft") nextIndex = (index - 1 + tabs.length) % tabs.length;
+        if (event.key === "Home") nextIndex = 0;
+        if (event.key === "End") nextIndex = tabs.length - 1;
+        if (nextIndex === null) return;
+        event.preventDefault();
+        select(nextIndex, { focus: true });
+      };
+      tab.addEventListener("click", onClick);
+      tab.addEventListener("keydown", onKeyDown);
+      listeners.push([tab, "click", onClick], [tab, "keydown", onKeyDown]);
+    });
+    select(activeIndex, { emit: false, scroll: false });
+    return {
+      select,
+      destroy() { listeners.forEach(([node, type, listener]) => node.removeEventListener(type, listener)); }
+    };
+  }
+  function initExecutionLinks(options = {}) {
+    const root = options.root || document;
+    const focus = (item) => {
+      const placeId = item.dataset.placeId;
+      if (!placeId) return;
+      root.dispatchEvent(new CustomEvent("guide:focus-place", { detail: { placeId, dayNumber: Number(item.dataset.dayNumber) || null } }));
+    };
+    root.querySelectorAll(".execution-item[data-place-id]").forEach((item) => {
+      if (item.dataset.executionReady === "true") return;
+      item.dataset.executionReady = "true";
+      item.addEventListener("click", (event) => { if (!event.target.closest("a,button,input")) focus(item); });
+      item.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); focus(item); } });
+    });
+    root.querySelectorAll("[data-show-day-map]").forEach((button) => button.addEventListener("click", () => {
+      const control = root.querySelector(`[data-map-view="day-${CSS.escape(button.dataset.showDayMap)}"]`);
+      control?.click();
+      root.querySelector("#route-map-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }));
+  }
+
+  function initCalendarExport(options = {}) {
+    const root = options.root || document;
+    const button = root.querySelector("[data-calendar-export]");
+    const status = root.querySelector("[data-calendar-status]");
+    const events = readJsonIndex("[data-calendar-events]", root);
+    if (!button || !Array.isArray(events)) return;
+    const validEvents = events.filter((event) => event?.date && (event.allDay || event.startTime));
+    const exportCalendar = () => {
+      if (!validEvents.length) { if (status) status.textContent = "暂无可导出的行程"; return; }
+      if (!global.TravelGuideCalendar?.buildIcs) { if (status) status.textContent = "日历组件暂不可用"; return; }
+      let calendarText = "";
+      try { calendarText = global.TravelGuideCalendar.buildIcs(validEvents, { calendarName: document.title }); }
+      catch (_error) { if (status) status.textContent = "日历生成失败，请稍后重试"; return; }
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(new Blob([calendarText], { type: "text/calendar;charset=utf-8" }));
+      link.download = options.filename || "travel-itinerary.ics";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      global.setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+      if (status) status.textContent = `已导出 ${validEvents.length} 项行程`;
+    };
+    button.addEventListener("click", exportCalendar);
+    return { export: exportCalendar };
+  }
+
+  function initExpenseTracker(options = {}) {
+    const root = options.root || document;
+    const card = root.querySelector("[data-expense-tracker]");
+    if (!card || card.dataset.expenseReady === "true") return;
+    const fields = { date: card.querySelector("[data-expense-date]"), name: card.querySelector("[data-expense-name]"), amount: card.querySelector("[data-expense-amount]") };
+    const list = card.querySelector("[data-expense-list]");
+    const totalNode = card.querySelector("[data-expense-total]");
+    const compareNode = card.querySelector("[data-expense-compare]");
+    const currency = card.dataset.currency || "CNY";
+    const budgetMax = Number(card.dataset.budgetMax) || 0;
+    const storageKey = `travel-guide-expenses:${root.body?.dataset?.guideId || location.pathname}`;
+    const load = () => { try { return JSON.parse(localStorage.getItem(storageKey) || "[]"); } catch (_error) { return []; } };
+    const save = (items) => { try { localStorage.setItem(storageKey, JSON.stringify(items)); } catch (_error) {} };
+    let items = load().filter((item) => item?.id && Number.isFinite(Number(item.amount)));
+    const render = () => {
+      const total = items.reduce((sum, item) => sum + Number(item.amount), 0);
+      totalNode.textContent = `${total.toLocaleString("zh-CN", { maximumFractionDigits: 2 })} ${currency}`;
+      compareNode.textContent = budgetMax ? `占计划预算上限 ${Math.round(total / budgetMax * 100)}%` : "已记录实际支出";
+      list.innerHTML = items.map((item) => `<li><time>${escapeHtml(item.date || "未填日期")}</time><span>${escapeHtml(item.name)}</span><strong>${Number(item.amount).toLocaleString("zh-CN")} ${escapeHtml(currency)}</strong><button type="button" data-expense-remove="${escapeHtml(item.id)}">删除</button></li>`).join("");
+    };
+    card.querySelector("[data-expense-add]")?.addEventListener("click", () => {
+      const name = text(fields.name?.value); const amount = Number(fields.amount?.value);
+      if (!name || !Number.isFinite(amount) || amount <= 0) return;
+      items.push({ id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, date: fields.date?.value || "", name, amount });
+      save(items); render(); fields.name.value = ""; fields.amount.value = ""; fields.name.focus();
+    });
+    list?.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-expense-remove]"); if (!button) return;
+      items = items.filter((item) => item.id !== button.dataset.expenseRemove); save(items); render();
+    });
+    card.querySelector("[data-expense-export]")?.addEventListener("click", () => {
+      const csv = ["日期,项目,金额,币种", ...items.map((item) => [item.date, item.name, item.amount, currency].map((value) => `"${String(value).replaceAll('"', '""')}"`).join(","))].join("\r\n");
+      const link = document.createElement("a"); link.href = URL.createObjectURL(new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8" })); link.download = "travel-expenses.csv"; link.click(); global.setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+    });
+    card.dataset.expenseReady = "true"; render();
+    return { render };
+  }
+
+  function initBookingLedger({ root = document } = {}) {
+    const storagePrefix = `travel-guide-bookings:${root.body?.dataset?.guideId || location.pathname}:`;
+    const labels = { confirmed: "已预订", pending: "待预订", verify: "待核验" };
+    root.querySelectorAll('[data-booking-toggle][data-local-booking="true"]').forEach((button) => {
+      if (button.dataset.bookingReady === "true") return;
+      const key = button.dataset.bookingId; if (!key) return;
+      const apply = (status) => { button.classList.remove("is-confirmed", "is-pending", "is-verify"); button.classList.add(`is-${status}`); button.dataset.bookingStatus = status; button.textContent = labels[status] || labels.verify; button.setAttribute("aria-pressed", String(status === "confirmed")); };
+      let status = button.dataset.bookingInitialStatus || "verify";
+      try { status = localStorage.getItem(storagePrefix + key) || status; } catch (_error) {}
+      apply(status);
+      button.addEventListener("click", () => { const current = button.dataset.bookingStatus || status; status = current === "confirmed" ? "pending" : current === "pending" ? "verify" : "confirmed"; apply(status); try { localStorage.setItem(storagePrefix + key, status); } catch (_error) {} });
+      button.dataset.bookingReady = "true";
+    });
+    return { refresh: () => initBookingLedger({ root }) };
+  }
+  function initGuidePage(options = {}) {
+    const root = options.root || document;
+    const active = {};
+    if (options.sources !== false) active.sources = initSourceLinks({ root, ...(options.sourceOptions || {}) });
+    if (options.search !== false) active.search = initSearch({ root, ...(options.searchOptions || {}) });
+    if (options.copy !== false) active.copy = initCopyControls({ root, ...(options.copyOptions || {}) });
+    if (options.checklist !== false) active.checklist = initChecklist({ root, editable: true, ...(options.checklistOptions || {}) });
+    if (options.preview !== false) active.preview = initImagePreview({ root, ...(options.previewOptions || {}) });
+    if (options.navigation !== false) active.navigation = initQuickNav({ root, ...(options.navigationOptions || {}) });
+    if (options.exchange) active.exchange = initExchange({ root, ...(options.exchange === true ? {} : options.exchange) });
+    if (options.weather) active.weather = initWeatherForecast({ root, ...(options.weather === true ? {} : options.weather) });
+    if (options.dayTabs) active.dayTabs = initDayTabs({ root, ...(options.dayTabs === true ? {} : options.dayTabs) });
+    if (options.execution) active.execution = initExecutionLinks({ root, ...(options.execution === true ? {} : options.execution) });
+    if (options.calendar) active.calendar = initCalendarExport({ root, ...(options.calendar === true ? {} : options.calendar) });
+    if (options.expenses) active.expenses = initExpenseTracker({ root, ...(options.expenses === true ? {} : options.expenses) });
+    if (options.bookings !== false) active.bookings = initBookingLedger({ root });
+    return active;
+  }
+  global.TravelGuideInteractions = Object.freeze({ initSourceLinks, initSearch, initToast, initCopyControls, initChecklist, initImagePreview, initExchange, initWeatherForecast, initQuickNav, initDayTabs, initExecutionLinks, initCalendarExport, initExpenseTracker, initBookingLedger, initGuidePage, readJsonIndex });
+})(window);
+
+
+
+
+
+</script><script data-guide-search-restored>if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){TravelGuideInteractions.initSearch();},{once:true});}else{TravelGuideInteractions.initSearch();}</script>
